@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">club-deportivo</string>
+    <string name="sport_club">SportClub</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="sign_in">¿Ya eres miembro? Inicia sesión</string>
+    <string name="main_subtitle">¡Este es el lugar perfecto para realizar un seguimiento de tus aficiones y practicar el deporte que te gusta!</string>
+    <string name="sports">Deportes</string>
+</resources>
