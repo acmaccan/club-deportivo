@@ -2,4 +2,5 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.jetbrains.kotlin.android) apply false
+    id("com.diffplug.spotless") version "6.22.0" apply false
 }
