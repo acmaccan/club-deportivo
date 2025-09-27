@@ -1,11 +1,13 @@
 package com.example.club_deportivo
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textfield.TextInputEditText
 import android.widget.TextView
+import android.widget.Toast
 
 class LoginActivity : AppCompatActivity() {
 
@@ -13,6 +15,12 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordInput: TextInputEditText
     private lateinit var loginButton: MaterialButton
     private lateinit var registerText: TextView
+
+    private val adminEmail = "admin@sportclub.com"
+    private val adminPassword = "admin123456"
+
+    private val clientEmail = "client@sportclub.com"
+    private val clientPassword = "client123456"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         registerText.setOnClickListener {
-            println("Navegar a registro")
+            Toast.makeText(this, "Funcionalidad de registro próximamente", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -62,6 +70,27 @@ class LoginActivity : AppCompatActivity() {
         findViewById<TextInputLayout>(R.id.emailInput).error = null
         findViewById<TextInputLayout>(R.id.passwordInput).error = null
 
-        println("Login: $email")
+        if (isValidLogin(email, password)) {
+            Toast.makeText(this, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
+            navigateToHomeScreen()
+        } else {
+            findViewById<TextInputLayout>(R.id.passwordInput).error = "Email o contraseña incorrectos"
+            Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun isValidLogin(email: String, password: String): Boolean {
+        return when {
+            email == adminEmail && password == adminPassword -> true
+            email == clientEmail && password == clientPassword -> true
+            else -> false
+        }
+    }
+
+    private fun navigateToHomeScreen() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailInput" />
 
-    <com.google.android.material.button.MaterialButton
+    <com.example.club_deportivo.CustomButton
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="56dp"
