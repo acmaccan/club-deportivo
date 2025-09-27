@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <ImageView
         android:id="@+id/sportsGrid"
@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/registerButton" />
 
-    <com.example.club_deportivo.CustomButton
+    <com.example.club_deportivo.ui.CustomButton
         android:id="@+id/registerButton"
         android:layout_width="0dp"
         android:layout_height="56dp"
@@ -67,11 +67,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/loginText" />
 
-    <com.example.club_deportivo.CustomButton
+    <com.example.club_deportivo.ui.CustomButton
         android:id="@+id/loginText"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        app:buttonText="@string/sign_in"
+        app:buttonText="@string/already_member"
         app:buttonColor="white"
         app:buttonVariant="text"
         app:buttonState="enabled"
