@@ -23,6 +23,13 @@
         <activity
             android:name=".activities.LoginActivity"
             android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".activities.HomeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.AdminActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
