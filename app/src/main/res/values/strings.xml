@@ -21,4 +21,7 @@
     <string name="register_full_name_input">Nombre y apellido</string>
     <string name="register_password_input">Contraseña</string>
     <string name="register_subtitle">Completá tus datos</string>
+
+    <!-- Successful registration -->
+    <string name="successful_registration_title">¡Registro exitoso!</string>
 </resources>

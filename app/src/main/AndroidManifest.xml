@@ -26,6 +26,7 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activities.SuccessfulRegistrationActivity" />
     </application>
 
 </manifest>

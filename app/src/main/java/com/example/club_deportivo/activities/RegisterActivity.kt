@@ -1,5 +1,6 @@
 package com.example.club_deportivo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -122,7 +123,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun handleRegister() {
-        // TODO: navigate to SuccessfulRegistration
-        println("Registro exitoso")
+        val intent = Intent(this, SuccessfulRegistrationActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
