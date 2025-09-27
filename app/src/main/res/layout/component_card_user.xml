@@ -55,7 +55,7 @@
                     android:id="@+id/statusIcon"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
-                    android:background="@drawable/circle_indicator_green"
+                    android:background="@drawable/icon_smile"
                     android:layout_marginEnd="6dp" />
 
                 <TextView
@@ -111,9 +111,7 @@
             android:id="@+id/statusIndicator"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/icon_smile"
-            android:layout_marginStart="8dp"
-            app:tint="#10B981" />
+            android:src="@drawable/icon_smile" />
 
     </LinearLayout>
 
