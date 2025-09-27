@@ -3,6 +3,7 @@ package com.example.club_deportivo
 import android.content.Context
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
+import com.example.club_deportivo.R
 import com.google.android.material.button.MaterialButton
 
 class CustomButton @JvmOverloads constructor(

@@ -1,5 +1,6 @@
 package com.example.club_deportivo
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
@@ -19,8 +20,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         loginText.setOnClickListener {
-            // TODO: Navegar a pantalla de login
-            println("Texto de login clickeado")
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 }
