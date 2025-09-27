@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomButton">
+        <attr name="buttonText" format="string" />
+
+        <!-- Color variants -->
+        <attr name="buttonColor" format="enum">
+            <enum name="primary" value="0" />
+            <enum name="danger" value="1" />
+            <enum name="white" value="2" />
+        </attr>
+
+        <!-- Style variants -->
+        <attr name="buttonVariant" format="enum">
+            <enum name="filled" value="0" />
+            <enum name="text" value="1" />
+        </attr>
+
+        <!-- Corner radius -->
+        <attr name="buttonCornerRadius" format="dimension" />
+
+        <!-- State variants -->
+        <attr name="buttonState" format="enum">
+            <enum name="enabled" value="0" />
+            <enum name="disabled" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>
