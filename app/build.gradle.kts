@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.diffplug.spotless") version "6.22.0"
 }
 
 android {
@@ -22,7 +23,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -35,6 +36,20 @@ android {
     }
 }
 
+spotless {
+    kotlin {
+        ktlint()
+            .userData(
+                mapOf(
+                    "insert_final_newline" to "true",
+                ),
+            )
+    }
+    kotlinGradle {
+        ktlint()
+    }
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -43,7 +58,12 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.filament.android)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+tasks.check {
+    dependsOn(tasks.spotlessCheck)
 }
