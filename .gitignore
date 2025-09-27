@@ -50,6 +50,7 @@ captures/
 .idea/modules.xml
 .idea/navEditor.xml
 .idea/other.xml
+.idea/studiobot.xml
 .idea/tasks.xml
 .idea/vcs.xml
 .idea/workspace.xml
