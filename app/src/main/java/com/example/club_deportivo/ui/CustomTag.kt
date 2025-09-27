@@ -36,34 +36,40 @@ class StatusTagHelper {
             tagView.isClickable = isEnabled
         }
 
-        fun setupFilterTag(tagView: TextView, status: TagStatus = TagStatus.PAID, context: Context, isSelected: Boolean = false) {
+        fun setupFilterTag(tagView: TextView, status: TagStatus = TagStatus.PAID, context: Context, isSelected: Boolean = true) {
+            tagView.text = when (status) {
+                TagStatus.PAID -> "Al día"
+                TagStatus.DUE_SOON -> "Por vencer"
+                TagStatus.OVERDUE -> "Vencidos"
+            }
+
+            val backgroundDrawable: Int
+            val darkTextColor: Int
+
             when (status) {
                 TagStatus.PAID -> {
-                    tagView.text = "Al día"
-                    tagView.setBackgroundResource(R.drawable.custom_tag_success)
+                    backgroundDrawable = R.drawable.custom_tag_success
+                    darkTextColor = R.color.success_dark
                 }
                 TagStatus.DUE_SOON -> {
-                    tagView.text = "Por vencer"
-                    tagView.setBackgroundResource(R.drawable.custom_tag_warning)
+                    backgroundDrawable = R.drawable.custom_tag_warning
+                    darkTextColor = R.color.warning_dark
                 }
                 TagStatus.OVERDUE -> {
-                    tagView.text = "Vencidos"
-                    tagView.setBackgroundResource(R.drawable.custom_tag_error)
+                    backgroundDrawable = R.drawable.custom_tag_error
+                    darkTextColor = R.color.error_dark
                 }
             }
 
-            tagView.isSelected = isSelected
+            tagView.setBackgroundResource(backgroundDrawable)
 
             if (isSelected) {
                 tagView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
             } else {
-                val darkColor = when (status) {
-                    TagStatus.PAID -> R.color.success_dark
-                    TagStatus.DUE_SOON -> R.color.warning_dark
-                    TagStatus.OVERDUE -> R.color.error_dark
-                }
-                tagView.setTextColor(ContextCompat.getColor(context, darkColor))
+                tagView.setTextColor(ContextCompat.getColor(context, darkTextColor))
             }
+
+            tagView.isSelected = isSelected
         }
     }
 }
