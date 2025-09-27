@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:padding="24dp"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <TextView
         android:id="@+id/titleText"
@@ -56,38 +56,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailInput" />
 
-    <com.example.club_deportivo.CustomButton
+    <com.example.club_deportivo.ui.CustomButton
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:text="@string/sign_in"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:backgroundTint="#6366F1"
-        app:cornerRadius="14dp"
-        android:layout_marginTop="32dp"
+        app:buttonText="@string/sign_in"
+        app:buttonColor="primary"
+        app:buttonVariant="filled"
+        app:buttonState="enabled"
+        android:layout_marginTop="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
-
-    <TextView
-        android:id="@+id/registerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/first_time_sign_up"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <View
-        android:layout_width="134dp"
-        android:layout_height="5dp"
-        android:background="#000000"
         android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/registerText" />
+
+    <com.example.club_deportivo.ui.CustomButton
+        android:id="@+id/registerText"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        app:buttonText="@string/first_time_sign_up"
+        app:buttonColor="primary"
+        app:buttonVariant="text"
+        app:buttonState="enabled"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

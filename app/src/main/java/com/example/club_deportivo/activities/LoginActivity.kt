@@ -1,13 +1,15 @@
-package com.example.club_deportivo
+package com.example.club_deportivo.activities
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.textfield.TextInputEditText
+import android.text.InputType
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.club_deportivo.R
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
 
@@ -36,21 +38,25 @@ class LoginActivity : AppCompatActivity() {
         }
 
         registerText.setOnClickListener {
-            Toast.makeText(this, "Funcionalidad de registro próximamente", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun setupInputs() {
-        val emailLayout = findViewById<TextInputLayout>(R.id.emailInput)
-        emailInput = emailLayout.findViewById(R.id.editText)
-        emailLayout.hint = "Email"
-        emailInput.inputType = android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        val emailInputLayout = findViewById<TextInputLayout>(R.id.emailInput)
+        val emailEditText = emailInputLayout.editText as? TextInputEditText
 
-        val passwordLayout = findViewById<TextInputLayout>(R.id.passwordInput)
-        passwordInput = passwordLayout.findViewById(R.id.editText)
-        passwordLayout.hint = "Contraseña"
-        passwordLayout.endIconMode = com.google.android.material.textfield.TextInputLayout.END_ICON_PASSWORD_TOGGLE
-        passwordInput.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+        emailInputLayout.hint = getString(R.string.email)
+        emailEditText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+
+        val passwordInputLayout = findViewById<TextInputLayout>(R.id.passwordInput)
+        val passwordEditText = passwordInputLayout.editText as? TextInputEditText
+
+        passwordInputLayout.hint = getString(R.string.password)
+        passwordEditText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+
+        passwordInputLayout.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
     }
 
     private fun handleLogin() {

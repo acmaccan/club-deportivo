@@ -8,4 +8,6 @@
     <string name="welcome_back">¡Bienvenido de nuevo! Introduce tus datos</string>
     <string name="sign_in">Iniciar sesión</string>
     <string name="first_time_sign_up">¿Primera vez? Registrarme</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
 </resources>
