@@ -13,4 +13,6 @@
     <string name="basic_management">Gestión básica</string>
     <string name="money">$</string>
     <string name="overdue_payments">Pagos vencidos</string>
+    <string name="status_paid">Pagos vencidos</string>
+    <string name="payment_status">Estado</string>
 </resources>
