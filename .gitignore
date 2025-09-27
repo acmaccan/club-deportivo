@@ -36,14 +36,17 @@ captures/
 
 # IntelliJ
 *.iml
+.idea/compiler.xml
+.idea/deviceManager.xml
+.idea/gradle.xml
+.idea/misc.xml
+.idea/vcs.xml
 .idea/workspace.xml
 .idea/tasks.xml
-.idea/gradle.xml
+.idea/libraries/
+.idea/modules.xml
+.idea/navEditor.xml
 .idea/assetWizardSettings.xml
-.idea/dictionaries
-.idea/libraries
-.idea/compiler.xml
-.idea/misc.xml
 .idea/other.xml
 # Android Studio 3 in .gitignore file.
 .idea/caches
