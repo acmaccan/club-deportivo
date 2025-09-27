@@ -13,7 +13,8 @@ import com.google.android.material.textfield.TextInputLayout
 
 enum class UserRole {
     ADMIN,
-    CLIENT,
+    MEMBER,
+    NO_MEMBER,
     INVALID
 }
 
@@ -27,8 +28,11 @@ class LoginActivity : AppCompatActivity() {
     private val adminEmail = "admin@sportclub.com"
     private val adminPassword = "admin123456"
 
-    private val clientEmail = "client@sportclub.com"
-    private val clientPassword = "client123456"
+    private val memberEmail = "member@sportclub.com"
+    private val memberPassword = "member123456"
+
+    private val noMemberEmail = "no-member@sportclub.com"
+    private val noMemberPassword = "noMember123456"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,8 +93,12 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "¡Bienvenido, Administrador!", Toast.LENGTH_SHORT).show()
                 navigateToActivity(AdminActivity::class.java)
             }
-            UserRole.CLIENT -> {
-                Toast.makeText(this, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
+            UserRole.MEMBER -> {
+                Toast.makeText(this, "¡Bienvenido, socio!", Toast.LENGTH_SHORT).show()
+                navigateToActivity(HomeActivity::class.java)
+            }
+            UserRole.NO_MEMBER -> {
+                Toast.makeText(this, "¡Bienvenido, no socio!", Toast.LENGTH_SHORT).show()
                 navigateToActivity(HomeActivity::class.java)
             }
             UserRole.INVALID -> {
@@ -103,7 +111,8 @@ class LoginActivity : AppCompatActivity() {
     private fun isValidLogin(email: String, password: String): UserRole {
         return when {
             email == adminEmail && password == adminPassword -> UserRole.ADMIN
-            email == clientEmail && password == clientPassword -> UserRole.CLIENT
+            email == memberEmail && password == memberPassword -> UserRole.MEMBER
+            email == noMemberEmail && password == noMemberPassword -> UserRole.NO_MEMBER
             else -> UserRole.INVALID
         }
     }
