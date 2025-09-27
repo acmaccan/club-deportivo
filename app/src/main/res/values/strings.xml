@@ -1,6 +1,9 @@
 <resources>
+    <!-- Global -->
     <string name="app_name">club-deportivo</string>
     <string name="sport_club">SportClub</string>
+    <string name="cancel_button">Cancelar</string>
+
     <string name="sign_up">Registrarse</string>
     <string name="already_member">¿Ya eres miembro? Inicia sesión</string>
     <string name="main_subtitle">¡Este es el lugar perfecto para realizar un seguimiento de tus aficiones y practicar el deporte que te gusta!</string>
@@ -10,4 +13,12 @@
     <string name="first_time_sign_up">¿Primera vez? Registrarme</string>
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
+
+    <!-- Register -->
+    <string name="register_subtitle">Completá tus datos</string>
+    <string name="register_full_name_input">Nombre y apellido</string>
+    <string name="register_document_input">DNI</string>
+    <string name="register_phone_input">Teléfono</string>
+    <string name="register_password_input">Contraseña</string>
+    <string name="register_button">Registrate</string>
 </resources>
