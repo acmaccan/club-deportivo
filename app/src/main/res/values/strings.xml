@@ -11,4 +11,6 @@
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
     <string name="basic_management">Gestión básica</string>
+    <string name="money">$</string>
+    <string name="overdue_payments">Pagos vencidos</string>
 </resources>
