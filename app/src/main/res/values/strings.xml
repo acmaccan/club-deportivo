@@ -10,4 +10,5 @@
     <string name="first_time_sign_up">¿Primera vez? Registrarme</string>
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
+    <string name="basic_management">Gestión básica</string>
 </resources>
