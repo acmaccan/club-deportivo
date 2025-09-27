@@ -13,18 +13,25 @@ enum class TagStatus {
 
 class StatusTagHelper {
     companion object {
-        fun setupTag(tagView: TextView, status: TagStatus, context: Context, isEnabled: Boolean = true) {
+        fun setupTag(
+            tagView: TextView,
+            status: TagStatus,
+            context: Context,
+            isEnabled: Boolean = true
+        ) {
             when (status) {
                 TagStatus.PAID -> {
                     tagView.text = "Al día"
                     tagView.setBackgroundResource(R.drawable.custom_tag_success)
                     tagView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
                 }
+
                 TagStatus.DUE_SOON -> {
                     tagView.text = "Por vencer"
                     tagView.setBackgroundResource(R.drawable.custom_tag_warning)
                     tagView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
                 }
+
                 TagStatus.OVERDUE -> {
                     tagView.text = "Vencido"
                     tagView.setBackgroundResource(R.drawable.custom_tag_error)
@@ -36,38 +43,45 @@ class StatusTagHelper {
             tagView.isClickable = isEnabled
         }
 
-        fun setupFilterTag(tagView: TextView, status: TagStatus = TagStatus.PAID, context: Context, isSelected: Boolean = true) {
-            tagView.text = when (status) {
-                TagStatus.PAID -> "Al día"
-                TagStatus.DUE_SOON -> "Por vencer"
-                TagStatus.OVERDUE -> "Vencidos"
-            }
-
-            val backgroundDrawable: Int
-            val darkTextColor: Int
+        fun setupFilterTag(
+            tagView: TextView,
+            status: TagStatus,
+            context: Context,
+            isSelected: Boolean
+        ) {
+            val backgroundDrawableRes: Int
+            val darkTextColorRes: Int
 
             when (status) {
                 TagStatus.PAID -> {
-                    backgroundDrawable = R.drawable.custom_tag_success
-                    darkTextColor = R.color.success_dark
+                    tagView.text = "Al día"
+                    backgroundDrawableRes = R.drawable.custom_tag_success
+                    darkTextColorRes = R.color.success_dark
                 }
+
                 TagStatus.DUE_SOON -> {
-                    backgroundDrawable = R.drawable.custom_tag_warning
-                    darkTextColor = R.color.warning_dark
+                    tagView.text = "Por vencer"
+                    backgroundDrawableRes = R.drawable.custom_tag_warning
+                    darkTextColorRes = R.color.warning_dark
                 }
+
                 TagStatus.OVERDUE -> {
-                    backgroundDrawable = R.drawable.custom_tag_error
-                    darkTextColor = R.color.error_dark
+                    tagView.text = "Vencidos"
+                    backgroundDrawableRes = R.drawable.custom_tag_error
+                    darkTextColorRes = R.color.error_dark
                 }
             }
 
-            tagView.setBackgroundResource(backgroundDrawable)
+            tagView.setBackgroundResource(backgroundDrawableRes)
 
-            if (isSelected) {
-                tagView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
+            val dynamicColor = if (isSelected) {
+                ContextCompat.getColor(context, android.R.color.white)
             } else {
-                tagView.setTextColor(ContextCompat.getColor(context, darkTextColor))
+                ContextCompat.getColor(context, darkTextColorRes)
             }
+            tagView.setTextColor(dynamicColor)
+
+            tagView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 
             tagView.isSelected = isSelected
         }

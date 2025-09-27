@@ -7,7 +7,8 @@
 
     <path
         android:fillColor="@color/success_light"
-        android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10s10,-4.48 10,-10S17.52,2 12,2z" />
+        android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10s10,-4.48 10,-10S17.52,2 12,2z"
+        android:tintMode="src_in" />
 
     <path
         android:fillColor="@color/success_main"
@@ -15,12 +16,11 @@
 
     <path
         android:fillColor="@color/success_main"
-        android:pathData="M15.5,9.5m-1,0a1,1 0,1 1,2 0a1,1 0,1 1,-2 0" />
+        android:pathData="M15.5,9.5m-1,0a1,1 0,1 1,2 0a1,1 0,1 1,-2 0"
+        />
 
     <path
-        android:fillColor="@android:color/transparent"
         android:strokeColor="@color/success_main"
         android:strokeWidth="1.5"
-        android:strokeLineCap="round"
         android:pathData="M8,14c0,0 1.5,2 4,2s4,-2 4,-2" />
 </vector>

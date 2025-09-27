@@ -49,7 +49,7 @@
                 android:id="@+id/summaryLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/overdue_payments"
+                android:text="@string/overdue"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
 

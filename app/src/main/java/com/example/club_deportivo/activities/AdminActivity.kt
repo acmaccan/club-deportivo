@@ -1,44 +1,52 @@
 package com.example.club_deportivo.activities
 
 import android.os.Bundle
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.club_deportivo.R
 import android.widget.TextView
-import android.widget.ImageView
-import android.widget.LinearLayout
+import androidx.core.widget.addTextChangedListener
+import android.view.View
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.textfield.TextInputEditText
-import com.example.club_deportivo.ui.StatusTagHelper
+import com.example.club_deportivo.ui.FilterManager
 import com.example.club_deportivo.ui.TagStatus
+import com.example.club_deportivo.models.UserData
+import com.example.club_deportivo.ui.UserCardHelper
 
 class AdminActivity : AppCompatActivity() {
 
-    private lateinit var searchEditText: TextInputEditText
-    private lateinit var addUserCard: MaterialCardView
+    private lateinit var paidFilter: TextView
+    private lateinit var dueSoonFilter: TextView
+    private lateinit var overdueFilter: TextView
 
-    private lateinit var tagAlDia: TextView
-    private lateinit var tagPorVencer: TextView
-    private lateinit var tagVencidos: TextView
+    private val userList = listOf(
+        UserData(1, R.id.userCard1, "Juan Pérez", "+54 11 5555-1234", "Pase Libre", "$15000", TagStatus.PAID),
+        UserData(2, R.id.userCard2, "María Gómez", "+54 11 5555-5678", "Actividades", "$12000", TagStatus.DUE_SOON),
+        UserData(3, R.id.userCard3, "Carlos Ruiz", "+54 11 5555-9012", "Pase Libre", "$35000", TagStatus.OVERDUE, showPayButton = true)
+    )
 
-    private var currentFilter: TagStatus? = null
+    private var currentSearchQuery: String = ""
+    private var activeStatusFilters: Set<TagStatus> = setOf(TagStatus.PAID, TagStatus.DUE_SOON, TagStatus.OVERDUE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
 
+        paidFilter = findViewById(R.id.paid_filter)
+        dueSoonFilter = findViewById(R.id.due_soon_filter)
+        overdueFilter = findViewById(R.id.overdue_filter)
+
         setupHeader()
         setupSummaryCard()
-        setupFilters()
         setupUserCards()
-        setupSearchAndActions()
+        setupFilterManager()
+        setupSearch()
     }
 
     private fun setupHeader() {
-        val headerTitle = findViewById<TextView>(R.id.headerTitle)
-        val headerSubtitle = findViewById<TextView>(R.id.headerSubtitle)
-
-        headerTitle.text = "SportClub"
-        headerSubtitle.text = "Gestión básica"
+        val headerView = findViewById<android.view.View>(R.id.admin_header)
+        val subtitleTextView = headerView.findViewById<TextView>(R.id.headerSubtitle)
+        subtitleTextView.text = getString(R.string.basic_management)
     }
 
     private fun setupSummaryCard() {
@@ -51,130 +59,52 @@ class AdminActivity : AppCompatActivity() {
         summaryDetail.text = "1 usuario"
     }
 
-    private fun setupFilters() {
-        tagAlDia = findViewById(R.id.tagAlDia)
-        tagPorVencer = findViewById(R.id.tagPorVencer)
-        tagVencidos = findViewById(R.id.tagVencidos)
-
-        StatusTagHelper.setupFilterTag(tagAlDia, TagStatus.PAID, this, isSelected = true)
-        StatusTagHelper.setupFilterTag(tagPorVencer, TagStatus.DUE_SOON, this, isSelected = false)
-        StatusTagHelper.setupFilterTag(tagVencidos, TagStatus.OVERDUE, this, isSelected = false)
-
-        currentFilter = TagStatus.PAID
-
-        tagAlDia.setOnClickListener { toggleFilter(TagStatus.PAID) }
-        tagPorVencer.setOnClickListener { toggleFilter(TagStatus.DUE_SOON) }
-        tagVencidos.setOnClickListener { toggleFilter(TagStatus.OVERDUE) }
+    private fun setupFilterManager() {
+        FilterManager(
+            context = this,
+            paidFilter = paidFilter,
+            dueSoonFilter = dueSoonFilter,
+            overdueFilter = overdueFilter
+        ) { activeFilters ->
+            activeStatusFilters = activeFilters
+            updateUserListVisibility()
+        }
     }
 
     private fun setupUserCards() {
-        setupUserCard(
-            R.id.userCard1,
-            "Juan Pérez",
-            "+ 54 11 5555-1234",
-            "Pase Libre",
-            "$15000",
-            "Al día",
-            TagStatus.PAID
-        )
-
-        setupUserCard(
-            R.id.userCard2,
-            "Juan Pérez",
-            "+ 54 11 5555-1234",
-            "Actividades",
-            "$15000",
-            "Por vencer",
-            TagStatus.DUE_SOON
-        )
-
-        setupUserCard(
-            R.id.userCard3,
-            "Juan Pérez",
-            "+ 54 11 5555-1234",
-            "Pase Libre",
-            "$15000",
-            "Vencido",
-            TagStatus.OVERDUE,
-            showPayButton = true
-        )
-    }
-
-    private fun setupUserCard(
-        cardId: Int,
-        name: String,
-        phone: String,
-        membership: String,
-        amount: String,
-        statusText: String,
-        status: TagStatus,
-        showPayButton: Boolean = false
-    ) {
-        val card = findViewById<LinearLayout>(cardId)
-
-        val userName = card.findViewById<TextView>(R.id.userName)
-        val userPhone = card.findViewById<TextView>(R.id.userPhone)
-        val userStatus = card.findViewById<TextView>(R.id.userStatus)
-        val paymentAmount = card.findViewById<TextView>(R.id.paymentAmount)
-        val paymentStatus = card.findViewById<TextView>(R.id.paymentStatus)
-        val statusIndicator = card.findViewById<ImageView>(R.id.statusIndicator)
-
-        userName.text = name
-        userPhone.text = phone
-        userStatus.text = membership
-        paymentAmount.text = amount
-        paymentStatus.text = statusText
-
-        when (status) {
-            TagStatus.PAID -> {
-                paymentStatus.setTextColor(getColor(android.R.color.holo_green_dark))
-                statusIndicator.setImageResource(R.drawable.icon_smile)
-            }
-            TagStatus.DUE_SOON -> {
-                paymentStatus.setTextColor(getColor(android.R.color.holo_orange_dark))
-                statusIndicator.setImageResource(R.drawable.icon_clock)
-            }
-            TagStatus.OVERDUE -> {
-                paymentStatus.setTextColor(getColor(android.R.color.holo_red_dark))
-                statusIndicator.setImageResource(R.drawable.icon_x)
-
-                if (showPayButton) {
-                    val payButton = card.findViewById<com.google.android.material.button.MaterialButton>(R.id.payButton)
-                    payButton.visibility = android.view.View.VISIBLE
-                    payButton.setOnClickListener {
-                        handlePayment(name)
-                    }
-                }
+        userList.forEach { user ->
+            val cardView = findViewById<MaterialCardView>(user.cardId)
+            UserCardHelper.setup(cardView, user) { userName ->
+                handlePayment(userName)
             }
         }
     }
 
-    private fun setupSearchAndActions() {
-        searchEditText = findViewById(R.id.searchEditText)
-        addUserCard = findViewById(R.id.addUserCard)
-
-        addUserCard.setOnClickListener {
-            // TODO: Navegar a pantalla de agregar usuario
-            println("Agregar usuario")
+    private fun setupSearch() {
+        val searchEditText = findViewById<EditText>(R.id.searchEditText)
+        searchEditText.addTextChangedListener { text ->
+            currentSearchQuery = text.toString()
+            updateUserListVisibility()
         }
-
-        // TODO: Implementar búsqueda en tiempo real
     }
 
-    private fun toggleFilter(filterType: TagStatus) {
-        // Actualizar estado visual de los filtros
-        StatusTagHelper.setupFilterTag(tagAlDia, TagStatus.PAID, this, isSelected = filterType == TagStatus.PAID)
-        StatusTagHelper.setupFilterTag(tagPorVencer, TagStatus.DUE_SOON, this, isSelected = filterType == TagStatus.DUE_SOON)
-        StatusTagHelper.setupFilterTag(tagVencidos, TagStatus.OVERDUE, this, isSelected = filterType == TagStatus.OVERDUE)
+    private fun updateUserListVisibility() {
+        val searchResults = if (currentSearchQuery.isBlank()) {
+            userList
+        } else {
+            userList.filter { it.name.contains(currentSearchQuery, ignoreCase = true) }
+        }
 
-        currentFilter = filterType
+        val finalFilteredUsers = searchResults.filter { activeStatusFilters.contains(it.status) }
 
-        // TODO: Filtrar lista de usuarios según el filtro seleccionado
-        println("Filtro activo: $filterType")
+        userList.forEach { user ->
+            val userCard = findViewById<View>(user.cardId)
+            userCard.visibility = if (finalFilteredUsers.contains(user)) View.VISIBLE else View.GONE
+        }
     }
 
     private fun handlePayment(userName: String) {
-        // TODO: Implementar lógica de pago
+        // TODO: Implementar lógica de pago (ej. mostrar un diálogo de confirmación)
         println("Procesar pago para: $userName")
     }
 }

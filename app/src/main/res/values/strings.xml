@@ -12,7 +12,11 @@
     <string name="password">Contraseña</string>
     <string name="basic_management">Gestión básica</string>
     <string name="money">$</string>
-    <string name="overdue_payments">Pagos vencidos</string>
-    <string name="status_paid">Pagos vencidos</string>
-    <string name="payment_status">Estado</string>
+    <string name="paid">Al día</string>
+    <string name="due_soon">Próximos a vencer</string>
+    <string name="overdue">Pagos vencidos</string>
+    <string name="pay">Pagar</string>
+    <string name="free_pass">Pase Libre</string>
+    <string name="add_user">+ Agregar usuario</string>
+    <string name="search">Buscar</string>
 </resources>

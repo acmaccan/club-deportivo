@@ -44,30 +44,24 @@
                 android:textSize="12sp"
                 android:layout_marginTop="2dp" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/userStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:gravity="center_vertical">
+                android:text="@string/free_pass"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                android:layout_marginTop="4dp"/>
 
-                <View
-                    android:id="@+id/statusIcon"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:background="@drawable/icon_smile"
-                    android:layout_marginEnd="6dp" />
-
-                <TextView
-                    android:id="@+id/userStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pase Libre"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
+            <com.example.club_deportivo.ui.CustomButton
+                android:id="@+id/payButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:buttonText="@string/pay"
+                app:buttonColor="success"
+                app:buttonVariant="filled"
+                android:layout_marginTop="6dp"
+                 />
         </LinearLayout>
 
         <LinearLayout
@@ -109,25 +103,11 @@
 
         <ImageView
             android:id="@+id/statusIndicator"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
             android:src="@drawable/icon_smile" />
 
     </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/payButton"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:text="Pagar"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        app:backgroundTint="#10B981"
-        app:cornerRadius="16dp"
-        android:layout_gravity="bottom|start"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:visibility="gone"
-        android:minWidth="60dp" />
 
 </com.google.android.material.card.MaterialCardView>

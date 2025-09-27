@@ -90,7 +90,6 @@ class LoginActivity : AppCompatActivity() {
 
         when (isValidLogin(email, password)) {
             UserRole.ADMIN -> {
-                Toast.makeText(this, "¡Bienvenido, Administrador!", Toast.LENGTH_SHORT).show()
                 navigateToActivity(AdminActivity::class.java)
             }
             UserRole.MEMBER -> {
