@@ -15,10 +15,10 @@
     <string name="password">Contraseña</string>
 
     <!-- Register -->
-    <string name="register_subtitle">Completá tus datos</string>
-    <string name="register_full_name_input">Nombre y apellido</string>
-    <string name="register_document_input">DNI</string>
-    <string name="register_phone_input">Teléfono</string>
-    <string name="register_password_input">Contraseña</string>
     <string name="register_button">Registrate</string>
+    <string name="register_document_input">DNI</string>
+    <string name="register_email_input">Email</string>
+    <string name="register_full_name_input">Nombre y apellido</string>
+    <string name="register_password_input">Contraseña</string>
+    <string name="register_subtitle">Completá tus datos</string>
 </resources>

@@ -58,7 +58,7 @@
 
     <include
         layout="@layout/custom_input_field"
-        android:id="@+id/phoneInput"
+        android:id="@+id/emailInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -74,7 +74,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneInput" />
+        app:layout_constraintTop_toBottomOf="@+id/emailInput" />
 
     <com.example.club_deportivo.ui.CustomButton
         android:id="@+id/registerButton"
@@ -82,6 +82,7 @@
         android:layout_height="56dp"
         android:layout_marginTop="32dp"
         app:buttonText="@string/register_button"
+        app:buttonState="disabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
