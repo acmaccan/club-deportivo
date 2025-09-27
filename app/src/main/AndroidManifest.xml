@@ -25,8 +25,14 @@
             android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activities.RegisterActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustUnspecified"/>
         <activity android:name=".activities.SuccessfulRegistrationActivity" />
+        <activity
+            android:name=".activities.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AdminActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

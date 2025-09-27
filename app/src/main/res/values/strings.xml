@@ -4,15 +4,21 @@
     <string name="sport_club">SportClub</string>
     <string name="cancel_button">Cancelar</string>
 
-    <string name="sign_up">Registrarse</string>
+    <!-- Init -->
     <string name="already_member">¿Ya eres miembro? Inicia sesión</string>
+    <string name="sign_up">Registrarse</string>
     <string name="main_subtitle">¡Este es el lugar perfecto para realizar un seguimiento de tus aficiones y practicar el deporte que te gusta!</string>
     <string name="sports">Deportes</string>
-    <string name="welcome_back">¡Bienvenido de nuevo! Introduce tus datos</string>
+
+    <!-- Login -->
     <string name="sign_in">Iniciar sesión</string>
+    <string name="welcome_back">¡Bienvenido de nuevo! Introduce tus datos</string>
     <string name="first_time_sign_up">¿Primera vez? Registrarme</string>
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
+
+    <!-- Admin -->
+    <string name="basic_management">Gestión básica</string>
 
     <!-- Register -->
     <string name="register_button">Registrate</string>

@@ -11,6 +11,13 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
+enum class UserRole {
+    ADMIN,
+    MEMBER,
+    NO_MEMBER,
+    INVALID
+}
+
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var emailInput: TextInputEditText
@@ -21,8 +28,11 @@ class LoginActivity : AppCompatActivity() {
     private val adminEmail = "admin@sportclub.com"
     private val adminPassword = "admin123456"
 
-    private val clientEmail = "client@sportclub.com"
-    private val clientPassword = "client123456"
+    private val memberEmail = "member@sportclub.com"
+    private val memberPassword = "member123456"
+
+    private val noMemberEmail = "no-member@sportclub.com"
+    private val noMemberPassword = "noMember123456"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +40,8 @@ class LoginActivity : AppCompatActivity() {
 
         setupInputs()
 
+        emailInput = findViewById<TextInputLayout>(R.id.emailInput).editText as TextInputEditText
+        passwordInput = findViewById<TextInputLayout>(R.id.passwordInput).editText as TextInputEditText
         loginButton = findViewById(R.id.loginButton)
         registerText = findViewById(R.id.registerText)
 
@@ -76,27 +88,40 @@ class LoginActivity : AppCompatActivity() {
         findViewById<TextInputLayout>(R.id.emailInput).error = null
         findViewById<TextInputLayout>(R.id.passwordInput).error = null
 
-        if (isValidLogin(email, password)) {
-            Toast.makeText(this, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
-            navigateToHomeScreen()
-        } else {
-            findViewById<TextInputLayout>(R.id.passwordInput).error = "Email o contraseña incorrectos"
-            Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
+        when (isValidLogin(email, password)) {
+            UserRole.ADMIN -> {
+                Toast.makeText(this, "¡Bienvenido, Administrador!", Toast.LENGTH_SHORT).show()
+                navigateToActivity(AdminActivity::class.java)
+            }
+            UserRole.MEMBER -> {
+                Toast.makeText(this, "¡Bienvenido, socio!", Toast.LENGTH_SHORT).show()
+                navigateToActivity(HomeActivity::class.java)
+            }
+            UserRole.NO_MEMBER -> {
+                Toast.makeText(this, "¡Bienvenido, no socio!", Toast.LENGTH_SHORT).show()
+                navigateToActivity(HomeActivity::class.java)
+            }
+            UserRole.INVALID -> {
+                findViewById<TextInputLayout>(R.id.passwordInput).error = "Email o contraseña incorrectos"
+                Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    private fun isValidLogin(email: String, password: String): Boolean {
+    private fun isValidLogin(email: String, password: String): UserRole {
         return when {
-            email == adminEmail && password == adminPassword -> true
-            email == clientEmail && password == clientPassword -> true
-            else -> false
+            email == adminEmail && password == adminPassword -> UserRole.ADMIN
+            email == memberEmail && password == memberPassword -> UserRole.MEMBER
+            email == noMemberEmail && password == noMemberPassword -> UserRole.NO_MEMBER
+            else -> UserRole.INVALID
         }
     }
 
-    private fun navigateToHomeScreen() {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun navigateToActivity(destination: Class<*>) {
+        val intent = Intent(this, destination)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
+
 }
