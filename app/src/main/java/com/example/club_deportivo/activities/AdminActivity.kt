@@ -65,8 +65,17 @@ class AdminActivity : AppCompatActivity() {
         val summaryDetail = findViewById<TextView>(R.id.summaryDetail)
 
         summaryLabel.text = "Pagos vencidos"
-        summaryAmount.text = "$35000"
-        summaryDetail.text = "1 usuario"
+
+        val overdueUsers = userList.filter { it.status == PaymentStatus.OVERDUE }
+
+        val totalOverdueAmount = overdueUsers.sumOf { user ->
+            user.amount.replace(Regex("[^\\d.]"), "").toDoubleOrNull() ?: 0.0
+        }
+
+        summaryAmount.text = String.format("$%.0f", totalOverdueAmount)
+
+        val userCount = overdueUsers.size
+        summaryDetail.text = "$userCount usuarios"
     }
 
     private fun setupFilterManager() {
