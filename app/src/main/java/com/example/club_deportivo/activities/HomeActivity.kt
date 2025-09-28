@@ -1,71 +1,46 @@
 package com.example.club_deportivo.activities
 
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
 import com.example.club_deportivo.models.MembershipStatus
-import com.example.club_deportivo.models.MembershipType
 import com.example.club_deportivo.ui.CustomHeader
 import com.google.android.material.card.MaterialCardView
+import com.example.club_deportivo.models.PaymentStatus
+import com.example.club_deportivo.models.UserRepository
+import com.example.club_deportivo.ui.CustomCardMembership
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val userName = "Kevin Del Bello"
-        CustomHeader.setupHomeHeader(this, userName)
+        val loggedUserId = intent.getIntExtra("LOGGED_USER_ID", -1)
 
-        val userStatus = MembershipStatus.ENABLED
-        val userMembership = MembershipType.MEMBER
+        if (loggedUserId == -1) {
+            Toast.makeText(this, "Error: No se pudo identificar al usuario.", Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
+
+        val user = UserRepository.getClients().find { it.id == loggedUserId }
+
+        if (user == null) {
+            Toast.makeText(this, "Error: Usuario no encontrado.", Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
+
+        CustomHeader.setupHomeHeader(this, user.name)
+
+        val membershipStatus = if (user.status == PaymentStatus.OVERDUE) {
+            MembershipStatus.DISABLED
+        } else {
+            MembershipStatus.ENABLED
+        }
 
         val membershipCardView = findViewById<MaterialCardView>(R.id.membershipStatusCard)
-
-        setupMembershipCard(membershipCardView, userStatus, userMembership)
-    }
-
-    private fun setupMembershipCard(
-        cardView: MaterialCardView,
-        status: MembershipStatus,
-        type: MembershipType
-    ) {
-        val statusIcon = cardView.findViewById<ImageView>(R.id.statusIcon)
-        val cardTitle = cardView.findViewById<TextView>(R.id.cardTitle)
-        val membershipTag = cardView.findViewById<TextView>(R.id.membershipTag)
-        val membershipDescription = cardView.findViewById<TextView>(R.id.membershipDescription)
-
-        if (status == MembershipStatus.DISABLED) {
-            cardView.setCardBackgroundColor(ContextCompat.getColor(this, R.color.error_light))
-            statusIcon.setImageResource(R.drawable.icon_x)
-            cardTitle.text = "Carnet Inhabilitado"
-            cardTitle.setTextColor(ContextCompat.getColor(this, R.color.error_main))
-            cardView.isClickable = false
-            cardView.findViewById<View>(R.id.membershipTagContainer).visibility = View.GONE
-
-        } else {
-            cardView.isClickable = true
-            statusIcon.setImageResource(R.drawable.icon_check)
-            cardTitle.text = "Carnet Habilitado"
-            cardView.findViewById<View>(R.id.membershipTagContainer).visibility = View.VISIBLE
-
-            when (type) {
-                MembershipType.MEMBER -> {
-                    cardView.setCardBackgroundColor(ContextCompat.getColor(this, R.color.primary_light))
-                    cardTitle.setTextColor(ContextCompat.getColor(this, R.color.primary_main))
-                    membershipTag.text = type.displayName
-                    membershipDescription.text = type.description
-                }
-                MembershipType.NO_MEMBER -> {
-                    cardView.setCardBackgroundColor(ContextCompat.getColor(this, R.color.secondary_light))
-                    cardTitle.setTextColor(ContextCompat.getColor(this, R.color.secondary_main))
-                    membershipTag.text = type.displayName
-                    membershipDescription.text = type.description
-                }
-            }
-        }
+        CustomCardMembership.setup(membershipCardView, membershipStatus, user.membershipType)
     }
 }

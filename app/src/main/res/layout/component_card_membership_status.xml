@@ -35,7 +35,6 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                app:tint="@color/white"
                 tools:src="@drawable/icon_check" />
         </FrameLayout>
 
@@ -68,7 +67,8 @@
                 android:id="@+id/membershipTagContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/membershipTag"
@@ -78,7 +78,6 @@
                     android:textColor="@color/primary_dark"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp" />
@@ -90,7 +89,6 @@
                     android:text="Acceso a todas las actividades"
                     android:textColor="@color/primary_main"
                     android:textSize="10sp"
-                    android:layout_marginStart="8dp"
                     android:layout_gravity="center_vertical" />
 
             </LinearLayout>

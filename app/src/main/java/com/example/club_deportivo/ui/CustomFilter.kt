@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.TextView
 import com.example.club_deportivo.models.PaymentStatus
 
-class FilterManager(
+class CustomFilter(
     private val context: Context,
     private val paidFilter: TextView,
     private val dueSoonFilter: TextView,

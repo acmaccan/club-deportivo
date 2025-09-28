@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.club_deportivo.ui.FilterManager
+import com.example.club_deportivo.ui.CustomFilter
 import com.example.club_deportivo.models.PaymentStatus
 import com.example.club_deportivo.models.UserRepository
 import com.example.club_deportivo.ui.UserAdapter
@@ -85,7 +85,7 @@ class AdminActivity : AppCompatActivity() {
 
 
     private fun setupFilterManager() {
-        FilterManager(
+        CustomFilter(
             context = this,
             paidFilter = paidFilter,
             dueSoonFilter = dueSoonFilter,

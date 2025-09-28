@@ -9,7 +9,7 @@ import com.example.club_deportivo.models.ClientData
 import com.example.club_deportivo.models.PaymentStatus
 import com.google.android.material.card.MaterialCardView
 
-object UserCardHelper {
+object CustomPaymentStatusCard {
 
     fun setup(
         card: MaterialCardView,
