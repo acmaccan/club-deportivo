@@ -24,6 +24,7 @@ class CustomButton @JvmOverloads constructor(
     init {
         attrs?.let { setupAttributes(it) }
         applyButtonStyle()
+        updateButtonState()
     }
 
     private fun setupAttributes(attrs: AttributeSet) {
@@ -57,8 +58,6 @@ class CustomButton @JvmOverloads constructor(
             ButtonVariant.FILLED -> applyFilledStyle()
             ButtonVariant.TEXT -> applyTextStyle()
         }
-
-        updateButtonState()
     }
 
     private fun applyFilledStyle() {
@@ -102,10 +101,28 @@ class CustomButton @JvmOverloads constructor(
 
         if (buttonState == ButtonState.DISABLED) {
             setTextColor(ContextCompat.getColor(context, com.example.club_deportivo.R.color.neutral_main))
+        } else {
+            when (buttonVariant) {
+                ButtonVariant.FILLED -> applyFilledStyle()
+                ButtonVariant.TEXT -> applyTextStyle()
+            }
         }
     }
 
     private fun setCornerRadius(radius: Float) {
         cornerRadius = radius.toInt()
+    }
+
+    private fun setButtonState(state: ButtonState) {
+        buttonState = state
+        updateButtonState()
+    }
+
+    fun enableButton() {
+        setButtonState(ButtonState.ENABLED)
+    }
+
+    fun disableButton() {
+        setButtonState(ButtonState.DISABLED)
     }
 }
