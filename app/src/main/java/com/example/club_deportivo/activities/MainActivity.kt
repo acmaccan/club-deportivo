@@ -16,8 +16,8 @@ class MainActivity : AppCompatActivity() {
         val loginText = findViewById<TextView>(R.id.loginText)
 
         registerButton.setOnClickListener {
-            // TODO: Navegar a pantalla de registro
-            println("Botón Registrarse clickeado")
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
 
         loginText.setOnClickListener {

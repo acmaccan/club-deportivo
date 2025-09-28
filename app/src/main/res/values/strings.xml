@@ -1,16 +1,25 @@
 <resources>
+    <!-- Global -->
     <string name="app_name">club-deportivo</string>
     <string name="sport_club">SportClub</string>
-    <string name="sign_up">Registrarse</string>
+    <string name="cancel_button">Cancelar</string>
+
+    <!-- Init -->
     <string name="already_member">¿Ya eres miembro? Inicia sesión</string>
+    <string name="sign_up">Registrarse</string>
     <string name="main_subtitle">¡Este es el lugar perfecto para realizar un seguimiento de tus aficiones y practicar el deporte que te gusta!</string>
     <string name="sports">Deportes</string>
-    <string name="welcome_back">¡Bienvenido de nuevo! Introduce tus datos</string>
+
+    <!-- Login -->
     <string name="sign_in">Iniciar sesión</string>
+    <string name="welcome_back">¡Bienvenido de nuevo! Introduce tus datos</string>
     <string name="first_time_sign_up">¿Primera vez? Registrarme</string>
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
+
+    <!-- Admin -->
     <string name="basic_management">Gestión básica</string>
+    
     <string name="money">$</string>
     <string name="paid">Al día</string>
     <string name="due_soon">Próximos a vencer</string>
@@ -19,4 +28,15 @@
     <string name="free_pass">Pase Libre</string>
     <string name="add_user">+ Agregar usuario</string>
     <string name="search">Buscar</string>
+
+    <!-- Register -->
+    <string name="register_button">Registrate</string>
+    <string name="register_document_input">DNI</string>
+    <string name="register_email_input">Email</string>
+    <string name="register_full_name_input">Nombre y apellido</string>
+    <string name="register_password_input">Contraseña</string>
+    <string name="register_subtitle">Completá tus datos</string>
+
+    <!-- Successful registration -->
+    <string name="successful_registration_title">¡Registro exitoso!</string>
 </resources>
