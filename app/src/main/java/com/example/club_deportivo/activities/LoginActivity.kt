@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.club_deportivo.R
+import com.example.club_deportivo.models.UserRepository
 import com.example.club_deportivo.models.UserRole
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -19,25 +19,16 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginButton: MaterialButton
     private lateinit var registerText: TextView
 
-    private val adminEmail = "admin@sportclub.com"
-    private val adminPassword = "admin123456"
-
-    private val memberEmail = "member@sportclub.com"
-    private val memberPassword = "member123456"
-
-    private val noMemberEmail = "no-member@sportclub.com"
-    private val noMemberPassword = "noMember123456"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        setupInputs()
 
         emailInput = findViewById<TextInputLayout>(R.id.emailInput).editText as TextInputEditText
         passwordInput = findViewById<TextInputLayout>(R.id.passwordInput).editText as TextInputEditText
         loginButton = findViewById(R.id.loginButton)
         registerText = findViewById(R.id.registerText)
+
+        setupInputs()
 
         loginButton.setOnClickListener {
             handleLogin()
@@ -51,17 +42,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupInputs() {
         val emailInputLayout = findViewById<TextInputLayout>(R.id.emailInput)
-        val emailEditText = emailInputLayout.editText as? TextInputEditText
-
         emailInputLayout.hint = getString(R.string.email)
-        emailEditText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        emailInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 
         val passwordInputLayout = findViewById<TextInputLayout>(R.id.passwordInput)
-        val passwordEditText = passwordInputLayout.editText as? TextInputEditText
-
         passwordInputLayout.hint = getString(R.string.password)
-        passwordEditText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-
+        passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         passwordInputLayout.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
     }
 
@@ -82,32 +68,29 @@ class LoginActivity : AppCompatActivity() {
         findViewById<TextInputLayout>(R.id.emailInput).error = null
         findViewById<TextInputLayout>(R.id.passwordInput).error = null
 
-        when (isValidLogin(email, password)) {
-            UserRole.ADMIN -> {
-                navigateToActivity(AdminActivity::class.java)
+        val user = UserRepository.findUserByCredentials(email, password)
+
+        if (user != null) {
+            when (user.userType) {
+                UserRole.ADMIN -> {
+                    navigateToActivity(AdminActivity::class.java, user.id)
+                }
+                UserRole.CLIENT -> {
+                    navigateToActivity(HomeActivity::class.java, user.id)
+                }
             }
-            UserRole.MEMBER -> {
-                Toast.makeText(this, "¡Bienvenido, socio!", Toast.LENGTH_SHORT).show()
-                navigateToActivity(HomeActivity::class.java)
-            }
-            UserRole.NO_MEMBER -> {
-                Toast.makeText(this, "¡Bienvenido, no socio!", Toast.LENGTH_SHORT).show()
-                navigateToActivity(HomeActivity::class.java)
-            }
-            UserRole.INVALID -> {
-                findViewById<TextInputLayout>(R.id.passwordInput).error = "Email o contraseña incorrectos"
-                Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
-            }
+        } else {
+            findViewById<TextInputLayout>(R.id.passwordInput).error = "Email o contraseña incorrectos"
         }
     }
 
-    private fun isValidLogin(email: String, password: String): UserRole {
-        return when {
-            email == adminEmail && password == adminPassword -> UserRole.ADMIN
-            email == memberEmail && password == memberPassword -> UserRole.MEMBER
-            email == noMemberEmail && password == noMemberPassword -> UserRole.NO_MEMBER
-            else -> UserRole.INVALID
-        }
+    private fun navigateToActivity(destination: Class<*>, userId: Int) {
+        val intent = Intent(this, destination)
+
+        intent.putExtra("LOGGED_USER_ID", userId)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     private fun navigateToActivity(destination: Class<*>) {

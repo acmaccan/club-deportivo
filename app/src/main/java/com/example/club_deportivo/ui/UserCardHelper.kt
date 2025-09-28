@@ -5,15 +5,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
+import com.example.club_deportivo.models.ClientData
 import com.example.club_deportivo.models.PaymentStatus
-import com.example.club_deportivo.models.UserCardData
 import com.google.android.material.card.MaterialCardView
 
 object UserCardHelper {
 
     fun setup(
         card: MaterialCardView,
-        user: UserCardData,
+        user: ClientData,
         onPayButtonClick: (String) -> Unit
     ) {
         val context = card.context
@@ -49,7 +49,7 @@ object UserCardHelper {
             }
         }
 
-        if (user.showPayButton) {
+        if (user.status == PaymentStatus.OVERDUE) {
             payButton.visibility = View.VISIBLE
             payButton.setOnClickListener { onPayButtonClick(user.name) }
         } else {

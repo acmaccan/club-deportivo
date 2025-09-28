@@ -22,7 +22,7 @@ class AdminActivity : AppCompatActivity() {
     private lateinit var overdueFilter: TextView
 
     private lateinit var userAdapter: UserAdapter
-    private val allUsers = UserRepository.getUsers()
+    private val allUsers = UserRepository.getClients()
 
     private var currentSearchQuery: String = ""
     private var activeStatusFilters: Set<PaymentStatus> = setOf(PaymentStatus.PAID, PaymentStatus.DUE_SOON, PaymentStatus.OVERDUE)

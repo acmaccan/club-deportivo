@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.club_deportivo.R
-import com.example.club_deportivo.models.UserCardData
+import com.example.club_deportivo.models.ClientData
 import com.google.android.material.card.MaterialCardView
 
 class UserAdapter(
-    private var users: List<UserCardData>,
+    private var users: List<ClientData>,
     private val onPayClick: (String) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
@@ -29,7 +29,7 @@ class UserAdapter(
         return users.size
     }
 
-    fun updateUsers(newUsers: List<UserCardData>) {
+    fun updateUsers(newUsers: List<ClientData>) {
         users = newUsers
         notifyDataSetChanged()
     }
