@@ -45,7 +45,7 @@ class CustomHeader {
         }
 
         fun setupAdminHeader(activity: AppCompatActivity) {
-            setupHeader(activity, "SportClub", "@string/basic_management")
+            setupHeader(activity, "SportClub", "Gestión básica")
         }
 
         fun setupHomeHeader(

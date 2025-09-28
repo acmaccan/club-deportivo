@@ -28,7 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/successful_registration_title"
-        android:textColor="@color/secondary_main"
+        android:textColor="@color/primary_darkest"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textAlignment="center"

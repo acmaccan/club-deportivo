@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9FAFB"
+    android:background="@color/neutral_lightest"
     tools:context=".activities.AdminActivity">
 
     <LinearLayout
@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-         <include layout="@layout/component_card_summary" />
+         <include layout="@layout/component_card_payments_summary" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/addUserCard"
