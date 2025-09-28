@@ -1,5 +1,6 @@
 package com.example.club_deportivo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +42,15 @@ class AdminActivity : AppCompatActivity() {
         setupUserCards()
         setupFilterManager()
         setupSearch()
+        setupAddUserButton()
+    }
+
+    private fun setupAddUserButton() {
+        val addUserButton = findViewById<View>(R.id.addUserCard)
+        addUserButton.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setupHeader() {
