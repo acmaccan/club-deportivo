@@ -13,6 +13,7 @@ import com.example.club_deportivo.ui.FilterManager
 import com.example.club_deportivo.models.PaymentStatus
 import com.example.club_deportivo.models.UserRepository
 import com.example.club_deportivo.ui.UserAdapter
+import com.example.club_deportivo.ui.CustomHeader
 
 class AdminActivity : AppCompatActivity() {
 
@@ -60,9 +61,7 @@ class AdminActivity : AppCompatActivity() {
     }
 
     private fun setupHeader() {
-        val headerView = findViewById<android.view.View>(R.id.admin_header)
-        val subtitleTextView = headerView.findViewById<TextView>(R.id.headerSubtitle)
-        subtitleTextView.text = getString(R.string.basic_management)
+        CustomHeader.setupAdminHeader(this)
     }
 
     private fun setupSummaryCard() {

@@ -19,7 +19,6 @@
 
     <!-- Admin -->
     <string name="basic_management">Gestión básica</string>
-    
     <string name="money">$</string>
     <string name="paid">Al día</string>
     <string name="due_soon">Próximos a vencer</string>
@@ -39,4 +38,10 @@
 
     <!-- Successful registration -->
     <string name="successful_registration_title">¡Registro exitoso!</string>
+
+    <!-- Payments -->
+    <string name="payments">Pagos</string>
+
+    <!-- Profile -->
+    <string name="profile">Perfil</string>
 </resources>
