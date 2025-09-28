@@ -8,11 +8,11 @@ import com.example.club_deportivo.R
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import android.view.View
-import com.google.android.material.card.MaterialCardView
+import androidx.recyclerview.widget.RecyclerView
 import com.example.club_deportivo.ui.FilterManager
 import com.example.club_deportivo.models.PaymentStatus
-import com.example.club_deportivo.models.UserCardData
-import com.example.club_deportivo.ui.UserCardHelper
+import com.example.club_deportivo.models.UserRepository
+import com.example.club_deportivo.ui.UserAdapter
 
 class AdminActivity : AppCompatActivity() {
 
@@ -20,11 +20,8 @@ class AdminActivity : AppCompatActivity() {
     private lateinit var dueSoonFilter: TextView
     private lateinit var overdueFilter: TextView
 
-    private val userList = listOf(
-        UserCardData(1, R.id.userCard1, "Juan Pérez", "+54 11 5555-1234", "Pase Libre", "$15000", PaymentStatus.PAID),
-        UserCardData(2, R.id.userCard2, "María Gómez", "+54 11 5555-5678", "Actividades", "$12000", PaymentStatus.DUE_SOON),
-        UserCardData(3, R.id.userCard3, "Carlos Ruiz", "+54 11 5555-9012", "Pase Libre", "$35000", PaymentStatus.OVERDUE, showPayButton = true)
-    )
+    private lateinit var userAdapter: UserAdapter
+    private val allUsers = UserRepository.getUsers()
 
     private var currentSearchQuery: String = ""
     private var activeStatusFilters: Set<PaymentStatus> = setOf(PaymentStatus.PAID, PaymentStatus.DUE_SOON, PaymentStatus.OVERDUE)
@@ -39,10 +36,19 @@ class AdminActivity : AppCompatActivity() {
 
         setupHeader()
         setupSummaryCard()
-        setupUserCards()
+        setupRecyclerView()
         setupFilterManager()
         setupSearch()
         setupAddUserButton()
+    }
+
+    private fun setupRecyclerView() {
+        val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
+        userAdapter = UserAdapter(allUsers) { userName ->
+            handlePayment(userName)
+        }
+        recyclerView.adapter = userAdapter
+        updateUserListVisibility()
     }
 
     private fun setupAddUserButton() {
@@ -66,7 +72,7 @@ class AdminActivity : AppCompatActivity() {
 
         summaryLabel.text = "Pagos vencidos"
 
-        val overdueUsers = userList.filter { it.status == PaymentStatus.OVERDUE }
+        val overdueUsers = allUsers.filter { it.status == PaymentStatus.OVERDUE }
 
         val totalOverdueAmount = overdueUsers.sumOf { user ->
             user.amount.replace(Regex("[^\\d.]"), "").toDoubleOrNull() ?: 0.0
@@ -77,6 +83,7 @@ class AdminActivity : AppCompatActivity() {
         val userCount = overdueUsers.size
         summaryDetail.text = "$userCount usuarios"
     }
+
 
     private fun setupFilterManager() {
         FilterManager(
@@ -90,15 +97,6 @@ class AdminActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupUserCards() {
-        userList.forEach { user ->
-            val cardView = findViewById<MaterialCardView>(user.cardId)
-            UserCardHelper.setup(cardView, user) { userName ->
-                handlePayment(userName)
-            }
-        }
-    }
-
     private fun setupSearch() {
         val searchEditText = findViewById<EditText>(R.id.searchEditText)
         searchEditText.addTextChangedListener { text ->
@@ -109,17 +107,14 @@ class AdminActivity : AppCompatActivity() {
 
     private fun updateUserListVisibility() {
         val searchResults = if (currentSearchQuery.isBlank()) {
-            userList
+            allUsers
         } else {
-            userList.filter { it.name.contains(currentSearchQuery, ignoreCase = true) }
+            allUsers.filter { it.name.contains(currentSearchQuery, ignoreCase = true) }
         }
 
         val finalFilteredUsers = searchResults.filter { activeStatusFilters.contains(it.status) }
 
-        userList.forEach { user ->
-            val userCard = findViewById<View>(user.cardId)
-            userCard.visibility = if (finalFilteredUsers.contains(user)) View.VISIBLE else View.GONE
-        }
+        userAdapter.updateUsers(finalFilteredUsers)
     }
 
     private fun handlePayment(userName: String) {

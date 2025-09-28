@@ -28,7 +28,7 @@ object UserCardHelper {
 
         userName.text = user.name
         userPhone.text = user.phone
-        userMembership.text = user.membership
+        userMembership.text = user.membershipType
         paymentAmount.text = user.amount
 
         when (user.status) {

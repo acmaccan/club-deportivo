@@ -113,17 +113,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/component_card_user"
-                android:id="@+id/userCard1" />
-
-            <include
-                layout="@layout/component_card_user"
-                android:id="@+id/userCard2" />
-
-            <include
-                layout="@layout/component_card_user"
-                android:id="@+id/userCard3" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/usersRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/component_card_user"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical" />
 
         </LinearLayout>
 
