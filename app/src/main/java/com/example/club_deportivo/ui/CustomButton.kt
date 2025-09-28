@@ -13,7 +13,7 @@ class CustomButton @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.materialButtonStyle
 ) : MaterialButton(context, attrs, defStyleAttr) {
 
-    enum class ButtonColor { PRIMARY, DANGER, WHITE }
+    enum class ButtonColor { PRIMARY, DANGER, WHITE, SUCCESS }
     enum class ButtonVariant { FILLED, TEXT }
     enum class ButtonState { ENABLED, DISABLED }
 
@@ -75,6 +75,10 @@ class CustomButton @JvmOverloads constructor(
                 background = ContextCompat.getDrawable(context, com.example.club_deportivo.R.drawable.custom_button_white)
                 setTextColor(ContextCompat.getColor(context, com.example.club_deportivo.R.color.secondary_main))
             }
+            ButtonColor.SUCCESS -> {
+                background = ContextCompat.getDrawable(context, com.example.club_deportivo.R.drawable.custom_button_success)
+                setTextColor(ContextCompat.getColor(context, com.example.club_deportivo.R.color.white))
+            }
         }
         applyCommonStyle()
     }
@@ -85,6 +89,7 @@ class CustomButton @JvmOverloads constructor(
             ButtonColor.PRIMARY -> setTextColor(ContextCompat.getColor(context, com.example.club_deportivo.R.color.primary_main))
             ButtonColor.DANGER -> setTextColor(ContextCompat.getColor(context, com.example.club_deportivo.R.color.error_main))
             ButtonColor.WHITE -> setTextColor(ContextCompat.getColor(context, com.example.club_deportivo.R.color.white))
+            ButtonColor.SUCCESS -> setTextColor(ContextCompat.getColor(context, com.example.club_deportivo.R.color.success_main))
         }
         applyCommonStyle()
     }

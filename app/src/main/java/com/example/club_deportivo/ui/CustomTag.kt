@@ -1,0 +1,84 @@
+package com.example.club_deportivo.ui
+
+import android.content.Context
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.example.club_deportivo.R
+import com.example.club_deportivo.models.PaymentStatus
+
+class StatusTagHelper {
+    companion object {
+        fun setupTag(
+            tagView: TextView,
+            status: PaymentStatus,
+            context: Context,
+            isEnabled: Boolean = true
+        ) {
+            when (status) {
+                PaymentStatus.PAID -> {
+                    tagView.text = "Al día"
+                    tagView.setBackgroundResource(R.drawable.custom_tag_success)
+                    tagView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
+                }
+
+                PaymentStatus.DUE_SOON -> {
+                    tagView.text = "Por vencer"
+                    tagView.setBackgroundResource(R.drawable.custom_tag_warning)
+                    tagView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
+                }
+
+                PaymentStatus.OVERDUE -> {
+                    tagView.text = "Vencido"
+                    tagView.setBackgroundResource(R.drawable.custom_tag_error)
+                    tagView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
+                }
+            }
+
+            tagView.alpha = if (isEnabled) 1.0f else 0.5f
+            tagView.isClickable = isEnabled
+        }
+
+        fun setupFilterTag(
+            tagView: TextView,
+            status: PaymentStatus,
+            context: Context,
+            isSelected: Boolean
+        ) {
+            val backgroundDrawableRes: Int
+            val darkTextColorRes: Int
+
+            when (status) {
+                PaymentStatus.PAID -> {
+                    tagView.text = "Al día"
+                    backgroundDrawableRes = R.drawable.custom_tag_success
+                    darkTextColorRes = R.color.success_dark
+                }
+
+                PaymentStatus.DUE_SOON -> {
+                    tagView.text = "Por vencer"
+                    backgroundDrawableRes = R.drawable.custom_tag_warning
+                    darkTextColorRes = R.color.warning_dark
+                }
+
+                PaymentStatus.OVERDUE -> {
+                    tagView.text = "Vencidos"
+                    backgroundDrawableRes = R.drawable.custom_tag_error
+                    darkTextColorRes = R.color.error_dark
+                }
+            }
+
+            tagView.setBackgroundResource(backgroundDrawableRes)
+
+            val dynamicColor = if (isSelected) {
+                ContextCompat.getColor(context, android.R.color.white)
+            } else {
+                ContextCompat.getColor(context, darkTextColorRes)
+            }
+            tagView.setTextColor(dynamicColor)
+
+            tagView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+
+            tagView.isSelected = isSelected
+        }
+    }
+}

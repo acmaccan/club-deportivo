@@ -7,16 +7,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.club_deportivo.R
+import com.example.club_deportivo.models.UserRole
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-
-enum class UserRole {
-    ADMIN,
-    MEMBER,
-    NO_MEMBER,
-    INVALID
-}
 
 class LoginActivity : AppCompatActivity() {
 
@@ -90,7 +84,6 @@ class LoginActivity : AppCompatActivity() {
 
         when (isValidLogin(email, password)) {
             UserRole.ADMIN -> {
-                Toast.makeText(this, "¡Bienvenido, Administrador!", Toast.LENGTH_SHORT).show()
                 navigateToActivity(AdminActivity::class.java)
             }
             UserRole.MEMBER -> {

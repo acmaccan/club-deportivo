@@ -11,5 +11,16 @@
     <color name="neutral_light">#EDEDED</color>
     <color name="neutral_main">#474747</color>
 
+    <color name="error_lightest">#FFF5F6</color>
+    <color name="error_light">#FFE1E6</color>
     <color name="error_main">#E00043</color>
+    <color name="error_dark">#B30036</color>
+
+    <color name="warning_light">#FEF3C7</color>
+    <color name="warning_main">#D97706</color>
+    <color name="warning_dark">#F59E0B</color>
+
+    <color name="success_light">#DCFCE7</color>
+    <color name="success_main">#16A34A</color>
+    <color name="success_dark">#05603A</color>
 </resources>
