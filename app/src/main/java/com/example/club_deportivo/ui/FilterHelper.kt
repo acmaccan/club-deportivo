@@ -2,29 +2,30 @@ package com.example.club_deportivo.ui
 
 import android.content.Context
 import android.widget.TextView
+import com.example.club_deportivo.models.PaymentStatus
 
 class FilterManager(
     private val context: Context,
     private val paidFilter: TextView,
     private val dueSoonFilter: TextView,
     private val overdueFilter: TextView,
-    private val onFilterChanged: (Set<TagStatus>) -> Unit
+    private val onFilterChanged: (Set<PaymentStatus>) -> Unit
 ) {
-    private var activeFilters = mutableSetOf(TagStatus.PAID, TagStatus.DUE_SOON, TagStatus.OVERDUE)
+    private var activeFilters = mutableSetOf(PaymentStatus.PAID, PaymentStatus.DUE_SOON, PaymentStatus.OVERDUE)
 
     init {
         setupFilters()
     }
 
     private fun setupFilters() {
-        paidFilter.setOnClickListener { toggleFilterState(TagStatus.PAID) }
-        dueSoonFilter.setOnClickListener { toggleFilterState(TagStatus.DUE_SOON) }
-        overdueFilter.setOnClickListener { toggleFilterState(TagStatus.OVERDUE) }
+        paidFilter.setOnClickListener { toggleFilterState(PaymentStatus.PAID) }
+        dueSoonFilter.setOnClickListener { toggleFilterState(PaymentStatus.DUE_SOON) }
+        overdueFilter.setOnClickListener { toggleFilterState(PaymentStatus.OVERDUE) }
 
         updateFilterViews()
     }
 
-    private fun toggleFilterState(filterType: TagStatus) {
+    private fun toggleFilterState(filterType: PaymentStatus) {
         if (activeFilters.contains(filterType)) {
             activeFilters.remove(filterType)
         } else {
@@ -38,18 +39,18 @@ class FilterManager(
 
     private fun updateFilterViews() {
         StatusTagHelper.setupFilterTag(
-            paidFilter, TagStatus.PAID, context,
-            isSelected = activeFilters.contains(TagStatus.PAID)
+            paidFilter, PaymentStatus.PAID, context,
+            isSelected = activeFilters.contains(PaymentStatus.PAID)
         )
 
         StatusTagHelper.setupFilterTag(
-            dueSoonFilter, TagStatus.DUE_SOON, context,
-            isSelected = activeFilters.contains(TagStatus.DUE_SOON)
+            dueSoonFilter, PaymentStatus.DUE_SOON, context,
+            isSelected = activeFilters.contains(PaymentStatus.DUE_SOON)
         )
 
         StatusTagHelper.setupFilterTag(
-            overdueFilter, TagStatus.OVERDUE, context,
-            isSelected = activeFilters.contains(TagStatus.OVERDUE)
+            overdueFilter, PaymentStatus.OVERDUE, context,
+            isSelected = activeFilters.contains(PaymentStatus.OVERDUE)
         )
     }
 }

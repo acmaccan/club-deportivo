@@ -9,8 +9,8 @@ import androidx.core.widget.addTextChangedListener
 import android.view.View
 import com.google.android.material.card.MaterialCardView
 import com.example.club_deportivo.ui.FilterManager
-import com.example.club_deportivo.ui.TagStatus
-import com.example.club_deportivo.models.UserData
+import com.example.club_deportivo.models.PaymentStatus
+import com.example.club_deportivo.models.UserCardData
 import com.example.club_deportivo.ui.UserCardHelper
 
 class AdminActivity : AppCompatActivity() {
@@ -20,13 +20,13 @@ class AdminActivity : AppCompatActivity() {
     private lateinit var overdueFilter: TextView
 
     private val userList = listOf(
-        UserData(1, R.id.userCard1, "Juan Pérez", "+54 11 5555-1234", "Pase Libre", "$15000", TagStatus.PAID),
-        UserData(2, R.id.userCard2, "María Gómez", "+54 11 5555-5678", "Actividades", "$12000", TagStatus.DUE_SOON),
-        UserData(3, R.id.userCard3, "Carlos Ruiz", "+54 11 5555-9012", "Pase Libre", "$35000", TagStatus.OVERDUE, showPayButton = true)
+        UserCardData(1, R.id.userCard1, "Juan Pérez", "+54 11 5555-1234", "Pase Libre", "$15000", PaymentStatus.PAID),
+        UserCardData(2, R.id.userCard2, "María Gómez", "+54 11 5555-5678", "Actividades", "$12000", PaymentStatus.DUE_SOON),
+        UserCardData(3, R.id.userCard3, "Carlos Ruiz", "+54 11 5555-9012", "Pase Libre", "$35000", PaymentStatus.OVERDUE, showPayButton = true)
     )
 
     private var currentSearchQuery: String = ""
-    private var activeStatusFilters: Set<TagStatus> = setOf(TagStatus.PAID, TagStatus.DUE_SOON, TagStatus.OVERDUE)
+    private var activeStatusFilters: Set<PaymentStatus> = setOf(PaymentStatus.PAID, PaymentStatus.DUE_SOON, PaymentStatus.OVERDUE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -5,14 +5,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
-import com.example.club_deportivo.models.UserData
+import com.example.club_deportivo.models.PaymentStatus
+import com.example.club_deportivo.models.UserCardData
 import com.google.android.material.card.MaterialCardView
 
 object UserCardHelper {
 
     fun setup(
         card: MaterialCardView,
-        user: UserData,
+        user: UserCardData,
         onPayButtonClick: (String) -> Unit
     ) {
         val context = card.context
@@ -31,17 +32,17 @@ object UserCardHelper {
         paymentAmount.text = user.amount
 
         when (user.status) {
-            TagStatus.PAID -> {
+            PaymentStatus.PAID -> {
                 paymentStatus.text = "Al día"
                 paymentStatus.setTextColor(ContextCompat.getColor(context, R.color.success_dark))
                 statusIndicator.setImageResource(R.drawable.icon_smile)
             }
-            TagStatus.DUE_SOON -> {
+            PaymentStatus.DUE_SOON -> {
                 paymentStatus.text = "Por vencer"
                 paymentStatus.setTextColor(ContextCompat.getColor(context, R.color.warning_dark))
                 statusIndicator.setImageResource(R.drawable.icon_clock)
             }
-            TagStatus.OVERDUE -> {
+            PaymentStatus.OVERDUE -> {
                 paymentStatus.text = "Vencido"
                 paymentStatus.setTextColor(ContextCompat.getColor(context, R.color.error_dark))
                 statusIndicator.setImageResource(R.drawable.icon_x)

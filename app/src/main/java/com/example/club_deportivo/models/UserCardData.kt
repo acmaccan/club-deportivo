@@ -1,14 +1,12 @@
 package com.example.club_deportivo.models
 
-import com.example.club_deportivo.ui.TagStatus
-
-data class UserData(
+data class UserCardData(
     val id: Int,
     val cardId: Int,
     val name: String,
     val phone: String,
     val membership: String,
     val amount: String,
-    val status: TagStatus,
+    val status: PaymentStatus,
     val showPayButton: Boolean = false
 )

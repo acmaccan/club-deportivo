@@ -4,35 +4,30 @@ import android.content.Context
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
-
-enum class TagStatus {
-    PAID,
-    DUE_SOON,
-    OVERDUE
-}
+import com.example.club_deportivo.models.PaymentStatus
 
 class StatusTagHelper {
     companion object {
         fun setupTag(
             tagView: TextView,
-            status: TagStatus,
+            status: PaymentStatus,
             context: Context,
             isEnabled: Boolean = true
         ) {
             when (status) {
-                TagStatus.PAID -> {
+                PaymentStatus.PAID -> {
                     tagView.text = "Al día"
                     tagView.setBackgroundResource(R.drawable.custom_tag_success)
                     tagView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
                 }
 
-                TagStatus.DUE_SOON -> {
+                PaymentStatus.DUE_SOON -> {
                     tagView.text = "Por vencer"
                     tagView.setBackgroundResource(R.drawable.custom_tag_warning)
                     tagView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
                 }
 
-                TagStatus.OVERDUE -> {
+                PaymentStatus.OVERDUE -> {
                     tagView.text = "Vencido"
                     tagView.setBackgroundResource(R.drawable.custom_tag_error)
                     tagView.setTextColor(ContextCompat.getColor(context, android.R.color.white))
@@ -45,7 +40,7 @@ class StatusTagHelper {
 
         fun setupFilterTag(
             tagView: TextView,
-            status: TagStatus,
+            status: PaymentStatus,
             context: Context,
             isSelected: Boolean
         ) {
@@ -53,19 +48,19 @@ class StatusTagHelper {
             val darkTextColorRes: Int
 
             when (status) {
-                TagStatus.PAID -> {
+                PaymentStatus.PAID -> {
                     tagView.text = "Al día"
                     backgroundDrawableRes = R.drawable.custom_tag_success
                     darkTextColorRes = R.color.success_dark
                 }
 
-                TagStatus.DUE_SOON -> {
+                PaymentStatus.DUE_SOON -> {
                     tagView.text = "Por vencer"
                     backgroundDrawableRes = R.drawable.custom_tag_warning
                     darkTextColorRes = R.color.warning_dark
                 }
 
-                TagStatus.OVERDUE -> {
+                PaymentStatus.OVERDUE -> {
                     tagView.text = "Vencidos"
                     backgroundDrawableRes = R.drawable.custom_tag_error
                     darkTextColorRes = R.color.error_dark
