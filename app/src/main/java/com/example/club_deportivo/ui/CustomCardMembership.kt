@@ -26,7 +26,7 @@ object CustomCardMembership {
         if (status == MembershipStatus.DISABLED) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.error_light))
             statusIcon.setImageResource(R.drawable.icon_x)
-            cardView.findViewById<View>(R.id.statusIconBackground).setBackgroundResource(R.drawable.circle_background_red)
+            cardView.findViewById<View>(R.id.statusIconBackground).setBackgroundResource(R.drawable.circle_background_error)
             cardTitle.text = "Carnet Inhabilitado"
             cardTitle.setTextColor(ContextCompat.getColor(context, R.color.error_main))
             cardView.isClickable = false
@@ -42,14 +42,14 @@ object CustomCardMembership {
             when (type) {
                 MembershipType.MEMBER -> {
                     cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.primary_light))
-                    cardView.findViewById<View>(R.id.statusIconBackground).setBackgroundResource(R.drawable.circle_background_green)
+                    cardView.findViewById<View>(R.id.statusIconBackground).setBackgroundResource(R.drawable.circle_background_success)
                     cardTitle.setTextColor(ContextCompat.getColor(context, R.color.primary_main))
                     membershipTag.text = type.displayName
                     membershipDescription.text = type.description
                 }
                 MembershipType.NO_MEMBER -> {
                     cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.secondary_light))
-                    cardView.findViewById<View>(R.id.statusIconBackground).setBackgroundResource(R.drawable.circle_background_green)
+                    cardView.findViewById<View>(R.id.statusIconBackground).setBackgroundResource(R.drawable.circle_background_success)
                     cardTitle.setTextColor(ContextCompat.getColor(context, R.color.secondary_main))
                     membershipTag.text = type.displayName
                     membershipDescription.text = type.description

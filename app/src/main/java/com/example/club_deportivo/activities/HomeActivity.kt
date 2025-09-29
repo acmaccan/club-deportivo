@@ -9,6 +9,8 @@ import com.example.club_deportivo.ui.CustomHeader
 import com.google.android.material.card.MaterialCardView
 import com.example.club_deportivo.models.PaymentStatus
 import com.example.club_deportivo.models.UserRepository
+import com.example.club_deportivo.ui.ActionCardStyle
+import com.example.club_deportivo.ui.CustomActionCard
 import com.example.club_deportivo.ui.CustomCardMembership
 
 class HomeActivity : AppCompatActivity() {
@@ -42,5 +44,45 @@ class HomeActivity : AppCompatActivity() {
 
         val membershipCardView = findViewById<MaterialCardView>(R.id.membershipStatusCard)
         CustomCardMembership.setup(membershipCardView, membershipStatus, user.membershipType)
+
+        val cardMedical = findViewById<MaterialCardView>(R.id.card_action_medical)
+
+        val tieneAptoVigente = true
+
+        if (tieneAptoVigente) {
+            CustomActionCard.setup(
+                card = cardMedical,
+                iconResId = R.drawable.icon_check,
+                title = "Apto físico",
+                subtitle = "Vigente",
+                style = ActionCardStyle.SUCCESS
+            )
+        } else {
+            CustomActionCard.setup(
+                card = cardMedical,
+                iconResId = R.drawable.icon_x,
+                title = "Apto físico",
+                subtitle = "Vencido",
+                style = ActionCardStyle.ERROR
+            )
+        }
+
+        val cardActivities = findViewById<MaterialCardView>(R.id.card_action_activities)
+        CustomActionCard.setup(
+            card = cardActivities,
+            iconResId = R.drawable.icon_person,
+            title = "Actividades",
+            subtitle = "Ver e Inscribirse",
+            style = ActionCardStyle.SECONDARY
+        )
+
+        val cardPayment = findViewById<MaterialCardView>(R.id.card_action_payment)
+        CustomActionCard.setup(
+            card = cardPayment,
+            iconResId = R.drawable.icon_wallet,
+            title = "Pagos",
+            subtitle = "Cuota Mensual",
+            style = ActionCardStyle.PRIMARY
+        )
     }
 }

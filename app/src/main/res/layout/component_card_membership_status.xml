@@ -28,7 +28,7 @@
                 android:id="@+id/statusIconBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:background="@drawable/circle_background_green" />
+                tools:background="@drawable/circle_background_success" />
 
             <ImageView
                 android:id="@+id/statusIcon"
