@@ -73,7 +73,7 @@ class CustomButton @JvmOverloads constructor(
             }
             ButtonColor.WHITE -> {
                 background = ContextCompat.getDrawable(context, com.example.club_deportivo.R.drawable.custom_button_white)
-                setTextColor(ContextCompat.getColor(context, com.example.club_deportivo.R.color.secondary_main))
+                setTextColor(ContextCompat.getColor(context, com.example.club_deportivo.R.color.primary_darkest))
             }
             ButtonColor.SUCCESS -> {
                 background = ContextCompat.getDrawable(context, com.example.club_deportivo.R.drawable.custom_button_success)

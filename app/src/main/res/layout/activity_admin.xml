@@ -5,25 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9FAFB"
+    android:background="@color/neutral_lightest"
     tools:context=".activities.AdminActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="32dp">
+        android:paddingBottom="32dp"
+        >
 
         <include
             android:id="@+id/admin_header"
             layout="@layout/component_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-         <include layout="@layout/component_card_summary" />
+         <include layout="@layout/component_card_payments_summary" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/addUserCard"
@@ -117,7 +119,7 @@
                 android:id="@+id/usersRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/component_card_user"
+                tools:listitem="@layout/component_card_payment_status"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical" />
 

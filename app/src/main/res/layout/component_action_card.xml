@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/white"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="16dp">
+
+        <FrameLayout
+            android:id="@+id/action_icon_container"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="12dp">
+
+            <View
+                android:id="@+id/action_icon_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:background="@drawable/circle_background_success_light"/>
+
+            <ImageView
+                android:id="@+id/action_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                app:tint="@color/success_main"
+                tools:src="@drawable/icon_check" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/action_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/neutral_main"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Apto Físico"/>
+
+        <TextView
+            android:id="@+id/action_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/neutral_main"
+            android:textSize="12sp"
+            tools:text="Vigente"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+    

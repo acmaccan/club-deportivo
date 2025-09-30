@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.club_deportivo.R
-import com.example.club_deportivo.models.UserCardData
+import com.example.club_deportivo.models.ClientData
 import com.google.android.material.card.MaterialCardView
 
 class UserAdapter(
-    private var users: List<UserCardData>,
+    private var users: List<ClientData>,
     private val onPayClick: (String) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
@@ -16,20 +16,20 @@ class UserAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val cardView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.component_card_user, parent, false) as MaterialCardView
+            .inflate(R.layout.component_card_payment_status, parent, false) as MaterialCardView
         return ViewHolder(cardView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = users[position]
-        UserCardHelper.setup(holder.cardView, user, onPayClick)
+        CustomPaymentStatusCard.setup(holder.cardView, user, onPayClick)
     }
 
     override fun getItemCount(): Int {
         return users.size
     }
 
-    fun updateUsers(newUsers: List<UserCardData>) {
+    fun updateUsers(newUsers: List<ClientData>) {
         users = newUsers
         notifyDataSetChanged()
     }

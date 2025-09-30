@@ -5,21 +5,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
+import com.example.club_deportivo.models.ClientData
 import com.example.club_deportivo.models.PaymentStatus
-import com.example.club_deportivo.models.UserCardData
 import com.google.android.material.card.MaterialCardView
 
-object UserCardHelper {
+object CustomPaymentStatusCard {
 
     fun setup(
         card: MaterialCardView,
-        user: UserCardData,
+        user: ClientData,
         onPayButtonClick: (String) -> Unit
     ) {
         val context = card.context
 
         val userName = card.findViewById<TextView>(R.id.userName)
-        val userPhone = card.findViewById<TextView>(R.id.userPhone)
+        val userEmail = card.findViewById<TextView>(R.id.userEmail)
         val userMembership = card.findViewById<TextView>(R.id.userStatus)
         val paymentAmount = card.findViewById<TextView>(R.id.paymentAmount)
         val paymentStatus = card.findViewById<TextView>(R.id.paymentStatus)
@@ -27,8 +27,8 @@ object UserCardHelper {
         val payButton = card.findViewById<View>(R.id.payButton)
 
         userName.text = user.name
-        userPhone.text = user.phone
-        userMembership.text = user.membershipType
+        userEmail.text = user.email
+        userMembership.text = user.membershipType.displayName
         paymentAmount.text = user.amount
 
         when (user.status) {
@@ -49,7 +49,7 @@ object UserCardHelper {
             }
         }
 
-        if (user.showPayButton) {
+        if (user.status == PaymentStatus.OVERDUE) {
             payButton.visibility = View.VISIBLE
             payButton.setOnClickListener { onPayButtonClick(user.name) }
         } else {

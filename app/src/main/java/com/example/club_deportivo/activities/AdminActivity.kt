@@ -9,10 +9,11 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.club_deportivo.ui.FilterManager
+import com.example.club_deportivo.ui.CustomFilter
 import com.example.club_deportivo.models.PaymentStatus
 import com.example.club_deportivo.models.UserRepository
 import com.example.club_deportivo.ui.UserAdapter
+import com.example.club_deportivo.ui.CustomHeader
 
 class AdminActivity : AppCompatActivity() {
 
@@ -21,7 +22,7 @@ class AdminActivity : AppCompatActivity() {
     private lateinit var overdueFilter: TextView
 
     private lateinit var userAdapter: UserAdapter
-    private val allUsers = UserRepository.getUsers()
+    private val allUsers = UserRepository.getClients()
 
     private var currentSearchQuery: String = ""
     private var activeStatusFilters: Set<PaymentStatus> = setOf(PaymentStatus.PAID, PaymentStatus.DUE_SOON, PaymentStatus.OVERDUE)
@@ -60,9 +61,7 @@ class AdminActivity : AppCompatActivity() {
     }
 
     private fun setupHeader() {
-        val headerView = findViewById<android.view.View>(R.id.admin_header)
-        val subtitleTextView = headerView.findViewById<TextView>(R.id.headerSubtitle)
-        subtitleTextView.text = getString(R.string.basic_management)
+        CustomHeader.setupAdminHeader(this)
     }
 
     private fun setupSummaryCard() {
@@ -86,7 +85,7 @@ class AdminActivity : AppCompatActivity() {
 
 
     private fun setupFilterManager() {
-        FilterManager(
+        CustomFilter(
             context = this,
             paidFilter = paidFilter,
             dueSoonFilter = dueSoonFilter,
