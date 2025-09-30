@@ -8,7 +8,8 @@ class ClientData(
 
     val membershipType: MembershipType,
     val amount: String,
-    val status: PaymentStatus
+    val status: PaymentStatus,
+    val hasValidMedicalAptitude: Boolean
 ) : UserData(
     id,
     name,

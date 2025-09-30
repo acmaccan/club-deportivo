@@ -47,9 +47,7 @@ class HomeActivity : AppCompatActivity() {
 
         val cardMedical = findViewById<MaterialCardView>(R.id.card_action_medical)
 
-        val tieneAptoVigente = true
-
-        if (tieneAptoVigente) {
+        if (user.hasValidMedicalAptitude) {
             CustomActionCard.setup(
                 card = cardMedical,
                 iconResId = R.drawable.icon_check,

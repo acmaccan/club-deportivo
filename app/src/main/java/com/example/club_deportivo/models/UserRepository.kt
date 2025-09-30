@@ -17,7 +17,8 @@ object UserRepository {
                 "mg123456",
                 MembershipType.NO_MEMBER,
                 "$12000",
-                PaymentStatus.DUE_SOON
+                PaymentStatus.DUE_SOON,
+                hasValidMedicalAptitude = true,
             ),
             ClientData(
                 3,
@@ -26,7 +27,8 @@ object UserRepository {
                 "cr123456",
                 MembershipType.MEMBER,
                 "$35000",
-                PaymentStatus.OVERDUE
+                PaymentStatus.OVERDUE,
+                hasValidMedicalAptitude = false,
             ),
             ClientData(
                 4,
@@ -35,7 +37,8 @@ object UserRepository {
                 "at123456",
                 MembershipType.NO_MEMBER,
                 "$12000",
-                PaymentStatus.PAID
+                PaymentStatus.PAID,
+                hasValidMedicalAptitude = true,
             ),
             ClientData(
                 5,
@@ -44,7 +47,8 @@ object UserRepository {
                 "lf123456",
                 MembershipType.MEMBER,
                 "$15000",
-                PaymentStatus.DUE_SOON
+                PaymentStatus.DUE_SOON,
+                hasValidMedicalAptitude = true,
             ),
             ClientData(
                 6,
@@ -53,7 +57,8 @@ object UserRepository {
                 "em123456",
                 MembershipType.NO_MEMBER,
                 "$24000",
-                PaymentStatus.OVERDUE
+                PaymentStatus.OVERDUE,
+                hasValidMedicalAptitude = false,
             ),
             ClientData(
                 7,
@@ -62,7 +67,8 @@ object UserRepository {
                 "dj123456",
                 MembershipType.MEMBER,
                 "$15000",
-                PaymentStatus.PAID
+                PaymentStatus.PAID,
+                hasValidMedicalAptitude = true,
             ),
             ClientData(
                 8,
@@ -71,7 +77,8 @@ object UserRepository {
                 "ln123456",
                 MembershipType.NO_MEMBER,
                 "$12000",
-                PaymentStatus.DUE_SOON
+                PaymentStatus.DUE_SOON,
+                hasValidMedicalAptitude = true,
             ),
             ClientData(
                 9,
@@ -80,7 +87,8 @@ object UserRepository {
                 "pr123456",
                 MembershipType.MEMBER,
                 "$50000",
-                PaymentStatus.OVERDUE
+                PaymentStatus.OVERDUE,
+                hasValidMedicalAptitude = true,
             ),
             ClientData(
                 10,
@@ -89,7 +97,8 @@ object UserRepository {
                 "sc123456",
                 MembershipType.NO_MEMBER,
                 "$12000",
-                PaymentStatus.PAID
+                PaymentStatus.PAID,
+                hasValidMedicalAptitude = true,
             )
         )
     }
