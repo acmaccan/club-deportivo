@@ -3,6 +3,7 @@
     <string name="app_name">club-deportivo</string>
     <string name="sport_club">SportClub</string>
     <string name="cancel_button">Cancelar</string>
+    <string name="continue_button">Continuar</string>
     <string name="payments">Pagos</string>
 
     <!-- Init -->
@@ -50,6 +51,8 @@
 
     <!-- Successful registration -->
     <string name="successful_registration_title">¡Registro exitoso!</string>
+    <string name="successful_registration_message">Tu cuenta ha sido creada correctamente.\nPara completar tu perfil, necesitamos tu\napto físico.</string>
+    <string name="successful_registration_success_checkmark">Success checkmark</string>
 
     <!-- Home -->
     <string name="identify_user_error">Error: No se pudo identificar al usuario.</string>
