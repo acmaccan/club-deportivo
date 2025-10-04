@@ -3,13 +3,17 @@ package com.example.club_deportivo.activities
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.club_deportivo.R
+import com.example.club_deportivo.models.ActivityRepository
 import com.example.club_deportivo.models.MembershipStatus
 import com.example.club_deportivo.ui.CustomHeader
 import com.google.android.material.card.MaterialCardView
 import com.example.club_deportivo.models.PaymentStatus
 import com.example.club_deportivo.models.UserRepository
 import com.example.club_deportivo.ui.ActionCardStyle
+import com.example.club_deportivo.ui.ActivityAdapter
 import com.example.club_deportivo.ui.CustomActionCard
 import com.example.club_deportivo.ui.CustomCardMembership
 
@@ -21,7 +25,8 @@ class HomeActivity : AppCompatActivity() {
         val loggedUserId = intent.getIntExtra("LOGGED_USER_ID", -1)
 
         if (loggedUserId == -1) {
-            Toast.makeText(this, "Error: No se pudo identificar al usuario.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error: No se pudo identificar al usuario.", Toast.LENGTH_LONG)
+                .show()
             finish()
             return
         }
@@ -34,8 +39,10 @@ class HomeActivity : AppCompatActivity() {
             return
         }
 
+        // Header
         CustomHeader.setupHomeHeader(this, user.name)
 
+        // Membership Status Cards
         val membershipStatus = if (user.status == PaymentStatus.OVERDUE) {
             MembershipStatus.DISABLED
         } else {
@@ -51,16 +58,16 @@ class HomeActivity : AppCompatActivity() {
             CustomActionCard.setup(
                 card = cardMedical,
                 iconResId = R.drawable.icon_check,
-                title = "Apto físico",
-                subtitle = "Vigente",
+                title = getString(R.string.medical_aptitude),
+                subtitle = getString(R.string.valid_medical_aptitude),
                 style = ActionCardStyle.SUCCESS
             )
         } else {
             CustomActionCard.setup(
                 card = cardMedical,
                 iconResId = R.drawable.icon_x,
-                title = "Apto físico",
-                subtitle = "Vencido",
+                title = getString(R.string.medical_aptitude),
+                subtitle = getString(R.string.invalid_medical_aptitude),
                 style = ActionCardStyle.ERROR
             )
         }
@@ -69,8 +76,8 @@ class HomeActivity : AppCompatActivity() {
         CustomActionCard.setup(
             card = cardActivities,
             iconResId = R.drawable.icon_person,
-            title = "Actividades",
-            subtitle = "Ver e Inscribirse",
+            title = getString(R.string.activities),
+            subtitle = getString(R.string.see_more),
             style = ActionCardStyle.SECONDARY
         )
 
@@ -78,9 +85,26 @@ class HomeActivity : AppCompatActivity() {
         CustomActionCard.setup(
             card = cardPayment,
             iconResId = R.drawable.icon_wallet,
-            title = "Pagos",
-            subtitle = "Cuota Mensual",
+            title = getString(R.string.payments),
+            subtitle = getString(R.string.monthly_payment),
             style = ActionCardStyle.PRIMARY
         )
+
+        // Activity Cards
+        setupActivitiesSection()
+    }
+
+    private fun setupActivitiesSection() {
+        val recyclerViewActivities = findViewById<RecyclerView>(R.id.recycler_view_activities)
+        val activities = ActivityRepository.getActivities()
+        val activityAdapter = ActivityAdapter(activities)
+
+        recyclerViewActivities.layoutManager =
+            LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL, false
+            )
+        recyclerViewActivities.adapter = activityAdapter
+
     }
 }

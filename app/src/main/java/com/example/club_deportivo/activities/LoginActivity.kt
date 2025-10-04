@@ -56,12 +56,12 @@ class LoginActivity : AppCompatActivity() {
         val password = passwordInput.text.toString().trim()
 
         if (email.isEmpty()) {
-            findViewById<TextInputLayout>(R.id.emailInput).error = "Ingresa tu email"
+            findViewById<TextInputLayout>(R.id.emailInput).error = getString(R.string.enter_your_email)
             return
         }
 
         if (password.isEmpty()) {
-            findViewById<TextInputLayout>(R.id.passwordInput).error = "Ingresa una contraseña válida"
+            findViewById<TextInputLayout>(R.id.passwordInput).error = getString(R.string.enter_your_password)
             return
         }
 
@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         } else {
-            findViewById<TextInputLayout>(R.id.passwordInput).error = "Email o contraseña incorrectos"
+            findViewById<TextInputLayout>(R.id.passwordInput).error = getString(R.string.wrong_credentials)
         }
     }
 
