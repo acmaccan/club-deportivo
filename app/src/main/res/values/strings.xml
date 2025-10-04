@@ -71,11 +71,11 @@
     <string name="activities">Actividades</string>
     <string name="see_more">Ver e Inscribirse</string>
     <string name="monthly_payment">Cuota Mensual</string>
-    <string name='activity_level_beginner'>Principiante</string>
-    <string name='activity_level_intermediate'>Intermedio</string>
-    <string name='activity_level_advanced'>Avanzado</string>
-    <string name='activity_duration_format'>%d min</string>
-    <string name='see_all'>Ver todas</string>
+    <string name="activity_level_beginner">Principiante</string>
+    <string name="activity_level_intermediate">Intermedio</string>
+    <string name="activity_level_advanced">Avanzado</string>
+    <string name="activity_duration_format">%d min</string>
+    <string name="see_all">Ver todas</string>
 
     <!-- Profile -->
     <string name="profile">Perfil</string>
