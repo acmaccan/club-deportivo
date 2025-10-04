@@ -58,16 +58,16 @@ class HomeActivity : BaseAuthActivity() {
             CustomActionCard.setup(
                 card = cardMedical,
                 iconResId = R.drawable.icon_check,
-                title = getString(R.string.medical_aptitude),
-                subtitle = getString(R.string.valid_medical_aptitude),
+                title = getString(R.string.actions_valid_medical_aptitude),
+                subtitle = getString(R.string.actions_valid_medical_aptitude),
                 style = ActionCardStyle.SUCCESS
             )
         } else {
             CustomActionCard.setup(
                 card = cardMedical,
                 iconResId = R.drawable.icon_x,
-                title = getString(R.string.medical_aptitude),
-                subtitle = getString(R.string.invalid_medical_aptitude),
+                title = getString(R.string.actions_valid_medical_aptitude),
+                subtitle = getString(R.string.actions_valid_medical_aptitude),
                 style = ActionCardStyle.ERROR
             )
         }
@@ -76,8 +76,8 @@ class HomeActivity : BaseAuthActivity() {
         CustomActionCard.setup(
             card = cardActivities,
             iconResId = R.drawable.icon_person,
-            title = getString(R.string.activities),
-            subtitle = getString(R.string.see_more),
+            title = getString(R.string.actions_activities),
+            subtitle = getString(R.string.actions_see_more),
             style = ActionCardStyle.SECONDARY
         )
 
@@ -86,7 +86,7 @@ class HomeActivity : BaseAuthActivity() {
             card = cardPayment,
             iconResId = R.drawable.icon_wallet,
             title = getString(R.string.payments),
-            subtitle = getString(R.string.monthly_payment),
+            subtitle = getString(R.string.actions_monthly_payment),
             style = ActionCardStyle.PRIMARY
         )
     }

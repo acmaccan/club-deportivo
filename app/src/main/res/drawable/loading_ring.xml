@@ -1,0 +1,36 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <group
+        android:name="outerRing"
+        android:pivotX="60"
+        android:pivotY="60">
+        <path
+            android:strokeWidth="6"
+            android:strokeColor="@color/primary_main"
+            android:fillColor="@android:color/transparent"
+            android:strokeLineCap="round"
+            android:pathData="M60,10 A50,50 0 1,1 59.99,10"
+            android:trimPathStart="0.00"
+            android:trimPathEnd="0.22"
+            android:trimPathOffset="0.02"/>
+    </group>
+
+    <group
+        android:name="innerRing"
+        android:pivotX="60"
+        android:pivotY="60">
+        <path
+            android:strokeWidth="6"
+            android:strokeColor="@color/primary_darkest"
+            android:fillColor="@android:color/transparent"
+            android:strokeLineCap="round"
+            android:pathData="M60,25 A35,35 0 1,1 59.99,25"
+            android:trimPathStart="0.00"
+            android:trimPathEnd="0.18"
+            android:trimPathOffset="0.58"/>
+    </group>
+</vector>

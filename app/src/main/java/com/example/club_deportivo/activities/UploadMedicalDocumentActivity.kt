@@ -175,7 +175,9 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
      * Maneja la navegación del botón Continuar
      */
     private fun handleContinue() {
-        println("Continue button clicked - Medical certificate functionality")
+        val intent = Intent(this, CreatingMembershipActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     /**

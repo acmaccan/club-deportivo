@@ -1,0 +1,11 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/loading_ring">
+
+    <target
+        android:name="outerRing"
+        android:animation="@animator/rotate_outer" />
+
+    <target
+        android:name="innerRing"
+        android:animation="@animator/rotate_inner" />
+</animated-vector>

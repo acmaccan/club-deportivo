@@ -98,7 +98,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/activities"
+                android:text="@string/actions_activities"
                 android:textColor="@color/neutral_main"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -106,7 +106,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/see_all"
+                android:text="@string/activity_see_all"
                 android:textColor="@color/primary_main"
                 android:textSize="14sp"
                 android:textStyle="bold" />
