@@ -3,6 +3,7 @@
     <string name="app_name">club-deportivo</string>
     <string name="sport_club">SportClub</string>
     <string name="cancel_button">Cancelar</string>
+    <string name="payments">Pagos</string>
 
     <!-- Init -->
     <string name="already_member">¿Ya eres miembro? Inicia sesión</string>
@@ -16,6 +17,9 @@
     <string name="first_time_sign_up">¿Primera vez? Registrarme</string>
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
+    <string name="enter_your_email">Ingresa tu email</string>
+    <string name="enter_your_password">Ingresa una contraseña válida</string>
+    <string name="wrong_credentials">Email o contraseña incorrectos</string>"
 
     <!-- Admin -->
     <string name="basic_management">Gestión básica</string>
@@ -39,8 +43,18 @@
     <!-- Successful registration -->
     <string name="successful_registration_title">¡Registro exitoso!</string>
 
-    <!-- Payments -->
-    <string name="payments">Pagos</string>
+    <!-- Home -->
+    <string name="medical_aptitude">Apto físico</string>
+    <string name="valid_medical_aptitude">Válido</string>
+    <string name="invalid_medical_aptitude">Vencido</string>
+    <string name="activities">Actividades</string>
+    <string name="see_more">Ver e Inscribirse</string>
+    <string name="monthly_payment">Cuota Mensual</string>
+    <string name='activity_level_beginner'>Principiante</string>
+    <string name='activity_level_intermediate'>Intermedio</string>
+    <string name='activity_level_advanced'>Avanzado</string>
+    <string name='activity_duration_format'>%s min</string>
+    <string name='see_all'>Ver todas</string>
 
     <!-- Profile -->
     <string name="profile">Perfil</string>

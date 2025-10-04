@@ -69,7 +69,7 @@ class AdminActivity : AppCompatActivity() {
         val summaryAmount = findViewById<TextView>(R.id.summaryAmount)
         val summaryDetail = findViewById<TextView>(R.id.summaryDetail)
 
-        summaryLabel.text = "Pagos vencidos"
+        summaryLabel.text = getString(R.string.overdue)
 
         val overdueUsers = allUsers.filter { it.status == PaymentStatus.OVERDUE }
 
