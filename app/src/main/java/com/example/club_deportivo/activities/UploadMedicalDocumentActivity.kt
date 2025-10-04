@@ -95,7 +95,7 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
                 Toast.makeText(this,
                     getString(R.string.upload_medical_document_successful_selected_file_label), Toast.LENGTH_SHORT).show()
             },
-            onInvalid = { invalidType ->
+            onInvalid = { _ ->
                 Toast.makeText(
                     this, 
                     getString(R.string.upload_medical_document_error_invalid_file_type), 
@@ -175,7 +175,9 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
      * Maneja la navegación del botón Continuar
      */
     private fun handleContinue() {
-        println("Continue button clicked - Medical certificate functionality")
+        val intent = Intent(this, CreatingMembershipActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     /**
