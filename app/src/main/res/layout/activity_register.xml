@@ -217,27 +217,24 @@
     </LinearLayout>
 
     <com.example.club_deportivo.ui.CustomButton
-        android:id="@+id/registerButton"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="32dp"
-        app:buttonText="@string/register_button"
-        app:buttonState="disabled"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/membershipSelector" />
-
-    <com.example.club_deportivo.ui.CustomButton
         android:id="@+id/registerCancelButton"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginTop="8dp"
         app:buttonText="@string/cancel_button"
         app:buttonVariant="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.example.club_deportivo.ui.CustomButton
+        android:id="@+id/registerButton"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        app:buttonText="@string/register_button"
+        app:buttonState="disabled"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/registerCancelButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
