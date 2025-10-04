@@ -4,8 +4,12 @@ import java.util.Locale
 import kotlin.math.log10
 import kotlin.math.pow
 
+/**
+ * Utilidades para manejo y validación de archivos
+ */
 object FileUtils {
     
+    /** Tipos de archivo permitidos para documentos */
     private val ALLOWED_MEDICAL_DOCUMENT_TYPES = setOf(
         "application/pdf",
         "image/jpeg",
@@ -13,6 +17,11 @@ object FileUtils {
         "image/png"
     )
     
+    /**
+     * Convierte bytes a formato legible (B, KB, MB, GB, TB)
+     * @param sizeBytes Tamaño en bytes
+     * @return Cadena formateada con unidad correspondiente
+     */
     fun formatFileSize(sizeBytes: Long): String {
         if (sizeBytes <= 0) return "0 KB"
         
@@ -24,6 +33,12 @@ object FileUtils {
             units[digitGroups])
     }
     
+    /**
+     * Valida si el tipo MIME del archivo es permitido para documentos
+     * @param mimeType Tipo MIME del archivo
+     * @param onValid Callback ejecutado si el tipo es válido
+     * @param onInvalid Callback ejecutado si el tipo es inválido, recibe el tipo inválido
+     */
     fun validateFileType(
         mimeType: String?,
         onValid: () -> Unit,
