@@ -3,6 +3,7 @@
     <string name="app_name">club-deportivo</string>
     <string name="sport_club">SportClub</string>
     <string name="cancel_button">Cancelar</string>
+    <string name="continue_button">Continuar</string>
 
     <!-- Init -->
     <string name="already_member">¿Ya eres miembro? Inicia sesión</string>
@@ -38,6 +39,8 @@
 
     <!-- Successful registration -->
     <string name="successful_registration_title">¡Registro exitoso!</string>
+    <string name="successful_registration_message">Tu cuenta ha sido creada correctamente.\nPara completar tu perfil, necesitamos tu\napto físico.</string>
+    <string name="successful_registration_success_checkmark">Success checkmark</string>
 
     <!-- Payments -->
     <string name="payments">Pagos</string>
