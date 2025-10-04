@@ -72,18 +72,23 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Abre el selector de archivos del sistema
+     */
     private fun openFilePicker() {
         filePickerLauncher.launch("*/*")
     }
 
+    /**
+     * Valida el tipo de archivo y muestra su información si es válido
+     * @param uri URI del archivo seleccionado
+     */
     private fun showFileInfo(uri: Uri) {
-        // Validate file type
         val mimeType = contentResolver.getType(uri)
         
         FileUtils.validateFileType(
             mimeType = mimeType,
             onValid = {
-                // File type is valid, show file info and enable button
                 val fileInfo = getFileInfo(uri)
                 showFileSelected(fileInfo.first, fileInfo.second)
                 continueButton.enableButton()
@@ -101,10 +106,16 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Remueve el archivo seleccionado y resetea la UI
+     */
     private fun removeFile() {
         resetToUploadState()
     }
     
+    /**
+     * Resetea la UI al estado inicial sin archivo seleccionado
+     */
     private fun resetToUploadState() {
         selectedFileUri = null
         continueButton.disableButton()
@@ -112,6 +123,11 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
         fileSelectedLayout.visibility = View.GONE
     }
     
+    /**
+     * Muestra la información del archivo seleccionado en la UI
+     * @param fileName Nombre del archivo
+     * @param fileSize Tamaño formateado del archivo
+     */
     private fun showFileSelected(fileName: String, fileSize: String) {
         fileNameText.text = fileName
         fileSizeText.text = fileSize
@@ -119,6 +135,11 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
         fileSelectedLayout.visibility = View.VISIBLE
     }
 
+    /**
+     * Obtiene información básica del archivo (nombre y tamaño)
+     * @param uri URI del archivo
+     * @return Par con el nombre y tamaño formateado del archivo
+     */
     private fun getFileInfo(uri: Uri): Pair<String, String> {
         var fileName = getString(R.string.upload_medical_document_default_file_name)
         var fileSize = getString(R.string.upload_medical_document_default_file_size)
@@ -150,11 +171,16 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
         return Pair(fileName, fileSize)
     }
 
-
+    /**
+     * Maneja la navegación del botón Continuar
+     */
     private fun handleContinue() {
         println("Continue button clicked - Medical certificate functionality")
     }
 
+    /**
+     * Maneja la navegación del botón Hacerlo más tarde
+     */
     private fun handleLater() {
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
