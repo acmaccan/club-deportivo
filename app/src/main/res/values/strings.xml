@@ -42,6 +42,9 @@
     </plurals>
     <string name="currency_format">$%1$d</string>
 
+    <!-- CreatingMembership -->
+    <string name="creating_membership_loading_message">Estamos creando tu carnet</string>
+
     <!-- Register -->
     <string name="register_button">Registrate</string>
     <string name="register_document_input">DNI</string>
