@@ -21,14 +21,19 @@ class CreatingMembershipActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creating_membership)
 
-        // Referencia al ImageView que tiene asignado el animated-vector
-        loadingIv = findViewById(R.id.loadingAnimation)
-
+        initializeViews()
         startLoadingProcess()
     }
 
     /**
-     * Inicia el proceso de carga simulado y navega al home al completar
+     * Inicializa las propiedades de las vistas encontrándolas por su ID.
+     */
+    private fun initializeViews() {
+        loadingIv = findViewById(R.id.loadingAnimation)
+    }
+
+    /**
+     * Inicia el proceso de carga simulado y navega al home al completar.
      */
     private fun startLoadingProcess() {
         Handler(Looper.getMainLooper()).postDelayed({
@@ -37,7 +42,7 @@ class CreatingMembershipActivity : AppCompatActivity() {
     }
 
     /**
-     * Arranca la animación del vector cuando la Activity está visible
+     * Arranca la animación del vector cuando la Activity está visible.
      */
     override fun onStart() {
         super.onStart()
@@ -45,7 +50,7 @@ class CreatingMembershipActivity : AppCompatActivity() {
     }
 
     /**
-     * Detiene la animación del vector cuando la Activity deja de estar visible
+     * Detiene la animación del vector cuando la Activity deja de estar visible.
      */
     override fun onStop() {
         (loadingIv.drawable as? Animatable)?.stop()
@@ -53,7 +58,8 @@ class CreatingMembershipActivity : AppCompatActivity() {
     }
 
     /**
-     * Navega a la pantalla principal
+     * Navega a la pantalla principal.
+     * Cierra la actividad actual para que el usuario no pueda volver atrás.
      */
     private fun navigateToHome() {
         val intent = Intent(this, HomeActivity::class.java)
