@@ -1,5 +1,6 @@
 package com.example.club_deportivo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,7 @@ import com.example.club_deportivo.models.PaymentStatus
 import com.example.club_deportivo.ui.ActionCardStyle
 import com.example.club_deportivo.ui.ActivityAdapter
 import com.example.club_deportivo.ui.CustomActionCard
-import com.example.club_deportivo.ui.CustomCardMembership
+import com.example.club_deportivo.ui.CustomHomeMembershipStatusCard
 import com.example.club_deportivo.ui.UpcomingActivityAdapter
 
 class HomeActivity : BaseAuthActivity() {
@@ -27,7 +28,9 @@ class HomeActivity : BaseAuthActivity() {
             return
         }
 
-        CustomHeader.setupHomeHeader(this, clientUser.name)
+        CustomHeader.setupHomeHeader(this, clientUser.name) {
+            navigateToProfile()
+        }
         setupMembershipCard(clientUser)
         setupActionCards(clientUser)
         setupActivitiesSection()
@@ -45,7 +48,20 @@ class HomeActivity : BaseAuthActivity() {
         }
 
         val membershipCardView = findViewById<MaterialCardView>(R.id.membershipStatusCard)
-        CustomCardMembership.setup(membershipCardView, membershipStatus, user.membershipType)
+        CustomHomeMembershipStatusCard.setup(membershipCardView, membershipStatus, user.membershipType)
+        membershipCardView.setOnClickListener {
+            navigateToProfile()
+        }
+    }
+
+    /**
+     * Navegación al perfil.
+     */
+    private fun navigateToProfile() {
+        val intent = Intent(this, ProfileActivity::class.java).apply {
+            putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, user.id)
+        }
+        startActivity(intent)
     }
 
     /**

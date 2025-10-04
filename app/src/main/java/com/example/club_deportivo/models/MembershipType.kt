@@ -11,6 +11,7 @@ enum class MembershipType(
     @ColorRes val titleColor: Int,
     @StringRes val textDescription: Int,
     @ColorRes val descriptionColor: Int,
+    @StringRes val benefits: List<Int>
 ) {
     MEMBER(
         displayName = R.string.membership_type_member,
@@ -19,6 +20,12 @@ enum class MembershipType(
         titleColor = R.color.primary_darkest,
         textDescription = R.string.membership_description_member,
         descriptionColor = R.color.primary_main,
+        benefits = listOf(
+            R.string.profile_benefit_member_1,
+            R.string.profile_benefit_member_2,
+            R.string.profile_benefit_member_3,
+            R.string.profile_benefit_member_4
+        )
     ),
     NO_MEMBER(
         displayName = R.string.membership_type_no_member,
@@ -27,5 +34,9 @@ enum class MembershipType(
         titleColor = R.color.secondary_darkest,
         textDescription = R.string.membership_description_no_member,
         descriptionColor = R.color.secondary_main,
+        benefits = listOf(
+            R.string.profile_benefit_no_member_1,
+            R.string.profile_benefit_no_member_2
+        )
     );
 }

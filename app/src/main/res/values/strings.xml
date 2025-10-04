@@ -6,6 +6,9 @@
     <string name="continue_button">Continuar</string>
     <string name="payments">Pagos</string>
     <string name="activities">Actividades</string>
+    <string name="name_and_surname">Nombre y apellido</string>
+    <string name="document">DNI</string>
+    <string name="email">Email</string>
 
     <!-- Init -->
     <string name="already_member">¿Ya eres miembro? Inicia sesión</string>
@@ -17,7 +20,6 @@
     <string name="sign_in">Iniciar sesión</string>
     <string name="welcome_back">¡Bienvenido de nuevo! Introduce tus datos</string>
     <string name="first_time_sign_up">¿Primera vez? Registrarme</string>
-    <string name="email">Email</string>
     <string name="password">Contraseña</string>
     <string name="enter_your_email">Ingresa tu email</string>
     <string name="enter_your_password">Ingresa una contraseña válida</string>
@@ -47,9 +49,6 @@
 
     <!-- Register -->
     <string name="register_button">Registrate</string>
-    <string name="register_document_input">DNI</string>
-    <string name="register_email_input">Email</string>
-    <string name="register_full_name_input">Nombre y apellido</string>
     <string name="register_password_input">Contraseña</string>
     <string name="register_subtitle">Completá tus datos</string>
 
@@ -85,6 +84,18 @@
 
     <!-- Profile -->
     <string name="profile">Perfil</string>
+    <string name="profile_my_profile">Mi perfil</string>
+    <string name="profile_benefit_item_format">• %1$s</string>
+    <string name="profile_benefit_member_1">Acceso ilimitado a todas las actividades</string>
+    <string name="profile_benefit_member_2">Uso libre del gimnasio</string>
+    <string name="profile_benefit_member_3">Acceso a vestuarios y duchas</string>
+    <string name="profile_benefit_member_4">Clases grupales sin límite</string>
+    <string name="profile_benefit_no_member_1">Acceso mensual a la actividad registrada</string>
+    <string name="profile_benefit_no_member_2">Acceso a vestuarios y duchas</string>
+    <string name="profile_enabled_membership">Tu carnet no se encuentra activo</string>
+    <string name="profile_disabled_membership">Tu carnet está activo hasta:</string>
+    <string name="profile_personal_info">Información personal</string>
+    <string name="profile_close_session">Cerrar sesión</string>
 
     <!-- UploadMedicalDocument -->
     <string name="upload_medical_document_subtitle">Antes de seguir, cargá tu apto físico</string>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="com.google.android.material.card.MaterialCardView">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/status_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/circle_background_success"
+            android:padding="12dp"
+            android:src="@drawable/icon_check"
+            app:tint="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <!-- Título Carnet Digital -->
+        <TextView
+            android:id="@+id/static_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Carnet Digital"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/status_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:textColor="@color/primary_main" />
+
+        <!-- Estado de Carnet -->
+        <TextView
+            android:id="@+id/status_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/static_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/static_title"
+            tools:text="Carnet Habilitado"
+            tools:textColor="@color/primary_darkest" />
+
+        <!-- Nombre del Plan (sin el tag) -->
+        <TextView
+            android:id="@+id/plan_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/static_title"
+            app:layout_constraintTop_toBottomOf="@id/status_title"
+            tools:text="Pase Libre"
+            tools:textColor="@color/primary_darkest" />
+
+        <!-- Detalle del plan -->
+        <TextView
+            android:id="@+id/plan_details_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/plan_name_text"
+            app:layout_constraintStart_toStartOf="@id/plan_name_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Acceso a todas las actividades"
+            tools:textColor="@color/primary_main" />
+
+        <!-- Título de los beneficios -->
+        <TextView
+            android:id="@+id/benefits_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Incluido en tu pase libre:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/static_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/plan_name_text"
+            tools:textColor="@color/primary_darkest" />
+
+        <!-- Contenedor de la lista de beneficios -->
+        <LinearLayout
+            android:id="@+id/benefits_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/benefits_title"
+            app:layout_constraintTop_toBottomOf="@id/benefits_title"
+            tools:layout_height="60dp" />
+
+        <!-- Título de la fecha de expiración -->
+        <TextView
+            android:id="@+id/expiration_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Tu carnet está activo hasta:"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/static_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/benefits_container"
+            tools:textColor="@color/primary_main" />
+
+        <!-- Fecha de expiración -->
+        <TextView
+            android:id="@+id/expiration_date_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/static_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expiration_title"
+            tools:text="2025-10-15"
+            tools:textColor="@color/primary_darkest" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

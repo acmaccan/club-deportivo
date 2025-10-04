@@ -17,7 +17,7 @@ class UpcomingActivityAdapter(private val activities: List<Activity>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_upcoming_activity, parent, false)
+            .inflate(R.layout.component_home_upcoming_activity_item, parent, false)
         return ViewHolder(view)
     }
 

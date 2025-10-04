@@ -6,10 +6,12 @@ class Client(
     email: String,
     password: String,
 
+    val document: String,
     val membershipType: MembershipType,
     val amount: String,
     val status: PaymentStatus,
-    val hasValidMedicalAptitude: Boolean
+    val hasValidMedicalAptitude: Boolean,
+    val expirationDate: String
 ) : User(
     id,
     name,

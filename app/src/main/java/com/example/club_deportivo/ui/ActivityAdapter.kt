@@ -21,7 +21,7 @@ class ActivityAdapter(private val activities: List<Activity>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.component_activity_card, parent, false)
+            .inflate(R.layout.component_home_activity_card, parent, false)
         return ActivityViewHolder(view)
     }
 
