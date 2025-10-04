@@ -27,6 +27,7 @@
             android:name=".activities.RegisterActivity"
             android:windowSoftInputMode="adjustUnspecified"/>
         <activity android:name=".activities.SuccessfulRegistrationActivity" />
+        <activity android:name=".activities.UploadMedicalDocumentActivity" />
         <activity
             android:name=".activities.HomeActivity"
             android:exported="false" />

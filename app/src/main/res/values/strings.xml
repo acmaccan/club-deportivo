@@ -47,4 +47,18 @@
 
     <!-- Profile -->
     <string name="profile">Perfil</string>
+
+    <!-- UploadMedicalDocument -->
+    <string name="upload_medical_document_subtitle">Antes de seguir, cargá tu apto físico</string>
+    <string name="upload_medical_document_upload_label">Cargar Apto físico</string>
+    <string name="upload_medical_document_upload_formats_label">PDF o imagen</string>
+    <string name="upload_medical_document_later_button">Hacerlo más tarde</string>
+    <string name="upload_medical_document_upload_icon">Upload icon</string>
+    <string name="upload_medical_document_successful_selected_file_label">Archivo seleccionado</string>
+    <string name="upload_medical_document_uploaded_document_label">Apto físico cargado</string>
+    <string name="upload_medical_document_default_file_name">archivo_seleccionado</string>
+    <string name="upload_medical_document_default_file_size">0 KB</string>
+    <string name="upload_medical_document_error_permission">No se tienen permisos para acceder al archivo</string>
+    <string name="upload_medical_document_error_reading_file">Error al leer la información del archivo</string>
+    <string name="upload_medical_document_error_invalid_file_type">Tipo de archivo no válido. Solo se permiten PDF e imágenes (PNG, JPG, GIF, WebP)</string>
 </resources>

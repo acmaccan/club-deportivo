@@ -1,5 +1,6 @@
 package com.example.club_deportivo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.club_deportivo.R
@@ -12,7 +13,9 @@ class SuccessfulRegistrationActivity : AppCompatActivity() {
         
         val continueButton = findViewById<CustomButton>(R.id.continueButton)
         continueButton.setOnClickListener {
-            println("Botón Continuar presionado")
+            val intent = Intent(this, UploadMedicalDocumentActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
