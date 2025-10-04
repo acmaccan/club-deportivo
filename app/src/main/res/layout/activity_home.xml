@@ -14,9 +14,7 @@
         android:orientation="vertical"
         android:paddingBottom="32dp">
 
-        <!-- ======================================================= -->
-        <!-- HEADER                                                  -->
-        <!-- ======================================================= -->
+        <!-- Header -->
         <include
             android:id="@+id/home_header"
             layout="@layout/component_header"
@@ -26,9 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- ======================================================= -->
-        <!-- MEMBERSHIP STATUS CARD                                  -->
-        <!-- ======================================================= -->
+        <!-- Membership Status Card -->
         <include
             android:id="@+id/membershipStatusCard"
             layout="@layout/component_card_membership_status"
@@ -38,9 +34,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp" />
 
-        <!-- ======================================================= -->
-        <!-- ACTION CARDS (Medical, Activities, Payment)             -->
-        <!-- ======================================================= -->
+        <!-- Action Cards -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,9 +82,7 @@
 
         </LinearLayout>
 
-        <!-- ======================================================= -->
-        <!-- ACTIVITIES SECTION                                      -->
-        <!-- ======================================================= -->
+        <!-- Activities Section -->
 
         <!-- Section Title -->
         <LinearLayout
