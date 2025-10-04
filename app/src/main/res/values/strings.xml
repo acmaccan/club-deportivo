@@ -39,6 +39,8 @@
 
     <!-- Successful registration -->
     <string name="successful_registration_title">¡Registro exitoso!</string>
+    <string name="successful_registration_message">Tu cuenta ha sido creada correctamente.\nPara completar tu perfil, necesitamos tu\napto físico.</string>
+    <string name="successful_registration_success_checkmark">Success checkmark</string>
 
     <!-- Payments -->
     <string name="payments">Pagos</string>
