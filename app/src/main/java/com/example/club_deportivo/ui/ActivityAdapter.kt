@@ -1,6 +1,5 @@
 package com.example.club_deportivo.ui
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.club_deportivo.R
-import com.example.club_deportivo.models.ActivityData
+import com.example.club_deportivo.models.Activity
 
-class ActivityAdapter(private val activities: List<ActivityData>) :
+class ActivityAdapter(private val activities: List<Activity>) :
     RecyclerView.Adapter<ActivityAdapter.ActivityViewHolder>() {
 
     class ActivityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -30,14 +29,13 @@ class ActivityAdapter(private val activities: List<ActivityData>) :
         return activities.size
     }
 
-    @SuppressLint("StringFormatMatches")
     override fun onBindViewHolder(holder: ActivityViewHolder, position: Int) {
         val activity = activities[position]
         val context = holder.itemView.context
 
         holder.name.text = activity.name
         holder.image.setImageResource(activity.imageResId)
-        holder.duration.text = context.getString(R.string.activity_duration_format, activity.durationMinutes)
+        holder.duration.text = context.getString(R.string.activity_duration_format, activity.duration)
         holder.levelText.text = context.getString(activity.level.displayNameResId)
     }
 }

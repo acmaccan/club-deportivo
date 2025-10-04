@@ -1,16 +1,16 @@
 package com.example.club_deportivo.models
 
 object UserRepository {
-    fun getUsers(): List<UserData> {
+    fun getUsers(): List<User> {
         return listOf(
-            UserData(
+            User(
                 1,
                 "Admin",
                 "admin@sportclub.com",
                 "admin123456",
                 UserRole.ADMIN
             ),
-            ClientData(
+            Client(
                 2,
                 "María Gómez",
                 "mg@gmail.com",
@@ -20,7 +20,7 @@ object UserRepository {
                 PaymentStatus.DUE_SOON,
                 hasValidMedicalAptitude = true,
             ),
-            ClientData(
+            Client(
                 3,
                 "Carlos Ruiz",
                 "cr@gmail.com",
@@ -30,7 +30,7 @@ object UserRepository {
                 PaymentStatus.OVERDUE,
                 hasValidMedicalAptitude = false,
             ),
-            ClientData(
+            Client(
                 4,
                 "Ana Torres",
                 "at@gmail.com",
@@ -40,7 +40,7 @@ object UserRepository {
                 PaymentStatus.PAID,
                 hasValidMedicalAptitude = true,
             ),
-            ClientData(
+            Client(
                 5,
                 "Luis Fernández",
                 "lf@gmail.com",
@@ -50,7 +50,7 @@ object UserRepository {
                 PaymentStatus.DUE_SOON,
                 hasValidMedicalAptitude = true,
             ),
-            ClientData(
+            Client(
                 6,
                 "Elena Moreno",
                 "em@gmail.com",
@@ -60,7 +60,7 @@ object UserRepository {
                 PaymentStatus.OVERDUE,
                 hasValidMedicalAptitude = false,
             ),
-            ClientData(
+            Client(
                 7,
                 "David Jiménez",
                 "dj@gmail.com",
@@ -70,7 +70,7 @@ object UserRepository {
                 PaymentStatus.PAID,
                 hasValidMedicalAptitude = true,
             ),
-            ClientData(
+            Client(
                 8,
                 "Laura Navarro",
                 "ln@gmail.com",
@@ -80,7 +80,7 @@ object UserRepository {
                 PaymentStatus.DUE_SOON,
                 hasValidMedicalAptitude = true,
             ),
-            ClientData(
+            Client(
                 9,
                 "Pedro Romero",
                 "pr@gmail.com",
@@ -90,7 +90,7 @@ object UserRepository {
                 PaymentStatus.OVERDUE,
                 hasValidMedicalAptitude = true,
             ),
-            ClientData(
+            Client(
                 10,
                 "Sofía Castillo",
                 "sc@gmail.com",
@@ -103,11 +103,26 @@ object UserRepository {
         )
     }
 
-    fun findUserByCredentials(email: String, password: String): UserData? {
+    fun findUserById(id: Int): User? {
+        return getUsers().find { it.id == id }
+    }
+
+    fun findUserByCredentials(email: String, password: String): User? {
         return getUsers().find { it.email.equals(email, ignoreCase = true) && it.password == password }
     }
 
-    fun getClients(): List<ClientData> {
-        return getUsers().filterIsInstance<ClientData>()
+    fun getClients(): List<Client> {
+        return getUsers().filterIsInstance<Client>()
+    }
+
+    fun getOverdueClients(): List<Client> {
+        return getClients().filter { it.status == PaymentStatus.OVERDUE }
+    }
+
+    fun getTotalOverdueAmount(): Double {
+        return getClients().filter { it.status == PaymentStatus.OVERDUE }
+            .sumOf { user ->
+                user.amount.replace(Regex("[^\\d.]"), "").toDoubleOrNull() ?: 0.0
+            }
     }
 }

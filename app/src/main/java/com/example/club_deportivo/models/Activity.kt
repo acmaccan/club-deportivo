@@ -2,10 +2,10 @@ package com.example.club_deportivo.models
 
 import androidx.annotation.DrawableRes
 
-data class ActivityData(
+data class Activity(
     val id: Int,
     val name: String,
     val level: ActivityLevel,
-    val durationMinutes: Int,
+    val duration: Int,
     @DrawableRes val imageResId: Int
 )

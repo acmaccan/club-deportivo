@@ -5,15 +5,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
-import com.example.club_deportivo.models.ClientData
+import com.example.club_deportivo.models.Client
 import com.example.club_deportivo.models.PaymentStatus
 import com.google.android.material.card.MaterialCardView
 
 object CustomPaymentStatusCard {
-
     fun setup(
         card: MaterialCardView,
-        user: ClientData,
+        user: Client,
         onPayButtonClick: (String) -> Unit
     ) {
         val context = card.context
@@ -28,22 +27,22 @@ object CustomPaymentStatusCard {
 
         userName.text = user.name
         userEmail.text = user.email
-        userMembership.text = user.membershipType.displayName
+        userMembership.text = context.getString(user.membershipType.displayName)
         paymentAmount.text = user.amount
 
         when (user.status) {
             PaymentStatus.PAID -> {
-                paymentStatus.text = "Al día"
+                paymentStatus.text = context.getString(R.string.payment_status_paid)
                 paymentStatus.setTextColor(ContextCompat.getColor(context, R.color.success_dark))
                 statusIndicator.setImageResource(R.drawable.icon_smile)
             }
             PaymentStatus.DUE_SOON -> {
-                paymentStatus.text = "Por vencer"
+                paymentStatus.text = context.getString(R.string.payment_status_due_soon)
                 paymentStatus.setTextColor(ContextCompat.getColor(context, R.color.warning_dark))
                 statusIndicator.setImageResource(R.drawable.icon_clock)
             }
             PaymentStatus.OVERDUE -> {
-                paymentStatus.text = "Vencido"
+                paymentStatus.text = context.getString(R.string.payment_status_overdue)
                 paymentStatus.setTextColor(ContextCompat.getColor(context, R.color.error_dark))
                 statusIndicator.setImageResource(R.drawable.icon_x)
             }

@@ -7,13 +7,6 @@ import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
 import com.google.android.material.card.MaterialCardView
 
-enum class ActionCardStyle {
-    PRIMARY,
-    SECONDARY,
-    SUCCESS,
-    ERROR
-}
-
 object CustomActionCard {
     fun setup(
         card: MaterialCardView,
@@ -33,23 +26,7 @@ object CustomActionCard {
         titleView.text = title
         subtitleView.text = subtitle
 
-        when (style) {
-            ActionCardStyle.PRIMARY -> {
-                backgroundView.background = ContextCompat.getDrawable(context, R.drawable.circle_background_primary_light)
-                icon.imageTintList = ContextCompat.getColorStateList(context, R.color.primary_main)
-            }
-            ActionCardStyle.SECONDARY -> {
-                backgroundView.background = ContextCompat.getDrawable(context, R.drawable.circle_background_secondary_light)
-                icon.imageTintList = ContextCompat.getColorStateList(context, R.color.secondary_main)
-            }
-            ActionCardStyle.SUCCESS -> {
-                backgroundView.background = ContextCompat.getDrawable(context, R.drawable.circle_background_success_light)
-                icon.imageTintList = ContextCompat.getColorStateList(context, R.color.success_main)
-            }
-            ActionCardStyle.ERROR -> {
-                backgroundView.background = ContextCompat.getDrawable(context, R.drawable.circle_background_error_light)
-                icon.imageTintList = ContextCompat.getColorStateList(context, R.color.error_main)
-            }
-        }
+        backgroundView.background = ContextCompat.getDrawable(context, style.background)
+        icon.imageTintList = ContextCompat.getColorStateList(context, style.iconTint)
     }
 }

@@ -31,6 +31,14 @@
     <string name="free_pass">Pase Libre</string>
     <string name="add_user">+ Agregar usuario</string>
     <string name="search">Buscar</string>
+    <string name="payment_status_paid">Al día</string>
+    <string name="payment_status_due_soon">Por vencer</string>
+    <string name="payment_status_overdue">Vencido</string>
+    <plurals name="user_count">
+        <item quantity="one">%d usuario</item>
+        <item quantity="other">%d usuarios</item>
+    </plurals>
+    <string name="currency_format">$%1$d</string>
 
     <!-- Register -->
     <string name="register_button">Registrate</string>
@@ -44,6 +52,16 @@
     <string name="successful_registration_title">¡Registro exitoso!</string>
 
     <!-- Home -->
+    <string name="identify_user_error">Error: No se pudo identificar al usuario.</string>
+    <string name="not_found_user_error">Error: Usuario no encontrado.</string>
+    <string name="membership_enabled">Carnet Habilitado</string>
+    <string name="membership_disabled">Carnet Inhabilitado</string>
+    <string name="membership_type_member">Socio</string>
+    <string name="membership_type_no_member">No Socio</string>
+    <string name="membership_title_member">Pase libre</string>
+    <string name="membership_title_no_member">Pase Actividades</string>
+    <string name="membership_description_member">Acceso a todas las actividades</string>
+    <string name="membership_description_no_member">Acceso a actividades seleccionadas</string>
     <string name="medical_aptitude">Apto físico</string>
     <string name="valid_medical_aptitude">Válido</string>
     <string name="invalid_medical_aptitude">Vencido</string>
@@ -53,7 +71,7 @@
     <string name='activity_level_beginner'>Principiante</string>
     <string name='activity_level_intermediate'>Intermedio</string>
     <string name='activity_level_advanced'>Avanzado</string>
-    <string name='activity_duration_format'>%s min</string>
+    <string name='activity_duration_format'>%d min</string>
     <string name='see_all'>Ver todas</string>
 
     <!-- Profile -->

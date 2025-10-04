@@ -3,27 +3,27 @@ package com.example.club_deportivo.models
 import com.example.club_deportivo.R
 
 object ActivityRepository {
-    fun getActivities(): List<ActivityData> {
+    fun getActivities(): List<Activity> {
         return listOf(
-            ActivityData(
+            Activity(
                 id = 1,
                 name = "Yoga",
                 level = ActivityLevel.BEGINNER,
-                durationMinutes = 30,
+                duration = 30,
                 imageResId = R.drawable.activity_yoga
             ),
-            ActivityData(
+            Activity(
                 id = 2,
                 name = "Meditación",
                 level = ActivityLevel.ADVANCED,
-                durationMinutes = 45,
+                duration = 45,
                 imageResId = R.drawable.activity_meditation
             ),
-            ActivityData(
+            Activity(
                 id = 3,
                 name = "Pilates",
                 level = ActivityLevel.INTERMEDIATE,
-                durationMinutes = 45,
+                duration = 45,
                 imageResId = R.drawable.activity_pilates
             )
         )
