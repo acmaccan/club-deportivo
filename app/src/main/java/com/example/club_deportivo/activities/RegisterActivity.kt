@@ -5,9 +5,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.widget.ImageView
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.card.MaterialCardView
+import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
 import com.example.club_deportivo.models.InputConfig
+import com.example.club_deportivo.models.MembershipType
 import com.example.club_deportivo.ui.CustomButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -15,6 +20,13 @@ import com.google.android.material.textfield.TextInputLayout
 class RegisterActivity : AppCompatActivity() {
     private lateinit var registerButton: CustomButton
     private lateinit var registerCancelButton: CustomButton
+    private lateinit var memberCard: MaterialCardView
+    private lateinit var noMemberCard: MaterialCardView
+    private lateinit var memberIcon: ImageView
+    private lateinit var noMemberIcon: ImageView
+    private lateinit var memberIconBackground: View
+    private lateinit var noMemberIconBackground: View
+    private var selectedMembershipType: MembershipType? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +34,7 @@ class RegisterActivity : AppCompatActivity() {
 
         setupInputs()
         setupRealTimeValidation()
+        setupMembershipSelector()
 
         registerButton = findViewById<CustomButton>(R.id.registerButton)
         registerCancelButton = findViewById<CustomButton>(R.id.registerCancelButton)
@@ -114,8 +127,74 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupMembershipSelector() {
+        memberCard = findViewById(R.id.memberCard)
+        noMemberCard = findViewById(R.id.noMemberCard)
+        memberIcon = findViewById(R.id.memberIcon)
+        noMemberIcon = findViewById(R.id.noMemberIcon)
+        memberIconBackground = findViewById(R.id.memberIconBackground)
+        noMemberIconBackground = findViewById(R.id.noMemberIconBackground)
+
+        memberCard.setOnClickListener {
+            selectMembershipType(MembershipType.MEMBER)
+        }
+
+        noMemberCard.setOnClickListener {
+            selectMembershipType(MembershipType.NO_MEMBER)
+        }
+    }
+
+    private fun selectMembershipType(membershipType: MembershipType) {
+        selectedMembershipType = membershipType
+        updateMembershipUI()
+        updateButtonState()
+    }
+
+    private fun updateMembershipUI() {
+        when (selectedMembershipType) {
+            MembershipType.MEMBER -> {
+                memberCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.primary_light))
+                memberCard.strokeColor = ContextCompat.getColor(this, R.color.primary_main)
+                memberIcon.visibility = View.VISIBLE
+                memberIcon.imageTintList = ContextCompat.getColorStateList(this, R.color.white)
+                memberIconBackground.visibility = View.VISIBLE
+
+                noMemberCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                noMemberCard.strokeColor = ContextCompat.getColor(this, R.color.primary_light)
+                noMemberIcon.visibility = View.VISIBLE
+                noMemberIcon.imageTintList = ContextCompat.getColorStateList(this, R.color.primary_main)
+                noMemberIconBackground.visibility = View.INVISIBLE
+            }
+            MembershipType.NO_MEMBER -> {
+                noMemberCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.primary_light))
+                noMemberCard.strokeColor = ContextCompat.getColor(this, R.color.primary_main)
+                noMemberIcon.visibility = View.VISIBLE
+                noMemberIcon.imageTintList = ContextCompat.getColorStateList(this, R.color.white)
+                noMemberIconBackground.visibility = View.VISIBLE
+
+                memberCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                memberCard.strokeColor = ContextCompat.getColor(this, R.color.primary_light)
+                memberIcon.visibility = View.VISIBLE
+                memberIcon.imageTintList = ContextCompat.getColorStateList(this, R.color.primary_main)
+                memberIconBackground.visibility = View.INVISIBLE
+            }
+            null -> {
+                memberCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                memberCard.strokeColor = ContextCompat.getColor(this, R.color.primary_light)
+                memberIcon.visibility = View.VISIBLE
+                noMemberIcon.imageTintList = ContextCompat.getColorStateList(this, R.color.primary_main)
+                memberIconBackground.visibility = View.INVISIBLE
+
+                noMemberCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                noMemberCard.strokeColor = ContextCompat.getColor(this, R.color.primary_light)
+                noMemberIcon.visibility = View.VISIBLE
+                noMemberIconBackground.visibility = View.INVISIBLE
+            }
+        }
+    }
+
     private fun updateButtonState() {
-        if (validateInputs()) {
+        if (validateInputs() && selectedMembershipType != null) {
             registerButton.enableButton()
         } else {
             registerButton.disableButton()
