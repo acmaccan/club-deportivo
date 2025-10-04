@@ -65,17 +65,17 @@
     <string name="membership_title_no_member">Pase Actividades</string>
     <string name="membership_description_member">Acceso a todas las actividades</string>
     <string name="membership_description_no_member">Acceso a actividades seleccionadas</string>
-    <string name="medical_aptitude">Apto físico</string>
-    <string name="valid_medical_aptitude">Válido</string>
-    <string name="invalid_medical_aptitude">Vencido</string>
-    <string name="activities">Actividades</string>
-    <string name="see_more">Ver e Inscribirse</string>
-    <string name="monthly_payment">Cuota Mensual</string>
+    <string name="actions_medical_aptitude">Apto físico</string>
+    <string name="actions_valid_medical_aptitude">Válido</string>
+    <string name="actions_invalid_medical_aptitude">Vencido</string>
+    <string name="actions_activities">Actividades</string>
+    <string name="actions_see_more">Ver e Inscribirse</string>
+    <string name="actions_monthly_payment">Cuota Mensual</string>
     <string name="activity_level_beginner">Principiante</string>
     <string name="activity_level_intermediate">Intermedio</string>
     <string name="activity_level_advanced">Avanzado</string>
     <string name="activity_duration_format">%d min</string>
-    <string name="see_all">Ver todas</string>
+    <string name="activity_see_all">Ver todas</string>
 
     <!-- Profile -->
     <string name="profile">Perfil</string>
