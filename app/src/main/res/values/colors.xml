@@ -10,6 +10,7 @@
 
     <color name="secondary_light">#F2E9FE</color>
     <color name="secondary_main">#A23FD3</color>
+    <color name="secondary_darkest">#582473</color>
 
     <color name="neutral_lightest">#F9FAFB</color>
     <color name="neutral_light">#EDEDED</color>

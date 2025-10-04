@@ -1,6 +1,6 @@
 package com.example.club_deportivo.models
 
-class ClientData(
+class Client(
     id: Int,
     name: String,
     email: String,
@@ -10,7 +10,7 @@ class ClientData(
     val amount: String,
     val status: PaymentStatus,
     val hasValidMedicalAptitude: Boolean
-) : UserData(
+) : User(
     id,
     name,
     email,

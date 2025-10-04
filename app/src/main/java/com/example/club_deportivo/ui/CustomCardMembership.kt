@@ -10,7 +10,6 @@ import com.example.club_deportivo.models.MembershipType
 import com.google.android.material.card.MaterialCardView
 
 object CustomCardMembership {
-
     fun setup(
         cardView: MaterialCardView,
         status: MembershipStatus,
@@ -22,39 +21,31 @@ object CustomCardMembership {
         val cardTitle = cardView.findViewById<TextView>(R.id.cardTitle)
         val membershipTag = cardView.findViewById<TextView>(R.id.membershipTag)
         val membershipDescription = cardView.findViewById<TextView>(R.id.membershipDescription)
+        val statusIconBackground = cardView.findViewById<View>(R.id.statusIconBackground)
+        val membershipTagContainer = cardView.findViewById<View>(R.id.membershipTagContainer)
+        val arrowIcon = cardView.findViewById<ImageView>(R.id.arrowIcon)
+
+        cardTitle.text = context.getString(status.title)
+        arrowIcon.visibility = View.VISIBLE
+
+        statusIconBackground.setBackgroundResource(status.iconBackground)
+        statusIcon.setImageResource(status.icon)
+        statusIcon.imageTintList = ContextCompat.getColorStateList(context, status.iconColor)
+
+        cardView.setCardBackgroundColor(ContextCompat.getColor(context, type.cardBackgroundColor))
+        membershipTag.setTextColor(ContextCompat.getColor(context, type.titleColor))
+        membershipDescription.setTextColor(ContextCompat.getColor(context, type.descriptionColor))
 
         if (status == MembershipStatus.DISABLED) {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.error_light))
-            statusIcon.setImageResource(R.drawable.icon_x)
-            cardView.findViewById<View>(R.id.statusIconBackground).setBackgroundResource(R.drawable.circle_background_error)
-            cardTitle.text = "Carnet Inhabilitado"
             cardTitle.setTextColor(ContextCompat.getColor(context, R.color.error_main))
-            cardView.isClickable = false
-            cardView.findViewById<View>(R.id.membershipTagContainer).visibility = View.GONE
-            cardView.findViewById<ImageView>(R.id.arrowIcon).visibility = View.INVISIBLE
+            membershipTagContainer.visibility = View.GONE
         } else {
-            cardView.isClickable = true
-            statusIcon.setImageResource(R.drawable.icon_check)
-            cardTitle.text = "Carnet Habilitado"
-            cardView.findViewById<View>(R.id.membershipTagContainer).visibility = View.VISIBLE
-            cardView.findViewById<ImageView>(R.id.arrowIcon).visibility = View.VISIBLE
+            cardTitle.setTextColor(ContextCompat.getColor(context, type.titleColor))
 
-            when (type) {
-                MembershipType.MEMBER -> {
-                    cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.primary_light))
-                    cardView.findViewById<View>(R.id.statusIconBackground).setBackgroundResource(R.drawable.circle_background_success)
-                    cardTitle.setTextColor(ContextCompat.getColor(context, R.color.primary_main))
-                    membershipTag.text = type.displayName
-                    membershipDescription.text = type.description
-                }
-                MembershipType.NO_MEMBER -> {
-                    cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.secondary_light))
-                    cardView.findViewById<View>(R.id.statusIconBackground).setBackgroundResource(R.drawable.circle_background_success)
-                    cardTitle.setTextColor(ContextCompat.getColor(context, R.color.secondary_main))
-                    membershipTag.text = type.displayName
-                    membershipDescription.text = type.description
-                }
-            }
+            membershipTag.text = context.getString(type.textTitle)
+            membershipDescription.text = context.getString(type.textDescription)
+            membershipTagContainer.visibility = View.VISIBLE
         }
     }
 }
