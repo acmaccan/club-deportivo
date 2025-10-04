@@ -3,6 +3,7 @@
     <string name="app_name">club-deportivo</string>
     <string name="sport_club">SportClub</string>
     <string name="cancel_button">Cancelar</string>
+    <string name="continue_button">Continuar</string>
 
     <!-- Init -->
     <string name="already_member">¿Ya eres miembro? Inicia sesión</string>
@@ -44,4 +45,11 @@
 
     <!-- Profile -->
     <string name="profile">Perfil</string>
+
+    <!-- UploadMedicalDocument -->
+    <string name="upload_medical_document_subtitle">Antes de seguir, cargá tu apto físico</string>
+    <string name="upload_medical_document_upload_label">Cargar Apto físico</string>
+    <string name="upload_medical_document_upload_formats_label">PDF o imagen</string>
+    <string name="upload_medical_document_later_button">Hacerlo más tarde</string>
+    <string name="upload_medical_document_upload_icon">Upload icon</string>
 </resources>

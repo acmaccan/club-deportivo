@@ -16,7 +16,9 @@ class MainActivity : AppCompatActivity() {
         val loginText = findViewById<TextView>(R.id.loginText)
 
         registerButton.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
+            // val intent = Intent(this, RegisterActivity::class.java)
+            // TODO: change
+            val intent = Intent(this, UploadMedicalDocumentActivity::class.java)
             startActivity(intent)
         }
 
