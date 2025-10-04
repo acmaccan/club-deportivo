@@ -95,7 +95,7 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
                 Toast.makeText(this,
                     getString(R.string.upload_medical_document_successful_selected_file_label), Toast.LENGTH_SHORT).show()
             },
-            onInvalid = { invalidType ->
+            onInvalid = { _ ->
                 Toast.makeText(
                     this, 
                     getString(R.string.upload_medical_document_error_invalid_file_type), 

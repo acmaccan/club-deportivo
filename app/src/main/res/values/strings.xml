@@ -5,6 +5,7 @@
     <string name="cancel_button">Cancelar</string>
     <string name="continue_button">Continuar</string>
     <string name="payments">Pagos</string>
+    <string name="activities">Actividades</string>
 
     <!-- Init -->
     <string name="already_member">¿Ya eres miembro? Inicia sesión</string>
@@ -71,7 +72,6 @@
     <string name="actions_medical_aptitude">Apto físico</string>
     <string name="actions_valid_medical_aptitude">Válido</string>
     <string name="actions_invalid_medical_aptitude">Vencido</string>
-    <string name="actions_activities">Actividades</string>
     <string name="actions_see_more">Ver e Inscribirse</string>
     <string name="actions_monthly_payment">Cuota Mensual</string>
     <string name="activity_level_beginner">Principiante</string>
@@ -79,6 +79,9 @@
     <string name="activity_level_advanced">Avanzado</string>
     <string name="activity_duration_format">%d min</string>
     <string name="activity_see_all">Ver todas</string>
+    <string name="schedule_upcoming_activities">Próximas actividades</string>
+    <string name="schedule_time_format">%1$s %2$s - %3$s</string>
+    <string name="schedule_details_format">%1$s - Instructor: %2$s</string>
 
     <!-- Profile -->
     <string name="profile">Perfil</string>

@@ -98,7 +98,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/actions_activities"
+                android:text="@string/activities"
                 android:textColor="@color/neutral_main"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -126,6 +126,35 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
             tools:listitem="@layout/component_activity_card" />
+
+        <!-- Upcoming activities section-->
+
+        <!-- Upcoming activities title -->
+        <TextView
+            android:id="@+id/title_upcoming_schedules"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/schedule_upcoming_activities"
+            android:textColor="@color/neutral_main"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- RecyclerView upcoming activities list -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_schedules"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_upcoming_activity" />
 
     </LinearLayout>
     

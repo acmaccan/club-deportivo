@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_schedule"
+    android:layout_width="240dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/schedule_activity_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary_darkest"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Yoga"
+            tools:textColor="@color/primary_darkest" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/schedule_color_dot"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/circle_background_primary" />
+
+            <TextView
+                android:id="@+id/schedule_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_darkest"
+                android:textSize="14sp"
+                tools:text="Hoy 08:00 - 09:00" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/schedule_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/primary_darkest"
+            android:textSize="12sp"
+            tools:text="Sala 1 - Instructor: María" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

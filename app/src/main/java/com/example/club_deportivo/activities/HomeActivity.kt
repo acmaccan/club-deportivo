@@ -1,8 +1,6 @@
 package com.example.club_deportivo.activities
 
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.club_deportivo.R
@@ -16,6 +14,7 @@ import com.example.club_deportivo.ui.ActionCardStyle
 import com.example.club_deportivo.ui.ActivityAdapter
 import com.example.club_deportivo.ui.CustomActionCard
 import com.example.club_deportivo.ui.CustomCardMembership
+import com.example.club_deportivo.ui.UpcomingActivityAdapter
 
 class HomeActivity : BaseAuthActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +31,7 @@ class HomeActivity : BaseAuthActivity() {
         setupMembershipCard(clientUser)
         setupActionCards(clientUser)
         setupActivitiesSection()
+        setupSchedulesSection()
     }
 
     /**
@@ -58,7 +58,7 @@ class HomeActivity : BaseAuthActivity() {
             CustomActionCard.setup(
                 card = cardMedical,
                 iconResId = R.drawable.icon_check,
-                title = getString(R.string.actions_valid_medical_aptitude),
+                title = getString(R.string.actions_medical_aptitude),
                 subtitle = getString(R.string.actions_valid_medical_aptitude),
                 style = ActionCardStyle.SUCCESS
             )
@@ -66,8 +66,8 @@ class HomeActivity : BaseAuthActivity() {
             CustomActionCard.setup(
                 card = cardMedical,
                 iconResId = R.drawable.icon_x,
-                title = getString(R.string.actions_valid_medical_aptitude),
-                subtitle = getString(R.string.actions_valid_medical_aptitude),
+                title = getString(R.string.actions_medical_aptitude),
+                subtitle = getString(R.string.actions_invalid_medical_aptitude),
                 style = ActionCardStyle.ERROR
             )
         }
@@ -76,7 +76,7 @@ class HomeActivity : BaseAuthActivity() {
         CustomActionCard.setup(
             card = cardActivities,
             iconResId = R.drawable.icon_person,
-            title = getString(R.string.actions_activities),
+            title = getString(R.string.activities),
             subtitle = getString(R.string.actions_see_more),
             style = ActionCardStyle.SECONDARY
         )
@@ -106,5 +106,18 @@ class HomeActivity : BaseAuthActivity() {
             )
         recyclerViewActivities.adapter = activityAdapter
 
+    }
+
+    /**
+     * Configura el RecyclerView para la lista horizontal de próximos horarios.
+     */
+    private fun setupSchedulesSection() {
+        val recyclerViewSchedules = findViewById<RecyclerView>(R.id.recycler_view_schedules)
+        val upcomingActivities = ActivityRepository.getActivities().take(2)
+        val scheduleAdapter = UpcomingActivityAdapter(upcomingActivities)
+
+        recyclerViewSchedules.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewSchedules.adapter = scheduleAdapter
     }
 }
