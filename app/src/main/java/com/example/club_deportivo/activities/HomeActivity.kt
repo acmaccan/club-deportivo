@@ -110,7 +110,7 @@ class HomeActivity : BaseAuthActivity() {
         val cardPayment = findViewById<MaterialCardView>(R.id.card_action_payment)
         CustomActionCard.setup(
             card = cardPayment,
-            iconResId = R.drawable.icon_wallet,
+            iconResId = R.drawable.icon_payment_white,
             title = getString(R.string.payments),
             subtitle = getString(R.string.home_actions_monthly_payment),
             style = ActionCardStyle.PRIMARY

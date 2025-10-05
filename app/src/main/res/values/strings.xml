@@ -105,6 +105,15 @@
     <string name="payments_benefit_locker_rooms">• Acceso a vestuarios y duchas</string>
     <string name="payments_benefit_group_classes">• Clases grupales sin límite</string>
 
+    <!-- Payments Resume -->
+    <string name="payment_resume_title">Resumen del pago</string>
+    <string name="payment_resume_success_title">¡Pago exitoso!</string>
+    <string name="payment_resume_success_subtitle">Tu pago de actividad ha sido procesado correctamente</string>
+    <string name="payment_resume_error_title">Pago rechazado</string>
+    <string name="payment_resume_error_subtitle">No pudimos procesar tu pago en este momento. Por favor, intenta nuevamente.</string>
+    <string name="payment_resume_back_to_home">Volver al inicio</string>
+    <string name="payment_resume_retry">Intentar nuevamente</string>
+
     <!-- Profile -->
     <string name="profile">Perfil</string>
     <string name="profile_my_profile">Mi perfil</string>
