@@ -141,6 +141,7 @@ object UserRepository {
     
     fun createNewClient(
         fullName: String,
+        document: String,
         email: String,
         password: String,
         membershipType: MembershipType
@@ -149,15 +150,27 @@ object UserRepository {
         val newClient = Client(
             id = newId,
             name = fullName,
+            document = document,
             email = email,
             password = password,
             membershipType = membershipType,
             amount = "$0",
             status = PaymentStatus.OVERDUE,
-            hasValidMedicalAptitude = false
+            hasValidMedicalAptitude = false,
+            expirationDate = calculateExpirationDate()
         )
         users.add(newClient)
         return newClient
+    }
+
+    private fun calculateExpirationDate(): String {
+        val calendar = java.util.Calendar.getInstance()
+        calendar.add(java.util.Calendar.YEAR, 1)
+        return String.format(java.util.Locale.US, "%04d-%02d-%02d", 
+            calendar.get(java.util.Calendar.YEAR),
+            calendar.get(java.util.Calendar.MONTH) + 1,
+            calendar.get(java.util.Calendar.DAY_OF_MONTH)
+        )
     }
     
     fun emailExists(email: String): Boolean {
@@ -171,12 +184,14 @@ object UserRepository {
             val updatedClient = Client(
                 id = client.id,
                 name = client.name,
+                document = client.document,
                 email = client.email,
                 password = client.password,
                 membershipType = client.membershipType,
                 amount = client.amount,
                 status = if (hasValidAptitude) PaymentStatus.PAID else client.status,
-                hasValidMedicalAptitude = hasValidAptitude
+                hasValidMedicalAptitude = hasValidAptitude,
+                expirationDate = client.expirationDate
             )
             users[userIndex] = updatedClient
             return true

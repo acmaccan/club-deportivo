@@ -21,7 +21,11 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var registerCancelButton: CustomButton
     private lateinit var memberCard: MaterialCardView
     private lateinit var noMemberCard: MaterialCardView
-    private var selectedMembershipType: MembershipType? = null
+    private var selectedMembershipType: MembershipType?
+
+    init {
+        selectedMembershipType = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,28 +174,38 @@ class RegisterActivity : AppCompatActivity() {
      */
     private fun handleRegister() {
         val fullName = getInputValue(R.id.fullNameInput)
+        val document = getInputValue(R.id.documentInput)
         val email = getInputValue(R.id.emailInput)
         val password = getInputValue(R.id.passwordInput)
-        
-        // Validate email doesn't exist
-        if (UserRepository.emailExists(email)) {
-            findViewById<TextInputLayout>(R.id.emailInput).error = "Email ya está registrado"
+
+        if (!validateEmailUniqueness(email)) {
             return
         }
         
         // Create new user with selected membership
         val newUser = UserRepository.createNewClient(
-            fullName = fullName,
-            email = email,
-            password = password,
+            fullName,
+            document,
+            email,
+            password,
             membershipType = selectedMembershipType!!
         )
-        
-        // Navigate to SuccessfulRegistrationActivity with user ID
+
         val intent = Intent(this, SuccessfulRegistrationActivity::class.java)
         intent.putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, newUser.id)
         startActivity(intent)
         finish()
+    }
+    
+    /**
+     * Valida que el email no esté ya registrado.
+     */
+    private fun validateEmailUniqueness(email: String): Boolean {
+        if (UserRepository.emailExists(email)) {
+            findViewById<TextInputLayout>(R.id.emailInput).error = getString(R.string.register_email_already_exists)
+            return false
+        }
+        return true
     }
     
     /**

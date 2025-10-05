@@ -55,6 +55,7 @@
     <string name="register_membership_type_no_member">No socio</string>
     <string name="register_membership_title_member">Pase libre</string>
     <string name="register_membership_title_no_member">Por actividad</string>
+    <string name="register_email_already_exists">Email ya está registrado</string>
 
     <!-- Successful registration -->
     <string name="successful_registration_title">¡Registro exitoso!</string>
