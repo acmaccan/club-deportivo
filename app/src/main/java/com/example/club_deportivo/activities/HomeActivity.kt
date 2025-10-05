@@ -65,6 +65,16 @@ class HomeActivity : BaseAuthActivity() {
     }
 
     /**
+     * Navegación a pagos.
+     */
+    private fun navigateToPayments() {
+        val intent = Intent(this, PaymentsActivity::class.java).apply {
+            putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, user.id)
+        }
+        startActivity(intent)
+    }
+
+    /**
      * Configura las tres tarjetas de acción (Apto Médico, Actividades, Pagos).
      */
     private fun setupActionCards(user: Client) {
@@ -105,6 +115,9 @@ class HomeActivity : BaseAuthActivity() {
             subtitle = getString(R.string.home_actions_monthly_payment),
             style = ActionCardStyle.PRIMARY
         )
+        cardPayment.setOnClickListener {
+            navigateToPayments()
+        }
     }
 
     /**
