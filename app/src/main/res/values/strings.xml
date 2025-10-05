@@ -88,15 +88,31 @@
     <string name="home_upcoming_activities_time_format">%1$s %2$s - %3$s</string>
     <string name="home_upcoming_activities_details_format">%1$s - Instructor: %2$s</string>
 
-    <!-- Home -->
-    <string name="payment_resume_title">Resumen del pago</string>
-    <string name="payment_success_title">¡Pago exitoso!</string>
-    <string name="payment_success_subtitle">Tu pago de actividad ha sido procesado correctamente</string>
-    <string name="payment_error_title">Pago rechazado</string>
-    <string name="payment_error_subtitle">No pudimos procesar tu pago en este momento. Por favor, intenta nuevamente.</string>
-    <string name="payment_back_to_home">Volver al inicio</string>
-    <string name="payment_retry">Intentar nuevamente</string>
+    <!-- Payments -->
+    <string name="payments_monthly_fee_format">Cuota %1$s %2$d</string>
+    <string name="payments_expires_in_format">Vence en %d días</string>
+    <string name="payments_amount_format">$%d</string>
+    <string name="payments_select_activity">Seleccioná una actividad:</string>
+    <string name="payments_per_month">por mes</string>
+    <string name="payments_total_to_pay">Total a pagar</string>
+    <string name="payments_monthly_fee_label">Cuota mensual</string>
+    <string name="payments_activity_fee_label">Pago de actividad</string>
+    <string name="payments_pay_monthly_fee">Pagar cuota mensual</string>
+    <string name="payments_pay_selected_activity">Pagar actividad seleccionada</string>
+    <string name="payments_benefits_title">Incluido en tu pase libre:</string>
+    <string name="payments_benefit_unlimited_activities">• Acceso ilimitado a todas las actividades</string>
+    <string name="payments_benefit_gym_access">• Uso libre del gimnasio</string>
+    <string name="payments_benefit_locker_rooms">• Acceso a vestuarios y duchas</string>
+    <string name="payments_benefit_group_classes">• Clases grupales sin límite</string>
 
+    <!-- Payments Resume -->
+    <string name="payment_resume_title">Resumen del pago</string>
+    <string name="payment_resume_success_title">¡Pago exitoso!</string>
+    <string name="payment_resume_success_subtitle">Tu pago de actividad ha sido procesado correctamente</string>
+    <string name="payment_resume_error_title">Pago rechazado</string>
+    <string name="payment_resume_error_subtitle">No pudimos procesar tu pago en este momento. Por favor, intenta nuevamente.</string>
+    <string name="payment_resume_back_to_home">Volver al inicio</string>
+    <string name="payment_resume_retry">Intentar nuevamente</string>
 
     <!-- Profile -->
     <string name="profile">Perfil</string>

@@ -38,16 +38,16 @@ class PaymentResumeActivity : AppCompatActivity() {
 
         if (isSuccess) {
             resumeIcon.setImageResource(R.drawable.icon_check)
-            resumeTitle.text = getString(R.string.payment_success_title)
-            resumeSubtitle.text = getString(R.string.payment_success_subtitle)
-            primaryButton.setText(getString(R.string.payment_back_to_home))
+            resumeTitle.text = getString(R.string.payment_resume_success_title)
+            resumeSubtitle.text = getString(R.string.payment_resume_success_subtitle)
+            primaryButton.setText(getString(R.string.payment_resume_back_to_home))
             secondaryButton.visibility = View.GONE
         } else {
             resumeIcon.setImageResource(R.drawable.icon_x)
-            resumeTitle.text = getString(R.string.payment_error_title)
-            resumeSubtitle.text = getString(R.string.payment_error_subtitle)
-            primaryButton.setText(getString(R.string.payment_retry))
-            secondaryButton.setText(getString(R.string.payment_back_to_home))
+            resumeTitle.text = getString(R.string.payment_resume_error_title)
+            resumeSubtitle.text = getString(R.string.payment_resume_error_subtitle)
+            primaryButton.setText(getString(R.string.payment_resume_retry))
+            secondaryButton.setText(getString(R.string.payment_resume_back_to_home))
             secondaryButton.visibility = View.VISIBLE
         }
     }
