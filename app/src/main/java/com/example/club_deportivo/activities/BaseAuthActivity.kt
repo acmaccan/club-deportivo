@@ -40,13 +40,13 @@ abstract class BaseAuthActivity : AppCompatActivity() {
         val loggedUserId = intent.getIntExtra(LOGGED_USER_ID_KEY, INVALID_USER_ID)
 
         if (loggedUserId == INVALID_USER_ID) {
-            Toast.makeText(this, getString(R.string.identify_user_error), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.home_identify_user_error), Toast.LENGTH_LONG).show()
             return false
         }
 
         val foundUser = UserRepository.findUserById(loggedUserId)
         if (foundUser == null) {
-            Toast.makeText(this, getString(R.string.not_found_user_error), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.home_not_found_user_error), Toast.LENGTH_LONG).show()
             return false
         }
 

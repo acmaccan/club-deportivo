@@ -31,9 +31,8 @@ class CustomProfileMembershipCard @JvmOverloads constructor(
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_profile_membership_card, this, true)
-        elevation = 0f
-
         strokeWidth = (1 * resources.displayMetrics.density).toInt()
+        radius = 16 * resources.displayMetrics.density
 
         statusTitle = findViewById(R.id.status_title)
         planNameText = findViewById(R.id.plan_name_text)
@@ -46,65 +45,64 @@ class CustomProfileMembershipCard @JvmOverloads constructor(
     }
 
     fun setup(client: Client) {
-        val membershipStatus = when (client.status) {
+        val status = when (client.status) {
             PaymentStatus.PAID, PaymentStatus.DUE_SOON -> MembershipStatus.ENABLED
             PaymentStatus.OVERDUE -> MembershipStatus.DISABLED
         }
 
-        if (membershipStatus == MembershipStatus.DISABLED) {
-            setupDisabledState()
+        val type = client.membershipType
+
+        statusTitle.text = context.getString(status.title)
+        statusIcon.setImageResource(status.icon)
+        statusIcon.setBackgroundResource(status.iconBackground)
+
+        if (status == MembershipStatus.DISABLED) {
+            val errorColor = ContextCompat.getColor(context, R.color.error_main)
+
+            setCardBackgroundColor(ContextCompat.getColor(context, R.color.error_light))
+            strokeColor = errorColor
+            statusTitle.setTextColor(errorColor)
+            expirationTitle.setTextColor(errorColor)
+            expirationTitle.text = context.getString(R.string.profile_disabled_membership)
+
+            planNameText.visibility = View.GONE
+            planDetailsText.visibility = View.GONE
+            benefitsTitle.visibility = View.GONE
+            benefitsContainer.visibility = View.GONE
+            expirationDateText.visibility = View.GONE
+
         } else {
-            setupEnabledState(client)
+            val primaryColor = ContextCompat.getColor(context, type.titleColor)
+            val secondaryColor = ContextCompat.getColor(context, type.descriptionColor)
+
+            setCardBackgroundColor(ContextCompat.getColor(context, type.cardBackgroundColor))
+            strokeColor = primaryColor
+            statusTitle.setTextColor(primaryColor)
+
+            planNameText.text = context.getString(type.textTitle)
+            planNameText.setTextColor(primaryColor)
+
+            planDetailsText.text = context.getString(type.textDescription)
+            planDetailsText.setTextColor(secondaryColor)
+
+            benefitsTitle.text = context.getString(R.string.profile_benefit_item_format, context.getString(type.textTitle))
+            benefitsTitle.setTextColor(primaryColor)
+
+            expirationTitle.text = context.getString(R.string.profile_enabled_membership)
+            expirationTitle.setTextColor(secondaryColor)
+
+            expirationDateText.text = client.expirationDate
+            expirationDateText.setTextColor(primaryColor)
+
+            getBenefitsList(type.benefits, secondaryColor)
+
+            planNameText.visibility = View.VISIBLE
+            planDetailsText.visibility = View.VISIBLE
+            benefitsTitle.visibility = View.VISIBLE
+            benefitsContainer.visibility = View.VISIBLE
+            expirationDateText.visibility = View.VISIBLE
+            expirationTitle.visibility = View.VISIBLE
         }
-    }
-
-    private fun setupDisabledState() {
-        val errorColor = ContextCompat.getColor(context, R.color.error_main)
-        val errorBgColor = ContextCompat.getColor(context, R.color.error_light)
-
-        setCardBackgroundColor(errorBgColor)
-        strokeColor = errorColor
-        statusTitle.text = context.getString(MembershipStatus.DISABLED.title)
-        statusTitle.setTextColor(errorColor)
-        statusIcon.setImageResource(R.drawable.icon_x)
-        statusIcon.background.setTint(errorColor)
-
-        planDetailsText.visibility = View.GONE
-        benefitsContainer.visibility = View.GONE
-        benefitsTitle.visibility = View.GONE
-        expirationTitle.visibility = View.GONE
-        expirationDateText.visibility = View.GONE
-    }
-
-    private fun setupEnabledState(client: Client) {
-        val membershipType = client.membershipType
-        val primaryColor = ContextCompat.getColor(context, membershipType.titleColor)
-        val secondaryColor = ContextCompat.getColor(context, membershipType.descriptionColor)
-        val backgroundColor = ContextCompat.getColor(context, membershipType.cardBackgroundColor)
-
-        setCardBackgroundColor(backgroundColor)
-        strokeColor = primaryColor
-        statusTitle.setTextColor(primaryColor)
-        planNameText.setTextColor(primaryColor)
-        planDetailsText.setTextColor(secondaryColor)
-        benefitsTitle.setTextColor(primaryColor)
-        expirationTitle.setTextColor(secondaryColor)
-        expirationDateText.setTextColor(primaryColor)
-        statusIcon.setImageResource(R.drawable.icon_check)
-        statusIcon.background.setTint(ContextCompat.getColor(context, R.color.success_main))
-
-        statusTitle.text = context.getString(MembershipStatus.ENABLED.title)
-        planNameText.text = context.getString(membershipType.textTitle)
-        planDetailsText.text = context.getString(membershipType.textDescription)
-        expirationDateText.text = client.expirationDate
-        expirationTitle.text = context.getString(R.string.profile_enabled_membership)
-
-        planDetailsText.visibility = View.VISIBLE
-        benefitsContainer.visibility = View.VISIBLE
-        benefitsTitle.visibility = View.VISIBLE
-        expirationDateText.visibility = View.VISIBLE
-
-        getBenefitsList(client.membershipType.benefits, secondaryColor)
     }
 
     private fun getBenefitsList(benefits: List<Int>, textColor: Int) {

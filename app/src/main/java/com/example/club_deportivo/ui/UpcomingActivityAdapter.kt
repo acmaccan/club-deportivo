@@ -55,13 +55,13 @@ class UpcomingActivityAdapter(private val activities: List<Activity>) :
 
             activityName.text = activity.name
             time.text = context.getString(
-                R.string.schedule_time_format,
+                R.string.home_upcoming_activities_time_format,
                 activity.day,
                 activity.startTime,
                 activity.endTime
             )
             details.text = context.getString(
-                R.string.schedule_details_format,
+                R.string.home_upcoming_activities_details_format,
                 activity.room,
                 activity.instructor
             )

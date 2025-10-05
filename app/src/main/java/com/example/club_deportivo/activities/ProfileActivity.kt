@@ -54,19 +54,19 @@ class ProfileActivity : BaseAuthActivity() {
     private fun setupPersonalInfo(client: Client) {
         findViewById<LinearLayout>(R.id.info_name).apply {
             findViewById<ImageView>(R.id.info_icon).setImageResource(R.drawable.icon_person)
-            findViewById<TextView>(R.id.info_label).text = getString(R.string.name_and_surname)
+            findViewById<TextView>(R.id.info_label).text = getString(R.string.profile_name)
             findViewById<TextView>(R.id.info_value).text = client.name
         }
 
         findViewById<LinearLayout>(R.id.info_document).apply {
             findViewById<ImageView>(R.id.info_icon).setImageResource(R.drawable.icon_document)
-            findViewById<TextView>(R.id.info_label).text = getString(R.string.document)
+            findViewById<TextView>(R.id.info_label).text = getString(R.string.profile_document)
             findViewById<TextView>(R.id.info_value).text = client.document
         }
 
         findViewById<LinearLayout>(R.id.info_email).apply {
             findViewById<ImageView>(R.id.info_icon).setImageResource(R.drawable.icon_email)
-            findViewById<TextView>(R.id.info_label).text = getString(R.string.email)
+            findViewById<TextView>(R.id.info_label).text = getString(R.string.profile_email)
             findViewById<TextView>(R.id.info_value).text = client.email
         }
     }

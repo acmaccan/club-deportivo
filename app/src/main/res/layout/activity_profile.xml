@@ -77,9 +77,10 @@
         <!-- Close session button -->
         <com.example.club_deportivo.ui.CustomButton
             android:id="@+id/logout_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="16dp"
             app:buttonText="@string/profile_close_session"
             app:buttonColor="danger"
             app:buttonVariant="filled"

@@ -35,7 +35,7 @@ class ActivityAdapter(private val activities: List<Activity>) :
 
         holder.name.text = activity.name
         holder.image.setImageResource(activity.imageResId)
-        holder.duration.text = context.getString(R.string.activity_duration_format, activity.duration)
+        holder.duration.text = context.getString(R.string.home_activity_duration_format, activity.duration)
         holder.levelText.text = context.getString(activity.level.displayNameResId)
     }
 }

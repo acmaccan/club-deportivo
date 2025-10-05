@@ -40,11 +40,11 @@ class RegisterActivity : AppCompatActivity() {
     private fun getInputConfig() = listOf<InputConfig>(
         InputConfig(
             layoutId = R.id.fullNameInput,
-            hintStringId = R.string.name_and_surname
+            hintStringId = R.string.register_full_name_input
         ),
         InputConfig(
             layoutId = R.id.documentInput,
-            hintStringId = R.string.document,
+            hintStringId = R.string.register_document_input,
             minLength = 8,
             customValidator = { document ->
                 document.length == 8 && document.all { it.isDigit() }
@@ -52,7 +52,7 @@ class RegisterActivity : AppCompatActivity() {
         ),
         InputConfig(
             layoutId = R.id.emailInput,
-            hintStringId = R.string.email,
+            hintStringId = R.string.register_email_input,
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
             customValidator = { email ->
                 android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
