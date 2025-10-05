@@ -13,6 +13,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
+    companion object {
+        const val PREFS_NAME = "ClubDeportivoPrefs"
+        const val USER_ID_KEY = "LOGGED_USER_ID"
+    }
+
     private lateinit var emailInputLayout: TextInputLayout
     private lateinit var passwordInputLayout: TextInputLayout
     private lateinit var emailInput: TextInputEditText

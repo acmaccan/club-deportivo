@@ -24,20 +24,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
 
-        <!-- Título Carnet Digital -->
+        <!-- Title -->
         <TextView
             android:id="@+id/static_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Carnet Digital"
+            android:text="@string/profile_digital_membership_card"
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/status_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:textColor="@color/primary_main" />
 
-        <!-- Estado de Carnet -->
+        <!-- Status title -->
         <TextView
             android:id="@+id/status_title"
             android:layout_width="0dp"
@@ -47,10 +47,10 @@
             app:layout_constraintStart_toStartOf="@id/static_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/static_title"
-            tools:text="Carnet Habilitado"
+            tools:text="@string/membership_enabled"
             tools:textColor="@color/primary_darkest" />
 
-        <!-- Nombre del Plan (sin el tag) -->
+        <!-- Membership name -->
         <TextView
             android:id="@+id/plan_name_text"
             android:layout_width="wrap_content"
@@ -60,10 +60,10 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/static_title"
             app:layout_constraintTop_toBottomOf="@id/status_title"
-            tools:text="Pase Libre"
+            tools:text="@string/membership_title_member"
             tools:textColor="@color/primary_darkest" />
 
-        <!-- Detalle del plan -->
+        <!-- Memberhip description -->
         <TextView
             android:id="@+id/plan_details_text"
             android:layout_width="0dp"
@@ -72,23 +72,23 @@
             app:layout_constraintTop_toBottomOf="@id/plan_name_text"
             app:layout_constraintStart_toStartOf="@id/plan_name_text"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Acceso a todas las actividades"
+            tools:text="@string/membership_description_member"
             tools:textColor="@color/primary_main" />
 
-        <!-- Título de los beneficios -->
+        <!-- Membership benefits -->
         <TextView
             android:id="@+id/benefits_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Incluido en tu pase libre:"
+            android:text="@string/profile_membership_includes"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/static_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/plan_name_text"
             tools:textColor="@color/primary_darkest" />
 
-        <!-- Contenedor de la lista de beneficios -->
+        <!-- Benefits list -->
         <LinearLayout
             android:id="@+id/benefits_container"
             android:layout_width="0dp"
@@ -100,20 +100,20 @@
             app:layout_constraintTop_toBottomOf="@id/benefits_title"
             tools:layout_height="60dp" />
 
-        <!-- Título de la fecha de expiración -->
+        <!-- Expiration title -->
         <TextView
             android:id="@+id/expiration_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Tu carnet está activo hasta:"
+            android:text="@string/profile_disabled_membership"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@id/static_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/benefits_container"
             tools:textColor="@color/primary_main" />
 
-        <!-- Fecha de expiración -->
+        <!-- Expiration date -->
         <TextView
             android:id="@+id/expiration_date_text"
             android:layout_width="0dp"

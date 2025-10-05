@@ -30,7 +30,7 @@ class CustomProfileMembershipCard @JvmOverloads constructor(
     private val benefitsTitle: TextView
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.component_membership_card, this, true)
+        LayoutInflater.from(context).inflate(R.layout.component_profile_membership_card, this, true)
         elevation = 0f
 
         strokeWidth = (1 * resources.displayMetrics.density).toInt()
@@ -63,17 +63,16 @@ class CustomProfileMembershipCard @JvmOverloads constructor(
         val errorBgColor = ContextCompat.getColor(context, R.color.error_light)
 
         setCardBackgroundColor(errorBgColor)
+        strokeColor = errorColor
         statusTitle.text = context.getString(MembershipStatus.DISABLED.title)
         statusTitle.setTextColor(errorColor)
         statusIcon.setImageResource(R.drawable.icon_x)
         statusIcon.background.setTint(errorColor)
 
-        expirationTitle.text = context.getString(R.string.profile_disabled_membership)
-        expirationTitle.setTextColor(errorColor)
-
         planDetailsText.visibility = View.GONE
         benefitsContainer.visibility = View.GONE
         benefitsTitle.visibility = View.GONE
+        expirationTitle.visibility = View.GONE
         expirationDateText.visibility = View.GONE
     }
 
@@ -84,6 +83,7 @@ class CustomProfileMembershipCard @JvmOverloads constructor(
         val backgroundColor = ContextCompat.getColor(context, membershipType.cardBackgroundColor)
 
         setCardBackgroundColor(backgroundColor)
+        strokeColor = primaryColor
         statusTitle.setTextColor(primaryColor)
         planNameText.setTextColor(primaryColor)
         planDetailsText.setTextColor(secondaryColor)

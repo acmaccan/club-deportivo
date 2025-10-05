@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.example.club_deportivo.R
 import com.example.club_deportivo.models.Client
+import com.example.club_deportivo.ui.CustomButton
 import com.example.club_deportivo.ui.CustomProfileMembershipCard
 
 class ProfileActivity : BaseAuthActivity() {
@@ -21,6 +22,13 @@ class ProfileActivity : BaseAuthActivity() {
             return
         }
 
+        setupToolbar()
+        setupCard(clientUser)
+        setupPersonalInfo(clientUser)
+        setupListeners()
+    }
+
+    private fun setupToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -29,11 +37,18 @@ class ProfileActivity : BaseAuthActivity() {
         toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+    }
 
+    private fun setupCard(client: Client) {
         val membershipCardView: CustomProfileMembershipCard = findViewById(R.id.profile_membership_card)
-        membershipCardView.setup(clientUser)
+        membershipCardView.setup(client)
+    }
 
-        setupPersonalInfo(clientUser)
+    private fun setupListeners() {
+        val logoutButton: CustomButton = findViewById(R.id.logout_button)
+        logoutButton.setOnClickListener {
+            logoutUser()
+        }
     }
 
     private fun setupPersonalInfo(client: Client) {
@@ -44,13 +59,13 @@ class ProfileActivity : BaseAuthActivity() {
         }
 
         findViewById<LinearLayout>(R.id.info_document).apply {
-            findViewById<ImageView>(R.id.info_icon).setImageResource(R.drawable.icon_person)
+            findViewById<ImageView>(R.id.info_icon).setImageResource(R.drawable.icon_document)
             findViewById<TextView>(R.id.info_label).text = getString(R.string.document)
             findViewById<TextView>(R.id.info_value).text = client.document
         }
 
         findViewById<LinearLayout>(R.id.info_email).apply {
-            findViewById<ImageView>(R.id.info_icon).setImageResource(R.drawable.icon_person)
+            findViewById<ImageView>(R.id.info_icon).setImageResource(R.drawable.icon_email)
             findViewById<TextView>(R.id.info_label).text = getString(R.string.email)
             findViewById<TextView>(R.id.info_value).text = client.email
         }

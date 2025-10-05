@@ -9,6 +9,9 @@
     <string name="name_and_surname">Nombre y apellido</string>
     <string name="document">DNI</string>
     <string name="email">Email</string>
+    <string name="membership_enabled">Carnet Habilitado</string>
+    <string name="membership_title_member">Pase libre</string>
+    <string name="membership_description_member">Acceso a todas las actividades</string>
 
     <!-- Init -->
     <string name="already_member">¿Ya eres miembro? Inicia sesión</string>
@@ -60,13 +63,10 @@
     <!-- Home -->
     <string name="identify_user_error">Error: No se pudo identificar al usuario.</string>
     <string name="not_found_user_error">Error: Usuario no encontrado.</string>
-    <string name="membership_enabled">Carnet Habilitado</string>
     <string name="membership_disabled">Carnet Inhabilitado</string>
     <string name="membership_type_member">Socio</string>
     <string name="membership_type_no_member">No Socio</string>
-    <string name="membership_title_member">Pase libre</string>
     <string name="membership_title_no_member">Pase Actividades</string>
-    <string name="membership_description_member">Acceso a todas las actividades</string>
     <string name="membership_description_no_member">Acceso a actividades seleccionadas</string>
     <string name="actions_medical_aptitude">Apto físico</string>
     <string name="actions_valid_medical_aptitude">Válido</string>
@@ -85,6 +85,8 @@
     <!-- Profile -->
     <string name="profile">Perfil</string>
     <string name="profile_my_profile">Mi perfil</string>
+    <string name="profile_digital_membership_card">Carnet Digital</string>"
+    <string name="profile_membership_includes">Incluido en tu pase libre:</string>
     <string name="profile_benefit_item_format">• %1$s</string>
     <string name="profile_benefit_member_1">Acceso ilimitado a todas las actividades</string>
     <string name="profile_benefit_member_2">Uso libre del gimnasio</string>

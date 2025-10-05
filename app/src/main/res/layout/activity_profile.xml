@@ -21,7 +21,7 @@
             app:navigationIcon="@drawable/icon_arrow_back"
             app:title="@string/profile_my_profile" />
 
-        <!-- Tarjeta de Membresía -->
+        <!-- Membership card -->
         <com.example.club_deportivo.ui.CustomProfileMembershipCard
             android:id="@+id/profile_membership_card"
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
             app:strokeWidth="1dp"
             app:strokeColor="@color/primary_light" />
 
-        <!-- Tarjeta de Información personal -->
+        <!-- Personal info -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,12 +55,12 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <!-- Nombre y Apellido -->
+                <!-- Name -->
                 <include
                     layout="@layout/component_profile_info_item"
                     android:id="@+id/info_name" />
 
-                <!-- DNI -->
+                <!-- Document -->
                 <include
                     layout="@layout/component_profile_info_item"
                     android:id="@+id/info_document" />
@@ -74,7 +74,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Botón de Cerrar Sesión -->
+        <!-- Close session button -->
         <com.example.club_deportivo.ui.CustomButton
             android:id="@+id/logout_button"
             android:layout_width="wrap_content"
