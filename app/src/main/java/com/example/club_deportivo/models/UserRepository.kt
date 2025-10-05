@@ -7,10 +7,16 @@ object UserRepository {
         users.addAll(getInitialUsers())
     }
     
+    /**
+     * Obtiene una copia inmutable de la lista de usuarios.
+     */
     fun getUsers(): List<User> {
         return users.toList()
     }
     
+    /**
+     * Crea la lista inicial de usuarios del sistema.
+     */
     private fun getInitialUsers(): List<User> {
         return listOf(
             User(
@@ -131,14 +137,23 @@ object UserRepository {
         )
     }
 
+    /**
+     * Busca un usuario por su ID.
+     */
     fun findUserById(id: Int): User? {
         return getUsers().find { it.id == id }
     }
 
+    /**
+     * Busca un usuario por email y contraseña para autenticación.
+     */
     fun findUserByCredentials(email: String, password: String): User? {
         return getUsers().find { it.email.equals(email, ignoreCase = true) && it.password == password }
     }
     
+    /**
+     * Crea un nuevo cliente y lo agrega al repositorio.
+     */
     fun createNewClient(
         fullName: String,
         document: String,
@@ -163,6 +178,9 @@ object UserRepository {
         return newClient
     }
 
+    /**
+     * Calcula la fecha de expiración un año desde la fecha actual.
+     */
     private fun calculateExpirationDate(): String {
         val calendar = java.util.Calendar.getInstance()
         calendar.add(java.util.Calendar.YEAR, 1)
@@ -173,10 +191,16 @@ object UserRepository {
         )
     }
     
+    /**
+     * Verifica si un email ya está registrado en el sistema.
+     */
     fun emailExists(email: String): Boolean {
         return getUsers().any { it.email.equals(email, ignoreCase = true) }
     }
     
+    /**
+     * Actualiza el estado del apto físico de un cliente.
+     */
     fun updateMedicalAptitude(userId: Int, hasValidAptitude: Boolean): Boolean {
         val userIndex = users.indexOfFirst { it.id == userId }
         if (userIndex != -1 && users[userIndex] is Client) {
@@ -199,14 +223,23 @@ object UserRepository {
         return false
     }
 
+    /**
+     * Obtiene todos los clientes del sistema.
+     */
     fun getClients(): List<Client> {
         return getUsers().filterIsInstance<Client>()
     }
 
+    /**
+     * Obtiene los clientes con pagos vencidos.
+     */
     fun getOverdueClients(): List<Client> {
         return getClients().filter { it.status == PaymentStatus.OVERDUE }
     }
 
+    /**
+     * Calcula el monto total de los pagos vencidos.
+     */
     fun getTotalOverdueAmount(): Double {
         return getClients().filter { it.status == PaymentStatus.OVERDUE }
             .sumOf { user ->
