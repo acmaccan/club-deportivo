@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.club_deportivo.R
 
-class CreatingMembershipActivity : AppCompatActivity() {
+class CreatingMembershipActivity : BaseAuthActivity() {
 
     companion object {
         private const val LOADING_DURATION_MS = 4000L
@@ -63,6 +63,7 @@ class CreatingMembershipActivity : AppCompatActivity() {
      */
     private fun navigateToHome() {
         val intent = Intent(this, HomeActivity::class.java)
+        intent.putExtra(LOGGED_USER_ID_KEY, user.id)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()

@@ -55,6 +55,7 @@
     <string name="register_membership_type_no_member">No socio</string>
     <string name="register_membership_title_member">Pase libre</string>
     <string name="register_membership_title_no_member">Por actividad</string>
+    <string name="register_email_already_exists">Email ya está registrado</string>
 
     <!-- Successful registration -->
     <string name="successful_registration_title">¡Registro exitoso!</string>
@@ -74,7 +75,7 @@
     <string name="home_membership_description_no_member">Acceso a actividades seleccionadas</string>
     <string name="home_actions_medical_aptitude">Apto físico</string>
     <string name="home_actions_valid_medical_aptitude">Válido</string>
-    <string name="home_actions_invalid_medical_aptitude">Vencido</string>
+    <string name="home_actions_invalid_medical_aptitude">Requerido</string>
     <string name="home_actions_see_more">Ver e Inscribirse</string>
     <string name="home_actions_monthly_payment">Cuota Mensual</string>
     <string name="home_activities">Actividades</string>

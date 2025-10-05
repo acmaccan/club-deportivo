@@ -14,6 +14,11 @@ class SuccessfulRegistrationActivity : AppCompatActivity() {
         val continueButton = findViewById<CustomButton>(R.id.continueButton)
         continueButton.setOnClickListener {
             val intent = Intent(this, UploadMedicalDocumentActivity::class.java)
+
+            val userId = getIntent().getIntExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, BaseAuthActivity.INVALID_USER_ID)
+            if (userId != BaseAuthActivity.INVALID_USER_ID) {
+                intent.putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, userId)
+            }
             startActivity(intent)
             finish()
         }
