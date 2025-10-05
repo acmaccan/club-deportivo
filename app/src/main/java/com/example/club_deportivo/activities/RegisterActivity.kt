@@ -6,15 +6,21 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.card.MaterialCardView
 import com.example.club_deportivo.R
 import com.example.club_deportivo.models.InputConfig
+import com.example.club_deportivo.models.MembershipType
 import com.example.club_deportivo.ui.CustomButton
+import com.example.club_deportivo.ui.CustomMembershipSelector
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var registerButton: CustomButton
     private lateinit var registerCancelButton: CustomButton
+    private lateinit var memberCard: MaterialCardView
+    private lateinit var noMemberCard: MaterialCardView
+    private var selectedMembershipType: MembershipType? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +28,7 @@ class RegisterActivity : AppCompatActivity() {
 
         setupInputs()
         setupRealTimeValidation()
+        setupMembershipSelector()
 
         registerButton = findViewById<CustomButton>(R.id.registerButton)
         registerCancelButton = findViewById<CustomButton>(R.id.registerCancelButton)
@@ -114,8 +121,22 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupMembershipSelector() {
+        memberCard = findViewById(R.id.memberCard)
+        noMemberCard = findViewById(R.id.noMemberCard)
+
+        CustomMembershipSelector.setup(
+            memberCard = memberCard,
+            noMemberCard = noMemberCard,
+            onSelectionChanged = { membershipType ->
+                selectedMembershipType = membershipType
+                updateButtonState()
+            }
+        )
+    }
+
     private fun updateButtonState() {
-        if (validateInputs()) {
+        if (validateInputs() && selectedMembershipType != null) {
             registerButton.enableButton()
         } else {
             registerButton.disableButton()

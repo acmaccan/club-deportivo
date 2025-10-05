@@ -14,6 +14,7 @@
 
     <color name="neutral_lightest">#F9FAFB</color>
     <color name="neutral_light">#EDEDED</color>
+    <color name="neutral_shiny">#747579</color>
     <color name="neutral_main">#474747</color>
 
     <color name="error_lightest">#FFF5F6</color>
