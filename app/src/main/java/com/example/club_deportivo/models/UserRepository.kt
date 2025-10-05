@@ -1,7 +1,17 @@
 package com.example.club_deportivo.models
 
 object UserRepository {
+    private val users = mutableListOf<User>()
+    
+    init {
+        users.addAll(getInitialUsers())
+    }
+    
     fun getUsers(): List<User> {
+        return users.toList()
+    }
+    
+    private fun getInitialUsers(): List<User> {
         return listOf(
             User(
                 1,
@@ -109,6 +119,51 @@ object UserRepository {
 
     fun findUserByCredentials(email: String, password: String): User? {
         return getUsers().find { it.email.equals(email, ignoreCase = true) && it.password == password }
+    }
+    
+    fun createNewClient(
+        fullName: String,
+        email: String,
+        password: String,
+        membershipType: MembershipType
+    ): Client {
+        val newId = (getUsers().maxByOrNull { it.id }?.id ?: 0) + 1
+        val newClient = Client(
+            id = newId,
+            name = fullName,
+            email = email,
+            password = password,
+            membershipType = membershipType,
+            amount = "$0",
+            status = PaymentStatus.OVERDUE,
+            hasValidMedicalAptitude = false
+        )
+        users.add(newClient)
+        return newClient
+    }
+    
+    fun emailExists(email: String): Boolean {
+        return getUsers().any { it.email.equals(email, ignoreCase = true) }
+    }
+    
+    fun updateMedicalAptitude(userId: Int, hasValidAptitude: Boolean): Boolean {
+        val userIndex = users.indexOfFirst { it.id == userId }
+        if (userIndex != -1 && users[userIndex] is Client) {
+            val client = users[userIndex] as Client
+            val updatedClient = Client(
+                id = client.id,
+                name = client.name,
+                email = client.email,
+                password = client.password,
+                membershipType = client.membershipType,
+                amount = client.amount,
+                status = if (hasValidAptitude) PaymentStatus.PAID else client.status,
+                hasValidMedicalAptitude = hasValidAptitude
+            )
+            users[userIndex] = updatedClient
+            return true
+        }
+        return false
     }
 
     fun getClients(): List<Client> {

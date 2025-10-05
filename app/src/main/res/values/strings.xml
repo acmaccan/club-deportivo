@@ -75,7 +75,7 @@
     <string name="membership_description_no_member">Acceso a actividades seleccionadas</string>
     <string name="actions_medical_aptitude">Apto físico</string>
     <string name="actions_valid_medical_aptitude">Válido</string>
-    <string name="actions_invalid_medical_aptitude">Vencido</string>
+    <string name="actions_invalid_medical_aptitude">Requerido</string>
     <string name="actions_see_more">Ver e Inscribirse</string>
     <string name="actions_monthly_payment">Cuota Mensual</string>
     <string name="activity_level_beginner">Principiante</string>

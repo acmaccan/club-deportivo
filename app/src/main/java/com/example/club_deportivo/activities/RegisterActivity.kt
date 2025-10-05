@@ -10,6 +10,7 @@ import com.google.android.material.card.MaterialCardView
 import com.example.club_deportivo.R
 import com.example.club_deportivo.models.InputConfig
 import com.example.club_deportivo.models.MembershipType
+import com.example.club_deportivo.models.UserRepository
 import com.example.club_deportivo.ui.CustomButton
 import com.example.club_deportivo.ui.CustomMembershipSelector
 import com.google.android.material.textfield.TextInputEditText
@@ -44,6 +45,9 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Configura las reglas de validación para todos los campos del formulario.
+     */
     private fun getInputConfig() = listOf<InputConfig>(
         InputConfig(
             layoutId = R.id.fullNameInput,
@@ -74,12 +78,18 @@ class RegisterActivity : AppCompatActivity() {
         )
     )
 
+    /**
+     * Inicializa todos los campos de entrada del formulario.
+     */
     private fun setupInputs() {
         getInputConfig().forEach { config ->
             setupTextInput(config)
         }
     }
 
+    /**
+     * Configura un campo de entrada individual según su configuración.
+     */
     private fun setupTextInput(config: InputConfig) {
         val inputLayout = findViewById<TextInputLayout>(config.layoutId)
         val editText = inputLayout.editText as? TextInputEditText
@@ -92,6 +102,9 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Valida todos los campos del formulario según sus reglas definidas.
+     */
     private fun validateInputs(): Boolean {
         return getInputConfig().all { config ->
             val inputLayout = findViewById<TextInputLayout>(config.layoutId)
@@ -106,6 +119,9 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Configura la validación en tiempo real para todos los campos.
+     */
     private fun setupRealTimeValidation() {
         getInputConfig().forEach { config ->
             val inputLayout = findViewById<TextInputLayout>(config.layoutId)
@@ -121,6 +137,9 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Inicializa el selector de membresía y configura los callbacks.
+     */
     private fun setupMembershipSelector() {
         memberCard = findViewById(R.id.memberCard)
         noMemberCard = findViewById(R.id.noMemberCard)
@@ -135,6 +154,9 @@ class RegisterActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Actualiza el estado del botón de registro según las validaciones.
+     */
     private fun updateButtonState() {
         if (validateInputs() && selectedMembershipType != null) {
             registerButton.enableButton()
@@ -143,9 +165,39 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Procesa el registro del usuario creando una nueva cuenta y navegando al siguiente paso.
+     */
     private fun handleRegister() {
+        val fullName = getInputValue(R.id.fullNameInput)
+        val email = getInputValue(R.id.emailInput)
+        val password = getInputValue(R.id.passwordInput)
+        
+        // Validate email doesn't exist
+        if (UserRepository.emailExists(email)) {
+            findViewById<TextInputLayout>(R.id.emailInput).error = "Email ya está registrado"
+            return
+        }
+        
+        // Create new user with selected membership
+        val newUser = UserRepository.createNewClient(
+            fullName = fullName,
+            email = email,
+            password = password,
+            membershipType = selectedMembershipType!!
+        )
+        
+        // Navigate to SuccessfulRegistrationActivity with user ID
         val intent = Intent(this, SuccessfulRegistrationActivity::class.java)
+        intent.putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, newUser.id)
         startActivity(intent)
         finish()
+    }
+    
+    /**
+     * Obtiene el valor de texto de un campo de entrada específico.
+     */
+    private fun getInputValue(layoutId: Int): String {
+        return findViewById<TextInputLayout>(layoutId).editText?.text.toString().trim()
     }
 }

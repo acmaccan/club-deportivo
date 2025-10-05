@@ -15,10 +15,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.club_deportivo.R
 import com.example.club_deportivo.helpers.FileUtils
+import com.example.club_deportivo.models.UserRepository
 import com.example.club_deportivo.ui.CustomButton
 import com.google.android.material.card.MaterialCardView
 
-class UploadMedicalDocumentActivity : AppCompatActivity() {
+class UploadMedicalDocumentActivity : BaseAuthActivity() {
     private lateinit var continueButton: CustomButton
     private lateinit var laterButton: CustomButton
     private lateinit var uploadCard: MaterialCardView
@@ -175,7 +176,11 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
      * Maneja la navegación del botón Continuar
      */
     private fun handleContinue() {
+        // Update medical aptitude to true since user uploaded a document
+        UserRepository.updateMedicalAptitude(user.id, true)
+        
         val intent = Intent(this, CreatingMembershipActivity::class.java)
+        intent.putExtra(LOGGED_USER_ID_KEY, user.id)
         startActivity(intent)
         finish()
     }
@@ -185,6 +190,8 @@ class UploadMedicalDocumentActivity : AppCompatActivity() {
      */
     private fun handleLater() {
         val intent = Intent(this, HomeActivity::class.java)
+        intent.putExtra(LOGGED_USER_ID_KEY, user.id)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
