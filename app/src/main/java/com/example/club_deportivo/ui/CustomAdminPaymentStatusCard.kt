@@ -9,7 +9,7 @@ import com.example.club_deportivo.models.Client
 import com.example.club_deportivo.models.PaymentStatus
 import com.google.android.material.card.MaterialCardView
 
-object CustomPaymentStatusCard {
+object CustomAdminPaymentStatusCard {
     fun setup(
         card: MaterialCardView,
         user: Client,
@@ -32,19 +32,19 @@ object CustomPaymentStatusCard {
 
         when (user.status) {
             PaymentStatus.PAID -> {
-                paymentStatus.text = context.getString(R.string.payment_status_paid)
+                paymentStatus.text = context.getString(R.string.admin_payment_status_paid)
                 paymentStatus.setTextColor(ContextCompat.getColor(context, R.color.success_dark))
-                statusIndicator.setImageResource(R.drawable.icon_smile)
+                statusIndicator.setImageResource(R.drawable.icon_circle_smile)
             }
             PaymentStatus.DUE_SOON -> {
-                paymentStatus.text = context.getString(R.string.payment_status_due_soon)
+                paymentStatus.text = context.getString(R.string.admin_payment_status_due_soon)
                 paymentStatus.setTextColor(ContextCompat.getColor(context, R.color.warning_dark))
-                statusIndicator.setImageResource(R.drawable.icon_clock)
+                statusIndicator.setImageResource(R.drawable.icon_circle_clock)
             }
             PaymentStatus.OVERDUE -> {
-                paymentStatus.text = context.getString(R.string.payment_status_overdue)
+                paymentStatus.text = context.getString(R.string.admin_payment_status_overdue)
                 paymentStatus.setTextColor(ContextCompat.getColor(context, R.color.error_dark))
-                statusIndicator.setImageResource(R.drawable.icon_x)
+                statusIndicator.setImageResource(R.drawable.icon_circle_x)
             }
         }
 

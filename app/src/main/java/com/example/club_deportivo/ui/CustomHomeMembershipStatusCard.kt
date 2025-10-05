@@ -9,7 +9,7 @@ import com.example.club_deportivo.models.MembershipStatus
 import com.example.club_deportivo.models.MembershipType
 import com.google.android.material.card.MaterialCardView
 
-object CustomCardMembership {
+object CustomHomeMembershipStatusCard {
     fun setup(
         cardView: MaterialCardView,
         status: MembershipStatus,

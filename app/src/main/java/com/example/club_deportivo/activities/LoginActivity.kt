@@ -13,6 +13,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
+    companion object {
+        const val PREFS_NAME = "ClubDeportivoPrefs"
+        const val USER_ID_KEY = "LOGGED_USER_ID"
+    }
+
     private lateinit var emailInputLayout: TextInputLayout
     private lateinit var passwordInputLayout: TextInputLayout
     private lateinit var emailInput: TextInputEditText
@@ -42,10 +47,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupInputs() {
-        emailInputLayout.hint = getString(R.string.email)
+        emailInputLayout.hint = getString(R.string.login_email)
         emailInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 
-        passwordInputLayout.hint = getString(R.string.password)
+        passwordInputLayout.hint = getString(R.string.login_password)
         passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         passwordInputLayout.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
     }
@@ -75,12 +80,12 @@ class LoginActivity : AppCompatActivity() {
         passwordInputLayout.error = null
 
         if (email.isEmpty()) {
-            emailInputLayout.error = getString(R.string.enter_your_email)
+            emailInputLayout.error = getString(R.string.login_enter_your_email)
             return
         }
 
         if (password.isEmpty()) {
-            passwordInputLayout.error = getString(R.string.enter_your_password)
+            passwordInputLayout.error = getString(R.string.login_enter_your_password)
             return
         }
 
@@ -93,7 +98,7 @@ class LoginActivity : AppCompatActivity() {
             }
             navigateToActivity(destination, user.id)
         } else {
-            passwordInputLayout.error = getString(R.string.wrong_credentials)
+            passwordInputLayout.error = getString(R.string.login_wrong_credentials)
         }
     }
 

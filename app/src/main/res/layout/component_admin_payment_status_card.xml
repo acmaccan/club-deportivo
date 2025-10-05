@@ -48,7 +48,7 @@
                 android:id="@+id/userStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/free_pass"
+                android:text="@string/admin_free_pass"
                 android:textColor="@color/neutral_main"
                 android:textSize="12sp"
                 android:layout_marginTop="4dp"/>
@@ -57,7 +57,7 @@
                 android:id="@+id/payButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:buttonText="@string/pay"
+                app:buttonText="@string/admin_pay"
                 app:buttonColor="success"
                 app:buttonVariant="filled"
                 android:layout_marginTop="6dp"
@@ -106,7 +106,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="12dp"
-            android:src="@drawable/icon_smile" />
+            android:src="@drawable/icon_circle_smile" />
 
     </LinearLayout>
 

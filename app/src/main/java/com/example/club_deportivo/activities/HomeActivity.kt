@@ -1,5 +1,6 @@
 package com.example.club_deportivo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,7 @@ import com.example.club_deportivo.models.PaymentStatus
 import com.example.club_deportivo.ui.ActionCardStyle
 import com.example.club_deportivo.ui.ActivityAdapter
 import com.example.club_deportivo.ui.CustomActionCard
-import com.example.club_deportivo.ui.CustomCardMembership
+import com.example.club_deportivo.ui.CustomHomeMembershipStatusCard
 import com.example.club_deportivo.ui.UpcomingActivityAdapter
 
 class HomeActivity : BaseAuthActivity() {
@@ -27,7 +28,9 @@ class HomeActivity : BaseAuthActivity() {
             return
         }
 
-        CustomHeader.setupHomeHeader(this, clientUser.name)
+        CustomHeader.setupHomeHeader(this, clientUser.name) {
+            navigateToProfile()
+        }
         setupMembershipCard(clientUser)
         setupActionCards(clientUser)
         setupActivitiesSection()
@@ -45,7 +48,20 @@ class HomeActivity : BaseAuthActivity() {
         }
 
         val membershipCardView = findViewById<MaterialCardView>(R.id.membershipStatusCard)
-        CustomCardMembership.setup(membershipCardView, membershipStatus, user.membershipType)
+        CustomHomeMembershipStatusCard.setup(membershipCardView, membershipStatus, user.membershipType)
+        membershipCardView.setOnClickListener {
+            navigateToProfile()
+        }
+    }
+
+    /**
+     * Navegación al perfil.
+     */
+    private fun navigateToProfile() {
+        val intent = Intent(this, ProfileActivity::class.java).apply {
+            putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, user.id)
+        }
+        startActivity(intent)
     }
 
     /**
@@ -58,16 +74,16 @@ class HomeActivity : BaseAuthActivity() {
             CustomActionCard.setup(
                 card = cardMedical,
                 iconResId = R.drawable.icon_check,
-                title = getString(R.string.actions_medical_aptitude),
-                subtitle = getString(R.string.actions_valid_medical_aptitude),
+                title = getString(R.string.home_actions_medical_aptitude),
+                subtitle = getString(R.string.home_actions_valid_medical_aptitude),
                 style = ActionCardStyle.SUCCESS
             )
         } else {
             CustomActionCard.setup(
                 card = cardMedical,
                 iconResId = R.drawable.icon_x,
-                title = getString(R.string.actions_medical_aptitude),
-                subtitle = getString(R.string.actions_invalid_medical_aptitude),
+                title = getString(R.string.home_actions_medical_aptitude),
+                subtitle = getString(R.string.home_actions_invalid_medical_aptitude),
                 style = ActionCardStyle.ERROR
             )
         }
@@ -76,8 +92,8 @@ class HomeActivity : BaseAuthActivity() {
         CustomActionCard.setup(
             card = cardActivities,
             iconResId = R.drawable.icon_person,
-            title = getString(R.string.activities),
-            subtitle = getString(R.string.actions_see_more),
+            title = getString(R.string.home_activities),
+            subtitle = getString(R.string.home_actions_see_more),
             style = ActionCardStyle.SECONDARY
         )
 
@@ -86,7 +102,7 @@ class HomeActivity : BaseAuthActivity() {
             card = cardPayment,
             iconResId = R.drawable.icon_wallet,
             title = getString(R.string.payments),
-            subtitle = getString(R.string.actions_monthly_payment),
+            subtitle = getString(R.string.home_actions_monthly_payment),
             style = ActionCardStyle.PRIMARY
         )
     }

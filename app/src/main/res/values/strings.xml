@@ -5,42 +5,41 @@
     <string name="cancel_button">Cancelar</string>
     <string name="continue_button">Continuar</string>
     <string name="payments">Pagos</string>
-    <string name="activities">Actividades</string>
 
     <!-- Init -->
-    <string name="already_member">¿Ya eres miembro? Inicia sesión</string>
-    <string name="sign_up">Registrarse</string>
-    <string name="main_subtitle">¡Este es el lugar perfecto para realizar un seguimiento de tus aficiones y practicar el deporte que te gusta!</string>
-    <string name="sports">Deportes</string>
+    <string name="init_already_member">¿Ya eres miembro? Inicia sesión</string>
+    <string name="init_sign_up">Registrarse</string>
+    <string name="init_main_subtitle">¡Este es el lugar perfecto para realizar un seguimiento de tus aficiones y practicar el deporte que te gusta!</string>
+    <string name="init_sports">Deportes</string>
 
     <!-- Login -->
-    <string name="sign_in">Iniciar sesión</string>
-    <string name="welcome_back">¡Bienvenido de nuevo! Introduce tus datos</string>
-    <string name="first_time_sign_up">¿Primera vez? Registrarme</string>
-    <string name="email">Email</string>
-    <string name="password">Contraseña</string>
-    <string name="enter_your_email">Ingresa tu email</string>
-    <string name="enter_your_password">Ingresa una contraseña válida</string>
-    <string name="wrong_credentials">Email o contraseña incorrectos</string>"
+    <string name="login_sign_in">Iniciar sesión</string>
+    <string name="login_welcome_back">¡Bienvenido de nuevo! Introduce tus datos</string>
+    <string name="login_first_time_sign_up">¿Primera vez? Registrarme</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_enter_your_email">Ingresa tu email</string>
+    <string name="login_enter_your_password">Ingresa una contraseña válida</string>
+    <string name="login_wrong_credentials">Email o contraseña incorrectos</string>"
 
     <!-- Admin -->
-    <string name="basic_management">Gestión básica</string>
-    <string name="money">$</string>
-    <string name="paid">Al día</string>
-    <string name="due_soon">Próximos a vencer</string>
-    <string name="overdue">Pagos vencidos</string>
-    <string name="pay">Pagar</string>
-    <string name="free_pass">Pase Libre</string>
-    <string name="add_user">+ Agregar usuario</string>
-    <string name="search">Buscar</string>
-    <string name="payment_status_paid">Al día</string>
-    <string name="payment_status_due_soon">Por vencer</string>
-    <string name="payment_status_overdue">Vencido</string>
-    <plurals name="user_count">
+    <string name="admin_basic_management">Gestión básica</string>
+    <string name="admin_money">$</string>
+    <string name="admin_paid">Al día</string>
+    <string name="admin_due_soon">Próximos a vencer</string>
+    <string name="admin_overdue">Pagos vencidos</string>
+    <string name="admin_pay">Pagar</string>
+    <string name="admin_free_pass">Pase Libre</string>
+    <string name="admin_add_user">+ Agregar usuario</string>
+    <string name="admin_search">Buscar</string>
+    <string name="admin_payment_status_paid">Al día</string>
+    <string name="admin_payment_status_due_soon">Por vencer</string>
+    <string name="admin_payment_status_overdue">Vencido</string>
+    <plurals name="admin_user_count">
         <item quantity="one">%d usuario</item>
         <item quantity="other">%d usuarios</item>
     </plurals>
-    <string name="currency_format">$%1$d</string>
+    <string name="admin_currency_format">$%1$d</string>
 
     <!-- CreatingMembership -->
     <string name="creating_membership_loading_message">Estamos creando tu carnet</string>
@@ -63,32 +62,50 @@
     <string name="successful_registration_success_checkmark">Success checkmark</string>
 
     <!-- Home -->
-    <string name="identify_user_error">Error: No se pudo identificar al usuario.</string>
-    <string name="not_found_user_error">Error: Usuario no encontrado.</string>
-    <string name="membership_enabled">Carnet Habilitado</string>
-    <string name="membership_disabled">Carnet Inhabilitado</string>
-    <string name="membership_type_member">Socio</string>
-    <string name="membership_type_no_member">No Socio</string>
-    <string name="membership_title_member">Pase libre</string>
-    <string name="membership_title_no_member">Pase Actividades</string>
-    <string name="membership_description_member">Acceso a todas las actividades</string>
-    <string name="membership_description_no_member">Acceso a actividades seleccionadas</string>
-    <string name="actions_medical_aptitude">Apto físico</string>
-    <string name="actions_valid_medical_aptitude">Válido</string>
-    <string name="actions_invalid_medical_aptitude">Vencido</string>
-    <string name="actions_see_more">Ver e Inscribirse</string>
-    <string name="actions_monthly_payment">Cuota Mensual</string>
-    <string name="activity_level_beginner">Principiante</string>
-    <string name="activity_level_intermediate">Intermedio</string>
-    <string name="activity_level_advanced">Avanzado</string>
-    <string name="activity_duration_format">%d min</string>
-    <string name="activity_see_all">Ver todas</string>
-    <string name="schedule_upcoming_activities">Próximas actividades</string>
-    <string name="schedule_time_format">%1$s %2$s - %3$s</string>
-    <string name="schedule_details_format">%1$s - Instructor: %2$s</string>
+    <string name="home_identify_user_error">Error: No se pudo identificar al usuario.</string>
+    <string name="home_not_found_user_error">Error: Usuario no encontrado.</string>
+    <string name="home_membership_enabled">Carnet Habilitado</string>
+    <string name="home_membership_disabled">Carnet Inhabilitado</string>
+    <string name="home_membership_title_member">Pase libre</string>
+    <string name="home_membership_description_member">Acceso a todas las actividades</string>
+    <string name="home_membership_type_member">Socio</string>
+    <string name="home_membership_type_no_member">No Socio</string>
+    <string name="home_membership_title_no_member">Pase Actividades</string>
+    <string name="home_membership_description_no_member">Acceso a actividades seleccionadas</string>
+    <string name="home_actions_medical_aptitude">Apto físico</string>
+    <string name="home_actions_valid_medical_aptitude">Válido</string>
+    <string name="home_actions_invalid_medical_aptitude">Vencido</string>
+    <string name="home_actions_see_more">Ver e Inscribirse</string>
+    <string name="home_actions_monthly_payment">Cuota Mensual</string>
+    <string name="home_activities">Actividades</string>
+    <string name="home_activity_level_beginner">Principiante</string>
+    <string name="home_activity_level_intermediate">Intermedio</string>
+    <string name="home_activity_level_advanced">Avanzado</string>
+    <string name="home_activity_duration_format">%d min</string>
+    <string name="home_activity_see_all">Ver todas</string>
+    <string name="home_upcoming_activities">Próximas actividades</string>
+    <string name="home_upcoming_activities_time_format">%1$s %2$s - %3$s</string>
+    <string name="home_upcoming_activities_details_format">%1$s - Instructor: %2$s</string>
 
     <!-- Profile -->
     <string name="profile">Perfil</string>
+    <string name="profile_my_profile">Mi perfil</string>
+    <string name="profile_digital_membership_card">Carnet Digital</string>"
+    <string name="profile_membership_includes">Incluido en tu pase libre:</string>
+    <string name="profile_benefit_item_format">• %1$s</string>
+    <string name="profile_benefit_member_1">Acceso ilimitado a todas las actividades</string>
+    <string name="profile_benefit_member_2">Uso libre del gimnasio</string>
+    <string name="profile_benefit_member_3">Acceso a vestuarios y duchas</string>
+    <string name="profile_benefit_member_4">Clases grupales sin límite</string>
+    <string name="profile_benefit_no_member_1">Acceso mensual a la actividad registrada</string>
+    <string name="profile_benefit_no_member_2">Acceso a vestuarios y duchas</string>
+    <string name="profile_enabled_membership">Tu carnet no se encuentra activo</string>
+    <string name="profile_disabled_membership">Tu carnet está activo hasta:</string>
+    <string name="profile_personal_info">Información personal</string>
+    <string name="profile_name">Nombre y apellido</string>
+    <string name="profile_document">DNI</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_close_session">Cerrar sesión</string>
 
     <!-- UploadMedicalDocument -->
     <string name="upload_medical_document_subtitle">Antes de seguir, cargá tu apto físico</string>

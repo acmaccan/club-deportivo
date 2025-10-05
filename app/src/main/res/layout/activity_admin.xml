@@ -25,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-         <include layout="@layout/component_card_payments_summary" />
+         <include layout="@layout/component_admin_payments_summary_card" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/addUserCard"
@@ -45,7 +45,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add_user"
+                android:text="@string/admin_add_user"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="16sp"
                 android:layout_gravity="center" />
@@ -70,7 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/search"
+                android:hint="@string/admin_search"
                 android:textColorHint="@android:color/darker_gray"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
@@ -96,17 +96,17 @@
             <TextView
                 android:id="@+id/paid_filter"
                 style="@style/Widget.App.Tag"
-                android:text="@string/paid" />
+                android:text="@string/admin_paid" />
 
             <TextView
                 android:id="@+id/due_soon_filter"
                 style="@style/Widget.App.Tag"
-                android:text="@string/due_soon" />
+                android:text="@string/admin_due_soon" />
 
             <TextView
                 android:id="@+id/overdue_filter"
                 style="@style/Widget.App.Tag"
-                android:text="@string/overdue" />
+                android:text="@string/admin_overdue" />
         </LinearLayout>
 
         <LinearLayout
@@ -119,7 +119,7 @@
                 android:id="@+id/usersRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/component_card_payment_status"
+                tools:listitem="@layout/component_admin_payment_status_card"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical" />
 
