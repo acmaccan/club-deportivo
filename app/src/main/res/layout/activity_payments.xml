@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/neutral_light"
+    android:orientation="vertical"
     tools:context=".activities.PaymentsActivity">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="24dp">
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/icon_arrow_back"
+        app:title="@string/payments" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/icon_arrow_back"
-            app:title="@string/payments" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/monthlyPaymentCard"
@@ -47,8 +52,10 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/icon_circle_clock"
+                        android:src="@drawable/icon_today"
                         android:layout_marginEnd="12dp"
+                        android:background="@drawable/circle_background_primary_light"
+                        android:padding="6dp"
                         app:tint="@color/primary_main" />
 
                     <LinearLayout
@@ -102,7 +109,7 @@
                     android:orientation="vertical"
                     android:layout_marginTop="24dp"
                     android:padding="16dp"
-                    android:background="@color/neutral_lightest">
+                    android:background="@drawable/custom_tag_success">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -122,7 +129,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/payments_benefits_title"
-                            android:textColor="@color/success_main"
+                            android:textColor="@color/success_dark"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -132,7 +139,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/payments_benefit_unlimited_activities"
-                        android:textColor="@color/neutral_main"
+                        android:textColor="@color/success_dark"
                         android:textSize="12sp"
                         android:layout_marginStart="24dp" />
 
@@ -140,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/payments_benefit_gym_access"
-                        android:textColor="@color/neutral_main"
+                        android:textColor="@color/success_dark"
                         android:textSize="12sp"
                         android:layout_marginStart="24dp" />
 
@@ -148,7 +155,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/payments_benefit_locker_rooms"
-                        android:textColor="@color/neutral_main"
+                        android:textColor="@color/success_dark"
                         android:textSize="12sp"
                         android:layout_marginStart="24dp" />
 
@@ -156,7 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/payments_benefit_group_classes"
-                        android:textColor="@color/neutral_main"
+                        android:textColor="@color/success_dark"
                         android:textSize="12sp"
                         android:layout_marginStart="24dp" />
 
@@ -193,58 +200,59 @@
 
         </LinearLayout>
 
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="24dp"
+        android:background="@color/white">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="32dp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="24dp"
-            android:background="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/payments_total_to_pay"
-                    android:textColor="@color/neutral_main"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/totalAmountText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary_main"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/paymentTypeLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/payments_total_to_pay"
+                android:textColor="@color/neutral_main"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalAmountText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/payments_monthly_fee_label"
-                android:textColor="@color/neutral_main"
-                android:textSize="12sp"
-                android:layout_marginBottom="24dp" />
-
-            <com.example.club_deportivo.ui.CustomButton
-                android:id="@+id/paymentButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:buttonText="@string/payments_pay_monthly_fee"
-                app:buttonState="enabled" />
+                android:textColor="@color/primary_main"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/paymentTypeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/payments_monthly_fee_label"
+            android:textColor="@color/neutral_main"
+            android:textSize="12sp"
+            android:layout_marginBottom="24dp" />
+
+        <com.example.club_deportivo.ui.CustomButton
+            android:id="@+id/paymentButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:buttonText="@string/payments_pay_monthly_fee"
+            app:buttonState="enabled" />
+
     </LinearLayout>
 
-</ScrollView>
+</LinearLayout>
