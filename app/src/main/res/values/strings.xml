@@ -88,6 +88,16 @@
     <string name="home_upcoming_activities_time_format">%1$s %2$s - %3$s</string>
     <string name="home_upcoming_activities_details_format">%1$s - Instructor: %2$s</string>
 
+    <!-- Home -->
+    <string name="payment_resume_title">Resumen del pago</string>
+    <string name="payment_success_title">¡Pago exitoso!</string>
+    <string name="payment_success_subtitle">Tu pago de actividad ha sido procesado correctamente</string>
+    <string name="payment_error_title">Pago rechazado</string>
+    <string name="payment_error_subtitle">No pudimos procesar tu pago en este momento. Por favor, intenta nuevamente.</string>
+    <string name="payment_back_to_home">Volver al inicio</string>
+    <string name="payment_retry">Intentar nuevamente</string>
+
+
     <!-- Profile -->
     <string name="profile">Perfil</string>
     <string name="profile_my_profile">Mi perfil</string>

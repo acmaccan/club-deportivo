@@ -22,10 +22,10 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.RegisterActivity"
-            android:windowSoftInputMode="adjustUnspecified"/>
+            android:windowSoftInputMode="adjustUnspecified" />
         <activity android:name=".activities.SuccessfulRegistrationActivity" />
         <activity android:name=".activities.UploadMedicalDocumentActivity" />
         <activity android:name=".activities.CreatingMembershipActivity" />
@@ -36,8 +36,11 @@
             android:name=".activities.AdminActivity"
             android:exported="false" />
         <activity
-        android:name=".activities.ProfileActivity"
-        android:exported="false" />
+            android:name=".activities.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PaymentResumeActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

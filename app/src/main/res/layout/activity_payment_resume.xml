@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white"
+    tools:context=".activities.PaymentResumeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/resume_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="64dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/icon_check"
+            android:background="@drawable/circle_background_success"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/resume_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/neutral_main"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resume_icon"
+            tools:text="@string/payment_success_title" />
+
+        <TextView
+            android:id="@+id/resume_subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="@color/neutral_main"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resume_title"
+            tools:text="@string/payment_success_subtitle" />
+
+        <TextView
+            android:id="@+id/payment_resume_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="@string/payment_resume_title"
+            android:textColor="@color/neutral_main"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resume_subtitle" />
+
+        <include
+            android:id="@+id/payment_resume_card"
+            layout="@layout/component_payment_resume_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/resume_title" />
+
+        <com.example.club_deportivo.ui.CustomButton
+            android:id="@+id/primary_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/secondary_button"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:buttonText="@string/payment_back_to_home" />
+
+        <com.example.club_deportivo.ui.CustomButton
+            android:id="@+id/secondary_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:buttonVariant="text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:buttonText="@string/payment_retry" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
