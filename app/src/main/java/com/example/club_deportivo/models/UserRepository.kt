@@ -25,90 +25,108 @@ object UserRepository {
                 "María Gómez",
                 "mg@gmail.com",
                 "mg123456",
+                "12345678",
                 MembershipType.NO_MEMBER,
                 "$12000",
                 PaymentStatus.DUE_SOON,
                 hasValidMedicalAptitude = true,
+                expirationDate = "2025-10-31"
             ),
             Client(
                 3,
                 "Carlos Ruiz",
                 "cr@gmail.com",
                 "cr123456",
+                "23456789",
                 MembershipType.MEMBER,
                 "$35000",
                 PaymentStatus.OVERDUE,
                 hasValidMedicalAptitude = false,
+                expirationDate = "2025-09-30"
             ),
             Client(
                 4,
                 "Ana Torres",
                 "at@gmail.com",
                 "at123456",
+                "34567890",
                 MembershipType.NO_MEMBER,
                 "$12000",
                 PaymentStatus.PAID,
                 hasValidMedicalAptitude = true,
+                expirationDate = "2025-11-30"
             ),
             Client(
                 5,
                 "Luis Fernández",
                 "lf@gmail.com",
                 "lf123456",
+                "45678901",
                 MembershipType.MEMBER,
                 "$15000",
                 PaymentStatus.DUE_SOON,
                 hasValidMedicalAptitude = true,
+                expirationDate = "2025-10-31"
             ),
             Client(
                 6,
                 "Elena Moreno",
                 "em@gmail.com",
                 "em123456",
+                "56789012",
                 MembershipType.NO_MEMBER,
                 "$24000",
                 PaymentStatus.OVERDUE,
                 hasValidMedicalAptitude = false,
+                expirationDate = "2025-09-30"
             ),
             Client(
                 7,
                 "David Jiménez",
                 "dj@gmail.com",
                 "dj123456",
+                "67890123",
                 MembershipType.MEMBER,
                 "$15000",
                 PaymentStatus.PAID,
                 hasValidMedicalAptitude = true,
+                expirationDate = "2025-11-30"
             ),
             Client(
                 8,
                 "Laura Navarro",
                 "ln@gmail.com",
                 "ln123456",
+                "78901234",
                 MembershipType.NO_MEMBER,
                 "$12000",
                 PaymentStatus.DUE_SOON,
                 hasValidMedicalAptitude = true,
+                expirationDate = "2025-10-31"
             ),
             Client(
                 9,
                 "Pedro Romero",
                 "pr@gmail.com",
                 "pr123456",
+                "89012345",
                 MembershipType.MEMBER,
                 "$50000",
                 PaymentStatus.OVERDUE,
                 hasValidMedicalAptitude = true,
+                expirationDate = "2025-09-30"
             ),
             Client(
                 10,
                 "Sofía Castillo",
                 "sc@gmail.com",
                 "sc123456",
+                "90123456",
                 MembershipType.NO_MEMBER,
                 "$12000",
                 PaymentStatus.PAID,
                 hasValidMedicalAptitude = true,
+                expirationDate = "2025-11-30"
             )
         )
     }

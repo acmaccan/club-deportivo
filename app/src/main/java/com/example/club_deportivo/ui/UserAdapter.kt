@@ -16,13 +16,13 @@ class UserAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val cardView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.component_card_payment_status, parent, false) as MaterialCardView
+            .inflate(R.layout.component_admin_payment_status_card, parent, false) as MaterialCardView
         return ViewHolder(cardView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = users[position]
-        CustomPaymentStatusCard.setup(holder.cardView, user, onPayClick)
+        CustomAdminPaymentStatusCard.setup(holder.cardView, user, onPayClick)
     }
 
     override fun getItemCount(): Int {

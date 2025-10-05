@@ -1,5 +1,7 @@
 package com.example.club_deportivo.activities
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -38,17 +40,34 @@ abstract class BaseAuthActivity : AppCompatActivity() {
         val loggedUserId = intent.getIntExtra(LOGGED_USER_ID_KEY, INVALID_USER_ID)
 
         if (loggedUserId == INVALID_USER_ID) {
-            Toast.makeText(this, getString(R.string.identify_user_error), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.home_identify_user_error), Toast.LENGTH_LONG).show()
             return false
         }
 
         val foundUser = UserRepository.findUserById(loggedUserId)
         if (foundUser == null) {
-            Toast.makeText(this, getString(R.string.not_found_user_error), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.home_not_found_user_error), Toast.LENGTH_LONG).show()
             return false
         }
 
         user = foundUser
         return true
+    }
+
+    /**
+     * Cierra la sesión del usuario actual.
+     * Limpia los SharedPreferences y redirige a LoginActivity.
+     */
+    protected fun logoutUser() {
+        val sharedPreferences = getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.remove(LoginActivity.USER_ID_KEY)
+        editor.apply()
+
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+
+        finish()
     }
 }

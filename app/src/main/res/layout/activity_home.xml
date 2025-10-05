@@ -27,7 +27,7 @@
         <!-- Membership Status Card -->
         <include
             android:id="@+id/membershipStatusCard"
-            layout="@layout/component_card_membership_status"
+            layout="@layout/component_home_membership_status_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -53,7 +53,7 @@
 
                 <include
                     android:id="@+id/card_action_medical"
-                    layout="@layout/component_action_card" />
+                    layout="@layout/component_home_action_card" />
             </LinearLayout>
 
             <!-- Action Card: Activities -->
@@ -65,7 +65,7 @@
 
                 <include
                     android:id="@+id/card_action_activities"
-                    layout="@layout/component_action_card" />
+                    layout="@layout/component_home_action_card" />
             </LinearLayout>
 
             <!-- Action Card: Payment -->
@@ -77,7 +77,7 @@
 
                 <include
                     android:id="@+id/card_action_payment"
-                    layout="@layout/component_action_card" />
+                    layout="@layout/component_home_action_card" />
             </LinearLayout>
 
         </LinearLayout>
@@ -98,7 +98,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/activities"
+                android:text="@string/home_activities"
                 android:textColor="@color/neutral_main"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -106,7 +106,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_see_all"
+                android:text="@string/home_activity_see_all"
                 android:textColor="@color/primary_main"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -125,7 +125,7 @@
             android:paddingEnd="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
-            tools:listitem="@layout/component_activity_card" />
+            tools:listitem="@layout/component_home_activity_card" />
 
         <!-- Upcoming activities section-->
 
@@ -137,7 +137,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/schedule_upcoming_activities"
+            android:text="@string/home_upcoming_activities"
             android:textColor="@color/neutral_main"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -154,7 +154,7 @@
             android:paddingEnd="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="2"
-            tools:listitem="@layout/item_upcoming_activity" />
+            tools:listitem="@layout/component_home_upcoming_activity_item" />
 
     </LinearLayout>
     

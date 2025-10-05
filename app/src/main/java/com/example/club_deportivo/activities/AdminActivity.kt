@@ -81,16 +81,16 @@ class AdminActivity : BaseAuthActivity() {
         val summaryAmount = findViewById<TextView>(R.id.summaryAmount)
         val summaryDetail = findViewById<TextView>(R.id.summaryDetail)
 
-        summaryLabel.text = getString(R.string.overdue)
+        summaryLabel.text = getString(R.string.admin_overdue)
 
         val overdueUsers = UserRepository.getOverdueClients()
 
         val totalOverdueAmount = UserRepository.getTotalOverdueAmount()
-        summaryAmount.text = getString(R.string.currency_format, totalOverdueAmount.roundToInt())
+        summaryAmount.text = getString(R.string.admin_currency_format, totalOverdueAmount.roundToInt())
 
 
         val userCount = overdueUsers.size
-        summaryDetail.text = resources.getQuantityString(R.plurals.user_count, userCount, userCount)
+        summaryDetail.text = resources.getQuantityString(R.plurals.admin_user_count, userCount, userCount)
     }
 
     /**

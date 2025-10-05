@@ -13,13 +13,13 @@ enum class MembershipStatus(
     @DrawableRes val iconBackground: Int,
 ) {
     ENABLED(
-        title = R.string.membership_enabled,
+        title = R.string.home_membership_enabled,
         icon = R.drawable.icon_check,
         iconColor = R.color.white,
         iconBackground = R.drawable.circle_background_success,
     ),
     DISABLED(
-        title = R.string.membership_disabled,
+        title = R.string.home_membership_disabled,
         icon = R.drawable.icon_x,
         iconColor = R.color.white,
         iconBackground = R.drawable.circle_background_error,
