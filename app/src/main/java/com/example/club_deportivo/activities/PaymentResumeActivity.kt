@@ -11,39 +11,47 @@ import com.example.club_deportivo.ui.CustomButton
 import com.google.android.material.card.MaterialCardView
 
 class PaymentResumeActivity : AppCompatActivity() {
-    // TODO: Recibir los datos del pago desde un Intent
-    private val paymentTitle = "Pilates"
-    private val paymentSubtitle = "Ana Rodriguez"
-    private val paymentSchedule = "Lu-Mie 18:00"
-    private val paymentPrice = "$25.000"
+    companion object {
+        const val PAYMENT_RESUME_ITEM_TITLE = "ITEM_TITLE"
+        const val PAYMENT_RESUME_ITEM_SUBTITLE = "ITEM_SUBTITLE"
+        const val PAYMENT_RESUME_ITEM_SCHEDULE = "ITEM_SCHEDULE"
+        const val PAYMENT_RESUME_ITEM_PRICE = "ITEM_PRICE"
+        const val PAYMENT_RESUME_SUCCESS = "PAYMENT_SUCCESS"
+        const val LOGGED_USER_ID_KEY = "LOGGED_USER_ID_KEY"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_resume)
 
-        // TODO: Recibir el estado real del pago desde un Intent
-        val isSuccess = intent.getBooleanExtra("PAYMENT_SUCCESS", true)
+        val isSuccess = intent.getBooleanExtra(PAYMENT_RESUME_SUCCESS, false)
+        val itemTitle = intent.getStringExtra(PAYMENT_RESUME_ITEM_TITLE) ?: "No disponible"
+        val itemSubtitle = intent.getStringExtra(PAYMENT_RESUME_ITEM_SUBTITLE) ?: "No disponible"
+        val itemSchedule = intent.getStringExtra(PAYMENT_RESUME_ITEM_SCHEDULE) ?: ""
+        val itemPrice = intent.getStringExtra(PAYMENT_RESUME_ITEM_PRICE) ?: "$0"
 
         setupUI(isSuccess)
-        setupSummaryCard(isSuccess)
-        setupListeners()
+        setupSummaryCard(isSuccess, itemTitle, itemSubtitle, itemSchedule, itemPrice)
+        setupListeners(isSuccess)
     }
 
     private fun setupUI(isSuccess: Boolean) {
         val resumeIcon: ImageView = findViewById(R.id.resume_icon)
         val resumeTitle: TextView = findViewById(R.id.payment_resume_title)
-        val resumeSubtitle: TextView = findViewById(R.id.resume_subtitle)
+        val resumeSubtitle: TextView = findViewById(R.id.payment_resume_subtitle)
         val primaryButton: CustomButton = findViewById(R.id.primary_button)
         val secondaryButton: CustomButton = findViewById(R.id.secondary_button)
 
         if (isSuccess) {
             resumeIcon.setImageResource(R.drawable.icon_check)
+            resumeIcon.background.setTint(ContextCompat.getColor(this, R.color.success_main))
             resumeTitle.text = getString(R.string.payment_resume_success_title)
             resumeSubtitle.text = getString(R.string.payment_resume_success_subtitle)
             primaryButton.setText(getString(R.string.payment_resume_back_to_home))
             secondaryButton.visibility = View.GONE
         } else {
             resumeIcon.setImageResource(R.drawable.icon_x)
+            resumeIcon.background.setTint(ContextCompat.getColor(this, R.color.error_main))
             resumeTitle.text = getString(R.string.payment_resume_error_title)
             resumeSubtitle.text = getString(R.string.payment_resume_error_subtitle)
             primaryButton.setText(getString(R.string.payment_resume_retry))
@@ -52,7 +60,13 @@ class PaymentResumeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupSummaryCard(isSuccess: Boolean) {
+    private fun setupSummaryCard(
+        isSuccess: Boolean,
+        title: String,
+        subtitle: String,
+        schedule: String,
+        price: String
+    ) {
         val summaryCard: MaterialCardView = findViewById(R.id.payment_resume_card)
         val itemIcon: ImageView = summaryCard.findViewById(R.id.item_icon)
         val itemTitle: TextView = summaryCard.findViewById(R.id.item_title)
@@ -73,14 +87,13 @@ class PaymentResumeActivity : AppCompatActivity() {
         itemSchedule.setTextColor(ContextCompat.getColor(this, textColor))
         itemPrice.setTextColor(ContextCompat.getColor(this, textColor))
 
-        itemTitle.text = paymentTitle
-        itemSubtitle.text = paymentSubtitle
-        itemSchedule.text = paymentSchedule
-        itemPrice.text = paymentPrice
+        itemTitle.text = title
+        itemSubtitle.text = subtitle
+        itemSchedule.text = schedule
+        itemPrice.text = price
     }
 
-    private fun setupListeners() {
-        // TODO: Implementar la navegación cuando estén las otras pantallas
+    private fun setupListeners(isSuccess: Boolean) {
         val primaryButton: CustomButton = findViewById(R.id.primary_button)
         val secondaryButton: CustomButton = findViewById(R.id.secondary_button)
 

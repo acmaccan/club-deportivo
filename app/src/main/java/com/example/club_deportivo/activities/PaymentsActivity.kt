@@ -1,5 +1,6 @@
 package com.example.club_deportivo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -143,19 +144,17 @@ class PaymentsActivity : BaseAuthActivity() {
         println("  PAYMENT_PRICE: $paymentPrice")
         println("  PAYMENT_SUCCESS: true")
         println("  LOGGED_USER_ID_KEY: ${user.id}")
-        
-        // TODO: Navigate to PaymentResumeActivity
-        /*
+
         val intent = Intent(this, PaymentResumeActivity::class.java).apply {
-            putExtra("PAYMENT_TITLE", paymentTitle)
-            putExtra("PAYMENT_SUBTITLE", paymentSubtitle)
-            putExtra("PAYMENT_SCHEDULE", paymentSchedule)
-            putExtra("PAYMENT_PRICE", paymentPrice)
-            putExtra("PAYMENT_SUCCESS", true) // TODO: Replace with actual payment result
-            putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, user.id)
+            putExtra(PaymentResumeActivity.PAYMENT_RESUME_ITEM_TITLE, paymentTitle)
+            putExtra(PaymentResumeActivity.PAYMENT_RESUME_ITEM_SUBTITLE, paymentSubtitle)
+            putExtra(PaymentResumeActivity.PAYMENT_RESUME_ITEM_SCHEDULE, paymentSchedule)
+            putExtra(PaymentResumeActivity.PAYMENT_RESUME_ITEM_PRICE, paymentPrice)
+            putExtra(PaymentResumeActivity.PAYMENT_RESUME_SUCCESS, true)
+            putExtra(PaymentResumeActivity.LOGGED_USER_ID_KEY, user.id)
+
             flags = Intent.FLAG_ACTIVITY_NO_HISTORY
         }
         startActivity(intent)
-        */
     }
 }
