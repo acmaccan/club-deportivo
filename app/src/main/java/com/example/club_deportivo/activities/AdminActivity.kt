@@ -9,9 +9,10 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.example.club_deportivo.models.Client
 import com.example.club_deportivo.ui.CustomFilter
 import com.example.club_deportivo.models.PaymentStatus
-import com.example.club_deportivo.models.UserRepository
+import com.example.club_deportivo.models.UserDatabaseRepository
 import com.example.club_deportivo.ui.UserAdapter
 import com.example.club_deportivo.ui.CustomHeader
 import kotlin.math.roundToInt
@@ -20,16 +21,18 @@ class AdminActivity : BaseAuthActivity() {
     private lateinit var paidFilter: TextView
     private lateinit var dueSoonFilter: TextView
     private lateinit var overdueFilter: TextView
-
     private lateinit var userAdapter: UserAdapter
-    private val allUsers = UserRepository.getClients()
-
+    private var allClients = listOf<Client>()
     private var currentSearchQuery: String = ""
     private var activeStatusFilters: Set<PaymentStatus> = setOf(PaymentStatus.PAID, PaymentStatus.DUE_SOON, PaymentStatus.OVERDUE)
+
+    private lateinit var repository: UserDatabaseRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
+
+        repository = UserDatabaseRepository(this)
 
         paidFilter = findViewById(R.id.paid_filter)
         dueSoonFilter = findViewById(R.id.due_soon_filter)
@@ -43,13 +46,25 @@ class AdminActivity : BaseAuthActivity() {
         setupAddUserButton()
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadDataFromDatabase()
+    }
+
+    private fun loadDataFromDatabase() {
+        allClients = repository.getClients()
+
+        setupSummaryCard()
+        updateUserListVisibility()
+    }
+
     /**
      * Configura el RecyclerView, su adaptador y la lista inicial de usuarios.
      */
     private fun setupRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
-        userAdapter = UserAdapter(allUsers) { userName ->
-            handlePayment(userName)
+        userAdapter = UserAdapter(emptyList()) { client ->
+            handlePayment(client)
         }
         recyclerView.adapter = userAdapter
         updateUserListVisibility()
@@ -83,11 +98,10 @@ class AdminActivity : BaseAuthActivity() {
 
         summaryLabel.text = getString(R.string.admin_overdue)
 
-        val overdueUsers = UserRepository.getOverdueClients()
+        val overdueUsers = repository.getOverdueClients()
+        val totalOverdueAmount = repository.getTotalOverdueAmount()
 
-        val totalOverdueAmount = UserRepository.getTotalOverdueAmount()
         summaryAmount.text = getString(R.string.admin_currency_format, totalOverdueAmount.roundToInt())
-
 
         val userCount = overdueUsers.size
         summaryDetail.text = resources.getQuantityString(R.plurals.admin_user_count, userCount, userCount)
@@ -124,9 +138,9 @@ class AdminActivity : BaseAuthActivity() {
      */
     private fun updateUserListVisibility() {
         val searchResults = if (currentSearchQuery.isBlank()) {
-            allUsers
+            allClients
         } else {
-            allUsers.filter { it.name.contains(currentSearchQuery, ignoreCase = true) }
+            allClients.filter { it.name.contains(currentSearchQuery, ignoreCase = true) }
         }
 
         val finalFilteredUsers = searchResults.filter { activeStatusFilters.contains(it.status) }

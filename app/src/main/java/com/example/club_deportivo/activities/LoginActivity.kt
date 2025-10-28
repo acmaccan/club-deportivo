@@ -1,16 +1,19 @@
 package com.example.club_deportivo.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.club_deportivo.R
-import com.example.club_deportivo.models.UserRepository
-import com.example.club_deportivo.models.UserRole
+import com.example.club_deportivo.models.UserDatabaseRepository
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import androidx.core.content.edit
+import com.example.club_deportivo.models.UserRole
 
 class LoginActivity : AppCompatActivity() {
     companion object {
@@ -29,9 +32,32 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        checkActiveSession()
+
         initializeViews()
         setupInputs()
         setupListeners()
+    }
+
+    /**
+     * Comprueba si un ID de usuario ya está guardado en SharedPreferences.
+     * Si es así, intenta iniciar sesión automáticamente.
+     */
+    private fun checkActiveSession() {
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val loggedUserId = sharedPreferences.getInt(USER_ID_KEY, -1)
+
+        if (loggedUserId != -1) {
+            val repository = UserDatabaseRepository(this)
+            val user = repository.findUserById(loggedUserId)
+            if (user != null) {
+                val destination = when (user.role) {
+                    UserRole.ADMIN -> AdminActivity::class.java
+                    UserRole.CLIENT -> HomeActivity::class.java
+                }
+                navigateToAuthenticatedActivity(destination, user.id)
+            }
+        }
     }
 
     /**
@@ -89,16 +115,26 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        val user = UserRepository.findUserByCredentials(email, password)
+        val repository = UserDatabaseRepository(this)
+        val user = repository.findUserByCredentials(email, password)
 
         if (user != null) {
-            val destination = when (user.userType) {
+            saveUserSession(user.id)
+            val destination = when (user.role) {
                 UserRole.ADMIN -> AdminActivity::class.java
                 UserRole.CLIENT -> HomeActivity::class.java
             }
-            navigateToActivity(destination, user.id)
+            navigateToAuthenticatedActivity(destination, user.id)
         } else {
-            passwordInputLayout.error = getString(R.string.login_wrong_credentials)
+            Toast.makeText(this, getString(R.string.login_wrong_credentials), Toast.LENGTH_SHORT).show()
+            passwordInputLayout.error = " "
+        }
+    }
+
+    private fun saveUserSession(userId: Int) {
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        sharedPreferences.edit {
+            putInt(USER_ID_KEY, userId)
         }
     }
 
@@ -108,9 +144,8 @@ class LoginActivity : AppCompatActivity() {
      * @param destination La clase de la actividad a la que se navegará.
      * @param userId El ID del usuario que ha iniciado sesión.
      */
-    private fun navigateToActivity(destination: Class<*>, userId: Int) {
+    private fun navigateToAuthenticatedActivity(destination: Class<*>, userId: Int) {
         val intent = Intent(this, destination)
-
         intent.putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, userId)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
