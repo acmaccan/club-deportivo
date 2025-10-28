@@ -7,7 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.club_deportivo.R
 import com.example.club_deportivo.models.User
-import com.example.club_deportivo.models.UserRepository
+import com.example.club_deportivo.models.UserDatabaseRepository
+import androidx.core.content.edit
 
 /**
  * Una clase base abstracta para actividades que requieren un usuario autenticado.
@@ -44,7 +45,9 @@ abstract class BaseAuthActivity : AppCompatActivity() {
             return false
         }
 
-        val foundUser = UserRepository.findUserById(loggedUserId)
+        val repository = UserDatabaseRepository(this)
+
+        val foundUser = repository.findUserById(loggedUserId)
         if (foundUser == null) {
             Toast.makeText(this, getString(R.string.home_not_found_user_error), Toast.LENGTH_LONG).show()
             return false
@@ -60,9 +63,9 @@ abstract class BaseAuthActivity : AppCompatActivity() {
      */
     protected fun logoutUser() {
         val sharedPreferences = getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.remove(LoginActivity.USER_ID_KEY)
-        editor.apply()
+        sharedPreferences.edit {
+            remove(LoginActivity.USER_ID_KEY)
+        }
 
         val intent = Intent(this, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
