@@ -226,9 +226,12 @@ class UserDatabaseRepository (context: Context) {
         email: String,
         password: String,
         membershipType: MembershipType
-    ): Client? {
+    ): Long {
         val db = dbHelper.writableDatabase
         db.beginTransaction()
+
+        var newUserId = -1L
+
         try {
             val userValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_USER_FULL_NAME, fullName)
@@ -236,48 +239,46 @@ class UserDatabaseRepository (context: Context) {
                 put(DatabaseHelper.COLUMN_USER_PASSWORD, password)
                 put(DatabaseHelper.COLUMN_USER_ROLE, UserRole.CLIENT.name)
             }
-            val newUserId = db.insert(DatabaseHelper.TABLE_USERS, null, userValues)
+            newUserId = db.insert(DatabaseHelper.TABLE_USERS, null, userValues)
             if (newUserId == -1L) {
-                Log.e("UserDbRepository", "Fallo al insertar en la tabla users")
-                return null
+                Log.e("UserDbRepository", "Falló la inserción en la tabla users.")
+                return -1L
             }
 
             val clientValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_CLIENT_USER_ID, newUserId)
                 put(DatabaseHelper.COLUMN_CLIENT_DOCUMENT, document)
-                put(DatabaseHelper.COLUMN_CLIENT_HAS_VALID_MEDICAL_APTITUDE, 0) // Por defecto es falso
+                put(DatabaseHelper.COLUMN_CLIENT_HAS_VALID_MEDICAL_APTITUDE, 0)
             }
             val newClientId = db.insert(DatabaseHelper.TABLE_CLIENTS, null, clientValues)
             if (newClientId == -1L) {
-                Log.e("UserDbRepository", "Fallo al insertar en la tabla clients")
-                return null
+                Log.e("UserDbRepository", "Falló la inserción en la tabla clients.")
+                return -1L
             }
 
             val membershipValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_MEMBERSHIP_CLIENT_ID, newClientId)
                 put(DatabaseHelper.COLUMN_MEMBERSHIP_TYPE, membershipType.name)
-                put(DatabaseHelper.COLUMN_MEMBERSHIP_AMOUNT, "$0") // Valor inicial
-                put(DatabaseHelper.COLUMN_MEMBERSHIP_PAYMENT_STATUS, PaymentStatus.OVERDUE.name) // Se debe pagar
+                put(DatabaseHelper.COLUMN_MEMBERSHIP_AMOUNT, "$0")
+                put(DatabaseHelper.COLUMN_MEMBERSHIP_PAYMENT_STATUS, PaymentStatus.OVERDUE.name)
                 put(DatabaseHelper.COLUMN_MEMBERSHIP_EXPIRATION_DATE, calculateExpirationDate())
             }
             val newMembershipId = db.insert(DatabaseHelper.TABLE_MEMBERSHIPS, null, membershipValues)
             if (newMembershipId == -1L) {
-                Log.e("UserDbRepository", "Fallo al insertar en la tabla memberships")
-                return null
+                Log.e("UserDbRepository", "Falló la inserción en la tabla memberships.")
+                return -1L
             }
 
             db.setTransactionSuccessful()
-
-            return findClientById(newUserId.toInt())
-
         } catch (e: Exception) {
             Log.e("UserDbRepository", "Error creando nuevo cliente en transacción", e)
-            return null
-        }
-        finally {
+            newUserId = -1L
+        } finally {
             db.endTransaction()
             db.close()
         }
+
+        return newUserId
     }
 
     /**

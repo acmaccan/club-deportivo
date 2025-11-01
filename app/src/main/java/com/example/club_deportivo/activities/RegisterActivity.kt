@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.example.club_deportivo.R
@@ -188,7 +189,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         // Create new user with selected membership
-        val newUser = repository.createNewClient(
+        val newUserId = repository.createNewClient(
             fullName,
             document,
             email,
@@ -196,7 +197,13 @@ class RegisterActivity : AppCompatActivity() {
             membershipType = selectedMembershipType!!
         )
 
-        val intent = Intent(this, LoginActivity::class.java)
+        if (newUserId == -1L) {
+            Toast.makeText(this, "Error al registrar el usuario.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val intent = Intent(this, SuccessfulRegistrationActivity::class.java)
+        intent.putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, newUserId.toInt())
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
