@@ -40,6 +40,7 @@
         <item quantity="other">%d usuarios</item>
     </plurals>
     <string name="admin_currency_format">$%1$d</string>
+    <string name="admin_logout">Salir</string>
 
     <!-- CreatingMembership -->
     <string name="creating_membership_loading_message">Estamos creando tu carnet</string>

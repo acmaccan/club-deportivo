@@ -51,7 +51,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         val createClientsTableSQL = """
             CREATE TABLE $TABLE_CLIENTS (
-                $COLUMN_CLIENT_ID INTEGER PRIMARY KEY,
+                $COLUMN_CLIENT_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 $COLUMN_CLIENT_USER_ID INTEGER NOT NULL UNIQUE,
                 $COLUMN_CLIENT_DOCUMENT TEXT NOT NULL UNIQUE,
                 $COLUMN_CLIENT_HAS_VALID_MEDICAL_APTITUDE INTEGER NOT NULL,
@@ -62,7 +62,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         val createMembershipsTableSQL = """
             CREATE TABLE $TABLE_MEMBERSHIPS (
-                $COLUMN_MEMBERSHIP_ID INTEGER PRIMARY KEY,
+                $COLUMN_MEMBERSHIP_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 $COLUMN_MEMBERSHIP_CLIENT_ID INTEGER NOT NULL UNIQUE,
                 $COLUMN_MEMBERSHIP_TYPE TEXT NOT NULL,
                 $COLUMN_MEMBERSHIP_AMOUNT TEXT NOT NULL,
@@ -89,40 +89,40 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         data class InitialMembership(val clientId: Int, val type: String, val amount: String, val status: String, val expiration: String)
 
         val initialUsers = listOf(
-            InitialUser(1, "Admin", "admin@sportclub.com", "admin123456", "ADMIN"),
-            InitialUser(2, "María Gómez", "mg@gmail.com", "mg123456", "CLIENT"),
-            InitialUser(3, "Carlos Ruiz", "cr@gmail.com", "cr123456", "CLIENT"),
-            InitialUser(4, "Ana Torres", "at@gmail.com", "at123456", "CLIENT"),
-            InitialUser(5, "Luis Fernández", "lf@gmail.com", "lf123456", "CLIENT"),
-            InitialUser(6, "Elena Moreno", "em@gmail.com", "em123456", "CLIENT"),
-            InitialUser(7, "David Jiménez", "dj@gmail.com", "dj123456", "CLIENT"),
-            InitialUser(8, "Laura Navarro", "ln@gmail.com", "ln123456", "CLIENT"),
-            InitialUser(9, "Pedro Romero", "pr@gmail.com", "pr123456", "CLIENT"),
-            InitialUser(10, "Sofía Castillo", "sc@gmail.com", "sc123456", "CLIENT")
+            InitialUser(0, "Admin", "admin@sportclub.com", "admin123456", "ADMIN"),
+            InitialUser(1, "María Gómez", "mg@gmail.com", "mg123456", "CLIENT"),
+            InitialUser(2, "Carlos Ruiz", "cr@gmail.com", "cr123456", "CLIENT"),
+            InitialUser(3, "Ana Torres", "at@gmail.com", "at123456", "CLIENT"),
+            InitialUser(4, "Luis Fernández", "lf@gmail.com", "lf123456", "CLIENT"),
+            InitialUser(5, "Elena Moreno", "em@gmail.com", "em123456", "CLIENT"),
+            InitialUser(6, "David Jiménez", "dj@gmail.com", "dj123456", "CLIENT"),
+            InitialUser(7, "Laura Navarro", "ln@gmail.com", "ln123456", "CLIENT"),
+            InitialUser(8, "Pedro Romero", "pr@gmail.com", "pr123456", "CLIENT"),
+            InitialUser(9, "Sofía Castillo", "sc@gmail.com", "sc123456", "CLIENT")
         )
 
         val initialClients = listOf(
-            InitialClient(2, 2, "12345678", true),
-            InitialClient(3, 3, "23456789", false),
-            InitialClient(4, 4, "34567890", true),
-            InitialClient(5, 5, "45678901", true),
-            InitialClient(6, 6, "56789012", false),
-            InitialClient(7, 7, "67890123", true),
-            InitialClient(8, 8, "78901234", true),
-            InitialClient(9, 9, "89012345", true),
-            InitialClient(10, 10, "90123456", true)
+            InitialClient(1, 1, "12345678", true),
+            InitialClient(2, 2, "23456789", false),
+            InitialClient(3, 3, "34567890", true),
+            InitialClient(4, 4, "45678901", true),
+            InitialClient(5, 5, "56789012", false),
+            InitialClient(6, 6, "67890123", true),
+            InitialClient(7, 7, "78901234", true),
+            InitialClient(8, 8, "89012345", true),
+            InitialClient(9, 9, "90123456", true)
         )
 
         val initialMemberships = listOf(
-            InitialMembership(2, "NO_MEMBER", "$12000", "DUE_SOON", "2025-10-31"),
-            InitialMembership(3, "MEMBER", "$35000", "OVERDUE", "2025-09-30"),
-            InitialMembership(4, "NO_MEMBER", "$12000", "PAID", "2025-11-30"),
-            InitialMembership(5, "MEMBER", "$15000", "DUE_SOON", "2025-10-31"),
-            InitialMembership(6, "NO_MEMBER", "$24000", "OVERDUE", "2025-09-30"),
-            InitialMembership(7, "MEMBER", "$15000", "PAID", "2025-11-30"),
-            InitialMembership(8, "NO_MEMBER", "$12000", "DUE_SOON", "2025-10-31"),
-            InitialMembership(9, "MEMBER", "$50000", "OVERDUE", "2025-09-30"),
-            InitialMembership(10, "NO_MEMBER", "$12000", "PAID", "2025-11-30")
+            InitialMembership(1, "NO_MEMBER", "$12000", "DUE_SOON", "2025-10-31"),
+            InitialMembership(2, "MEMBER", "$35000", "OVERDUE", "2025-09-30"),
+            InitialMembership(3, "NO_MEMBER", "$12000", "PAID", "2025-11-30"),
+            InitialMembership(4, "MEMBER", "$15000", "DUE_SOON", "2025-10-31"),
+            InitialMembership(5, "NO_MEMBER", "$24000", "OVERDUE", "2025-09-30"),
+            InitialMembership(6, "MEMBER", "$15000", "PAID", "2025-11-30"),
+            InitialMembership(7, "NO_MEMBER", "$12000", "DUE_SOON", "2025-10-31"),
+            InitialMembership(8, "MEMBER", "$50000", "OVERDUE", "2025-09-30"),
+            InitialMembership(9, "NO_MEMBER", "$12000", "PAID", "2025-11-30")
         )
 
         db.execSQL("PRAGMA foreign_keys=OFF;")
@@ -142,6 +142,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
             for (client in initialClients) {
                 val clientValues = ContentValues().apply {
+                    put(COLUMN_CLIENT_ID, client.id)
                     put(COLUMN_CLIENT_USER_ID, client.userId)
                     put(COLUMN_CLIENT_DOCUMENT, client.document)
                     put(COLUMN_CLIENT_HAS_VALID_MEDICAL_APTITUDE, if (client.hasValidMedicalAptitude) 1 else 0)

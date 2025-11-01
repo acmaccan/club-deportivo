@@ -61,7 +61,7 @@ abstract class BaseAuthActivity : AppCompatActivity() {
      * Cierra la sesión del usuario actual.
      * Limpia los SharedPreferences y redirige a LoginActivity.
      */
-    protected fun logoutUser() {
+    fun logoutUser() {
         val sharedPreferences = getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE)
         sharedPreferences.edit {
             remove(LoginActivity.USER_ID_KEY)
