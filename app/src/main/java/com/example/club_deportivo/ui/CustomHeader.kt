@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.club_deportivo.R
+import com.example.club_deportivo.activities.BaseAuthActivity
 
 class CustomHeader {
     companion object {
@@ -24,6 +25,8 @@ class CustomHeader {
 
             headerTitle.text = title
             headerSubtitle.text = subtitle
+
+            headerSubtitle.visibility = if (subtitle.isNotEmpty()) View.VISIBLE else View.GONE
 
             if (showBackButton) {
                 leftIcon.visibility = View.VISIBLE
@@ -45,7 +48,20 @@ class CustomHeader {
         }
 
         fun setupAdminHeader(activity: AppCompatActivity) {
-            setupHeader(activity, "SportClub", "Gestión básica")
+            val rightIcon = activity.findViewById<ImageView>(R.id.headerRightIcon)
+            rightIcon.setImageResource(R.drawable.icon_logout)
+
+            setupHeader(
+                activity = activity,
+                title = "SportClub",
+                subtitle = "Gestión básica",
+                showAvatarIcon = true,
+                onAvatarClick = {
+                    if (activity is BaseAuthActivity) {
+                        activity.logoutUser()
+                    }
+                }
+            )
         }
 
         fun setupHomeHeader(

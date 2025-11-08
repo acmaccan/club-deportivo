@@ -15,7 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.club_deportivo.R
 import com.example.club_deportivo.helpers.FileUtils
-import com.example.club_deportivo.models.UserRepository
+import com.example.club_deportivo.models.UserDatabaseRepository
 import com.example.club_deportivo.ui.CustomButton
 import com.google.android.material.card.MaterialCardView
 
@@ -29,6 +29,8 @@ class UploadMedicalDocumentActivity : BaseAuthActivity() {
     private lateinit var fileSizeText: TextView
     private lateinit var removeFileButton: ImageView
     private var selectedFileUri: Uri? = null
+
+    private lateinit var repository: UserDatabaseRepository
 
     companion object {
         private const val TAG = "UploadMedicalDocument"
@@ -46,6 +48,8 @@ class UploadMedicalDocumentActivity : BaseAuthActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_medical_document)
+
+        repository = UserDatabaseRepository(this)
 
         continueButton = findViewById(R.id.continueButton)
         laterButton = findViewById(R.id.laterButton)
@@ -177,7 +181,7 @@ class UploadMedicalDocumentActivity : BaseAuthActivity() {
      */
     private fun handleContinue() {
         // Update medical aptitude to true since user uploaded a document
-        UserRepository.updateMedicalAptitude(user.id, true)
+        repository.updateMedicalAptitude(user.id, true)
         
         val intent = Intent(this, CreatingMembershipActivity::class.java)
         intent.putExtra(LOGGED_USER_ID_KEY, user.id)

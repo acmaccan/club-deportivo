@@ -5,18 +5,21 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.example.club_deportivo.R
 import com.example.club_deportivo.models.InputConfig
 import com.example.club_deportivo.models.MembershipType
-import com.example.club_deportivo.models.UserRepository
+import com.example.club_deportivo.models.UserDatabaseRepository
 import com.example.club_deportivo.ui.CustomButton
 import com.example.club_deportivo.ui.CustomMembershipSelector
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class RegisterActivity : AppCompatActivity() {
+    private lateinit var repository: UserDatabaseRepository
+
     private lateinit var registerButton: CustomButton
     private lateinit var registerCancelButton: CustomButton
     private lateinit var memberCard: MaterialCardView
@@ -30,6 +33,8 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        repository = UserDatabaseRepository(this)
 
         setupInputs()
         setupRealTimeValidation()
@@ -178,12 +183,13 @@ class RegisterActivity : AppCompatActivity() {
         val email = getInputValue(R.id.emailInput)
         val password = getInputValue(R.id.passwordInput)
 
+        findViewById<TextInputLayout>(R.id.emailInput).error = null
         if (!validateEmailUniqueness(email)) {
             return
         }
-        
+
         // Create new user with selected membership
-        val newUser = UserRepository.createNewClient(
+        val newUserId = repository.createNewClient(
             fullName,
             document,
             email,
@@ -191,8 +197,14 @@ class RegisterActivity : AppCompatActivity() {
             membershipType = selectedMembershipType!!
         )
 
+        if (newUserId == -1L) {
+            Toast.makeText(this, "Error al registrar el usuario.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val intent = Intent(this, SuccessfulRegistrationActivity::class.java)
-        intent.putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, newUser.id)
+        intent.putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, newUserId.toInt())
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
@@ -201,7 +213,7 @@ class RegisterActivity : AppCompatActivity() {
      * Valida que el email no esté ya registrado.
      */
     private fun validateEmailUniqueness(email: String): Boolean {
-        if (UserRepository.emailExists(email)) {
+        if (repository.emailExists(email)) {
             findViewById<TextInputLayout>(R.id.emailInput).error = getString(R.string.register_email_already_exists)
             return false
         }
