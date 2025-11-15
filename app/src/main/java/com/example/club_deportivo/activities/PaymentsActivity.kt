@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.club_deportivo.R
+import com.example.club_deportivo.models.ActivityDatabaseRepository
 import com.example.club_deportivo.models.Client
 import com.example.club_deportivo.models.MembershipType
 import com.example.club_deportivo.models.PaymentRepository
@@ -16,7 +17,7 @@ import com.example.club_deportivo.ui.PaymentActivityAdapter
 import com.google.android.material.card.MaterialCardView
 
 class PaymentsActivity : BaseAuthActivity() {
-    
+
     private lateinit var monthlyPaymentCard: MaterialCardView
     private lateinit var activitySelectionSection: View
     private lateinit var totalAmountText: TextView
@@ -24,17 +25,20 @@ class PaymentsActivity : BaseAuthActivity() {
     private lateinit var paymentButton: CustomButton
     private lateinit var activitiesRecyclerView: RecyclerView
     private var activityAdapter: PaymentActivityAdapter? = null
+    private lateinit var activityRepository: ActivityDatabaseRepository
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payments)
-        
+
+        activityRepository = ActivityDatabaseRepository(this)
+
         val clientUser = user as? Client
         if (clientUser == null) {
             finish()
             return
         }
-        
+
         initViews()
         setupToolbar()
         setupPaymentScreen(clientUser)
@@ -99,21 +103,21 @@ class PaymentsActivity : BaseAuthActivity() {
     private fun setupActivitySelection() {
         monthlyPaymentCard.visibility = View.GONE
         activitySelectionSection.visibility = View.VISIBLE
-        
-        val activities = PaymentRepository.getPaymentActivities()
+
+        val activities = activityRepository.getActivities()
         activityAdapter = PaymentActivityAdapter(activities) { selectedActivity ->
             updateTotalAmount(selectedActivity?.monthlyPrice ?: 0)
             paymentButton.isEnabled = selectedActivity != null
         }
-        
+
         activitiesRecyclerView.layoutManager = LinearLayoutManager(this)
         activitiesRecyclerView.adapter = activityAdapter
-        
+
         paymentTypeLabel.text = getString(R.string.payments_activity_fee_label)
         paymentButton.text = getString(R.string.payments_pay_selected_activity)
         paymentButton.isEnabled = false
         updateTotalAmount(0)
-        
+
         paymentButton.setOnClickListener {
             val selectedActivity = activityAdapter?.getSelectedActivity()
             if (selectedActivity != null) {

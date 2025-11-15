@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
         private const val DATABASE_NAME = "sport_club.db"
 
         const val TABLE_USERS = "users"
@@ -33,6 +33,25 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         const val COLUMN_MEMBERSHIP_AMOUNT = "amount"
         const val COLUMN_MEMBERSHIP_PAYMENT_STATUS = "payment_status"
         const val COLUMN_MEMBERSHIP_EXPIRATION_DATE = "expiration_date"
+
+        const val TABLE_ACTIVITIES = "activities"
+        const val COLUMN_ACTIVITY_ID = "id"
+        const val COLUMN_ACTIVITY_NAME = "name"
+        const val COLUMN_ACTIVITY_INSTRUCTOR = "instructor"
+        const val COLUMN_ACTIVITY_SCHEDULE = "schedule"
+        const val COLUMN_ACTIVITY_MONTHLY_PRICE = "monthly_price"
+        const val COLUMN_ACTIVITY_DESCRIPTION = "description"
+        const val COLUMN_ACTIVITY_MAX_CAPACITY = "max_capacity"
+        const val COLUMN_ACTIVITY_IS_ACTIVE = "is_active"
+        const val COLUMN_ACTIVITY_DURATION = "duration"
+        const val COLUMN_ACTIVITY_LEVEL = "level"
+        const val COLUMN_ACTIVITY_ROOM = "room"
+
+        const val TABLE_ACTIVITY_ENROLLMENTS = "activity_enrollments"
+        const val COLUMN_ENROLLMENT_ID = "id"
+        const val COLUMN_ENROLLMENT_USER_ID = "user_id"
+        const val COLUMN_ENROLLMENT_ACTIVITY_ID = "activity_id"
+        const val COLUMN_ENROLLMENT_STATUS = "status"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -73,10 +92,42 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         """.trimIndent()
         db.execSQL(createMembershipsTableSQL)
 
+        val createActivitiesTableSQL = """
+            CREATE TABLE $TABLE_ACTIVITIES (
+                $COLUMN_ACTIVITY_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                $COLUMN_ACTIVITY_NAME TEXT NOT NULL,
+                $COLUMN_ACTIVITY_INSTRUCTOR TEXT,
+                $COLUMN_ACTIVITY_SCHEDULE TEXT,
+                $COLUMN_ACTIVITY_MONTHLY_PRICE DECIMAL NOT NULL,
+                $COLUMN_ACTIVITY_DESCRIPTION TEXT,
+                $COLUMN_ACTIVITY_MAX_CAPACITY INTEGER,
+                $COLUMN_ACTIVITY_IS_ACTIVE INTEGER NOT NULL DEFAULT 1,
+                $COLUMN_ACTIVITY_DURATION INTEGER NOT NULL,
+                $COLUMN_ACTIVITY_LEVEL TEXT NOT NULL,
+                $COLUMN_ACTIVITY_ROOM TEXT
+            )
+        """.trimIndent()
+        db.execSQL(createActivitiesTableSQL)
+
+        val createActivityEnrollmentsTableSQL = """
+            CREATE TABLE $TABLE_ACTIVITY_ENROLLMENTS (
+                $COLUMN_ENROLLMENT_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                $COLUMN_ENROLLMENT_USER_ID INTEGER NOT NULL,
+                $COLUMN_ENROLLMENT_ACTIVITY_ID INTEGER NOT NULL,
+                $COLUMN_ENROLLMENT_STATUS TEXT NOT NULL,
+                FOREIGN KEY($COLUMN_ENROLLMENT_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID),
+                FOREIGN KEY($COLUMN_ENROLLMENT_ACTIVITY_ID) REFERENCES $TABLE_ACTIVITIES($COLUMN_ACTIVITY_ID)
+            )
+        """.trimIndent()
+        db.execSQL(createActivityEnrollmentsTableSQL)
+
         insertInitialData(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        // Drop tables in reverse order to respect foreign keys
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_ACTIVITY_ENROLLMENTS")
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_ACTIVITIES")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_MEMBERSHIPS")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_CLIENTS")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_USERS")
@@ -87,6 +138,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         data class InitialUser(val id: Int, val fullName: String, val email: String, val password: String, val role: String)
         data class InitialClient(val id: Int, val userId: Int, val document: String, val hasValidMedicalAptitude: Boolean)
         data class InitialMembership(val clientId: Int, val type: String, val amount: String, val status: String, val expiration: String)
+        data class InitialActivity(val name: String, val instructor: String, val schedule: String, val monthlyPrice: Int, val description: String, val maxCapacity: Int, val isActive: Boolean, val duration: Int, val level: String, val room: String)
 
         val initialUsers = listOf(
             InitialUser(0, "Admin", "admin@sportclub.com", "admin123456", "ADMIN"),
@@ -125,6 +177,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             InitialMembership(9, "NO_MEMBER", "$12000", "PAID", "2025-11-30")
         )
 
+        val initialActivities = listOf(
+            InitialActivity("Yoga", "María García", "Lu-Mie-Vie 8:00", 15000, "Clases de yoga para todos los niveles", 20, true, 60, "BEGINNER", "Sala 1"),
+            InitialActivity("Spinning", "Carlos López", "Mar-Jue 19:00", 25000, "Entrenamiento cardiovascular intenso", 15, true, 60, "INTERMEDIATE", "Sala 2"),
+            InitialActivity("Pilates", "Ana Rodríguez", "Lu-Mie 18:00", 25000, "Fortalecimiento y flexibilidad", 15, true, 45, "INTERMEDIATE", "Sala 1"),
+            InitialActivity("Natación", "Diego Martín", "Lu-Mie-Vie 20:00", 30000, "Clases de natación para adultos", 12, true, 60, "BEGINNER", "Pileta"),
+            InitialActivity("CrossFit", "Roberto Silva", "Mar-Jue-Sáb 20:00", 20000, "Entrenamiento funcional de alta intensidad", 18, true, 60, "ADVANCED", "Sala 3"),
+            InitialActivity("Meditación", "Juan Pérez", "Mar 14:00-15:30", 12000, "Técnicas de relajación y mindfulness", 25, true, 90, "BEGINNER", "Sala 1")
+        )
+
         db.execSQL("PRAGMA foreign_keys=OFF;")
         db.beginTransaction()
 
@@ -159,6 +220,22 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     put(COLUMN_MEMBERSHIP_EXPIRATION_DATE, membership.expiration)
                 }
                 db.insert(TABLE_MEMBERSHIPS, null, membershipValues)
+            }
+
+            for (activity in initialActivities) {
+                val activityValues = ContentValues().apply {
+                    put(COLUMN_ACTIVITY_NAME, activity.name)
+                    put(COLUMN_ACTIVITY_INSTRUCTOR, activity.instructor)
+                    put(COLUMN_ACTIVITY_SCHEDULE, activity.schedule)
+                    put(COLUMN_ACTIVITY_MONTHLY_PRICE, activity.monthlyPrice)
+                    put(COLUMN_ACTIVITY_DESCRIPTION, activity.description)
+                    put(COLUMN_ACTIVITY_MAX_CAPACITY, activity.maxCapacity)
+                    put(COLUMN_ACTIVITY_IS_ACTIVE, if (activity.isActive) 1 else 0)
+                    put(COLUMN_ACTIVITY_DURATION, activity.duration)
+                    put(COLUMN_ACTIVITY_LEVEL, activity.level)
+                    put(COLUMN_ACTIVITY_ROOM, activity.room)
+                }
+                db.insert(TABLE_ACTIVITIES, null, activityValues)
             }
 
             db.setTransactionSuccessful()

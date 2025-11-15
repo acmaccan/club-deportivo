@@ -54,12 +54,7 @@ class UpcomingActivityAdapter(private val activities: List<Activity>) :
             val context = itemView.context
 
             activityName.text = activity.name
-            time.text = context.getString(
-                R.string.home_upcoming_activities_time_format,
-                activity.day,
-                activity.startTime,
-                activity.endTime
-            )
+            time.text = activity.schedule
             details.text = context.getString(
                 R.string.home_upcoming_activities_details_format,
                 activity.room,
