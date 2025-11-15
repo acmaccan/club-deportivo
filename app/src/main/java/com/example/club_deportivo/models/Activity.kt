@@ -11,6 +11,7 @@ data class Activity(
     val monthlyPrice: Int,
     val duration: Int,
     val level: ActivityLevel,
+    val room: String,
     val description: String? = null,
     val maxCapacity: Int? = null,
     val isActive: Boolean = true
@@ -23,7 +24,4 @@ data class Activity(
             "pilates" -> R.drawable.activity_pilates
             else -> R.drawable.activity_yoga
         }
-
-    val room: String
-        get() = "Sala 1"
 }

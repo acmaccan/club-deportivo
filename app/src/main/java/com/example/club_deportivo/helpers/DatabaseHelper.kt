@@ -45,6 +45,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         const val COLUMN_ACTIVITY_IS_ACTIVE = "is_active"
         const val COLUMN_ACTIVITY_DURATION = "duration"
         const val COLUMN_ACTIVITY_LEVEL = "level"
+        const val COLUMN_ACTIVITY_ROOM = "room"
 
         const val TABLE_ACTIVITY_ENROLLMENTS = "activity_enrollments"
         const val COLUMN_ENROLLMENT_ID = "id"
@@ -102,7 +103,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 $COLUMN_ACTIVITY_MAX_CAPACITY INTEGER,
                 $COLUMN_ACTIVITY_IS_ACTIVE INTEGER NOT NULL DEFAULT 1,
                 $COLUMN_ACTIVITY_DURATION INTEGER NOT NULL,
-                $COLUMN_ACTIVITY_LEVEL TEXT NOT NULL
+                $COLUMN_ACTIVITY_LEVEL TEXT NOT NULL,
+                $COLUMN_ACTIVITY_ROOM TEXT
             )
         """.trimIndent()
         db.execSQL(createActivitiesTableSQL)
@@ -136,7 +138,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         data class InitialUser(val id: Int, val fullName: String, val email: String, val password: String, val role: String)
         data class InitialClient(val id: Int, val userId: Int, val document: String, val hasValidMedicalAptitude: Boolean)
         data class InitialMembership(val clientId: Int, val type: String, val amount: String, val status: String, val expiration: String)
-        data class InitialActivity(val name: String, val instructor: String, val schedule: String, val monthlyPrice: Int, val description: String, val maxCapacity: Int, val isActive: Boolean, val duration: Int, val level: String)
+        data class InitialActivity(val name: String, val instructor: String, val schedule: String, val monthlyPrice: Int, val description: String, val maxCapacity: Int, val isActive: Boolean, val duration: Int, val level: String, val room: String)
 
         val initialUsers = listOf(
             InitialUser(0, "Admin", "admin@sportclub.com", "admin123456", "ADMIN"),
@@ -176,12 +178,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         )
 
         val initialActivities = listOf(
-            InitialActivity("Yoga", "María García", "Lu-Mie-Vie 8:00", 15000, "Clases de yoga para todos los niveles", 20, true, 60, "BEGINNER"),
-            InitialActivity("Spinning", "Carlos López", "Mar-Jue 19:00", 25000, "Entrenamiento cardiovascular intenso", 15, true, 60, "INTERMEDIATE"),
-            InitialActivity("Pilates", "Ana Rodríguez", "Lu-Mie 18:00", 25000, "Fortalecimiento y flexibilidad", 15, true, 45, "INTERMEDIATE"),
-            InitialActivity("Natación", "Diego Martín", "Lu-Mie-Vie 20:00", 30000, "Clases de natación para adultos", 12, true, 60, "BEGINNER"),
-            InitialActivity("CrossFit", "Roberto Silva", "Mar-Jue-Sáb 20:00", 20000, "Entrenamiento funcional de alta intensidad", 18, true, 60, "ADVANCED"),
-            InitialActivity("Meditación", "Juan Pérez", "Mar 14:00-15:30", 12000, "Técnicas de relajación y mindfulness", 25, true, 90, "BEGINNER")
+            InitialActivity("Yoga", "María García", "Lu-Mie-Vie 8:00", 15000, "Clases de yoga para todos los niveles", 20, true, 60, "BEGINNER", "Sala 1"),
+            InitialActivity("Spinning", "Carlos López", "Mar-Jue 19:00", 25000, "Entrenamiento cardiovascular intenso", 15, true, 60, "INTERMEDIATE", "Sala 2"),
+            InitialActivity("Pilates", "Ana Rodríguez", "Lu-Mie 18:00", 25000, "Fortalecimiento y flexibilidad", 15, true, 45, "INTERMEDIATE", "Sala 1"),
+            InitialActivity("Natación", "Diego Martín", "Lu-Mie-Vie 20:00", 30000, "Clases de natación para adultos", 12, true, 60, "BEGINNER", "Pileta"),
+            InitialActivity("CrossFit", "Roberto Silva", "Mar-Jue-Sáb 20:00", 20000, "Entrenamiento funcional de alta intensidad", 18, true, 60, "ADVANCED", "Sala 3"),
+            InitialActivity("Meditación", "Juan Pérez", "Mar 14:00-15:30", 12000, "Técnicas de relajación y mindfulness", 25, true, 90, "BEGINNER", "Sala 1")
         )
 
         db.execSQL("PRAGMA foreign_keys=OFF;")
@@ -231,6 +233,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     put(COLUMN_ACTIVITY_IS_ACTIVE, if (activity.isActive) 1 else 0)
                     put(COLUMN_ACTIVITY_DURATION, activity.duration)
                     put(COLUMN_ACTIVITY_LEVEL, activity.level)
+                    put(COLUMN_ACTIVITY_ROOM, activity.room)
                 }
                 db.insert(TABLE_ACTIVITIES, null, activityValues)
             }

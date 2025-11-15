@@ -37,6 +37,7 @@ class ActivityDatabaseRepository(context: Context) {
             monthlyPrice = c.getInt(c.getColumnIndex(DatabaseHelper.COLUMN_ACTIVITY_MONTHLY_PRICE)),
             duration = c.getInt(c.getColumnIndex(DatabaseHelper.COLUMN_ACTIVITY_DURATION)),
             level = ActivityLevel.valueOf(c.getString(c.getColumnIndex(DatabaseHelper.COLUMN_ACTIVITY_LEVEL))),
+            room = c.getString(c.getColumnIndex(DatabaseHelper.COLUMN_ACTIVITY_ROOM)),
             description = c.getString(c.getColumnIndex(DatabaseHelper.COLUMN_ACTIVITY_DESCRIPTION)),
             maxCapacity = c.getInt(c.getColumnIndex(DatabaseHelper.COLUMN_ACTIVITY_MAX_CAPACITY)),
             isActive = c.getInt(c.getColumnIndex(DatabaseHelper.COLUMN_ACTIVITY_IS_ACTIVE)) == 1
@@ -128,6 +129,7 @@ class ActivityDatabaseRepository(context: Context) {
         monthlyPrice: Int,
         duration: Int,
         level: ActivityLevel,
+        room: String,
         description: String,
         maxCapacity: Int,
         isActive: Boolean = true
@@ -144,6 +146,7 @@ class ActivityDatabaseRepository(context: Context) {
             put(DatabaseHelper.COLUMN_ACTIVITY_IS_ACTIVE, if (isActive) 1 else 0)
             put(DatabaseHelper.COLUMN_ACTIVITY_DURATION, duration)
             put(DatabaseHelper.COLUMN_ACTIVITY_LEVEL, level.name)
+            put(DatabaseHelper.COLUMN_ACTIVITY_ROOM, room)
         }
 
         val id = db.insert(DatabaseHelper.TABLE_ACTIVITIES, null, values)
@@ -163,6 +166,7 @@ class ActivityDatabaseRepository(context: Context) {
         monthlyPrice: Int,
         duration: Int,
         level: ActivityLevel,
+        room: String,
         description: String,
         maxCapacity: Int
     ): Boolean {
@@ -177,6 +181,7 @@ class ActivityDatabaseRepository(context: Context) {
             put(DatabaseHelper.COLUMN_ACTIVITY_MAX_CAPACITY, maxCapacity)
             put(DatabaseHelper.COLUMN_ACTIVITY_DURATION, duration)
             put(DatabaseHelper.COLUMN_ACTIVITY_LEVEL, level.name)
+            put(DatabaseHelper.COLUMN_ACTIVITY_ROOM, room)
         }
 
         val rowsAffected = db.update(
