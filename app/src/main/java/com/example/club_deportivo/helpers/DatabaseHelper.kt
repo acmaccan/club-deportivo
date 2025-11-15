@@ -139,6 +139,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         data class InitialClient(val id: Int, val userId: Int, val document: String, val hasValidMedicalAptitude: Boolean)
         data class InitialMembership(val clientId: Int, val type: String, val amount: String, val status: String, val expiration: String)
         data class InitialActivity(val name: String, val instructor: String, val schedule: String, val monthlyPrice: Int, val description: String, val maxCapacity: Int, val isActive: Boolean, val duration: Int, val level: String, val room: String)
+        data class InitialEnrollment(val userId: Int, val activityId: Int, val status: String)
 
         val initialUsers = listOf(
             InitialUser(0, "Admin", "admin@sportclub.com", "admin123456", "ADMIN"),
@@ -186,6 +187,33 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             InitialActivity("Meditación", "Juan Pérez", "Mar 14:00-15:30", 12000, "Técnicas de relajación y mindfulness", 25, true, 90, "BEGINNER", "Sala 1")
         )
 
+        val initialEnrollments = listOf(
+            InitialEnrollment(2, 1, "inactive"),
+            InitialEnrollment(2, 2, "inactive"),
+            InitialEnrollment(2, 3, "inactive"),
+            InitialEnrollment(2, 4, "inactive"),
+            InitialEnrollment(2, 5, "inactive"),
+            InitialEnrollment(2, 6, "inactive"),
+            InitialEnrollment(4, 1, "active"),
+            InitialEnrollment(4, 2, "active"),
+            InitialEnrollment(4, 3, "active"),
+            InitialEnrollment(4, 4, "active"),
+            InitialEnrollment(4, 5, "active"),
+            InitialEnrollment(4, 6, "active"),
+            InitialEnrollment(6, 1, "active"),
+            InitialEnrollment(6, 2, "active"),
+            InitialEnrollment(6, 3, "active"),
+            InitialEnrollment(6, 4, "active"),
+            InitialEnrollment(6, 5, "active"),
+            InitialEnrollment(6, 6, "active"),
+            InitialEnrollment(8, 1, "pending"),
+            InitialEnrollment(8, 2, "pending"),
+            InitialEnrollment(8, 3, "pending"),
+            InitialEnrollment(8, 4, "pending"),
+            InitialEnrollment(8, 5, "pending"),
+            InitialEnrollment(8, 6, "pending")
+        )
+
         db.execSQL("PRAGMA foreign_keys=OFF;")
         db.beginTransaction()
 
@@ -222,7 +250,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 db.insert(TABLE_MEMBERSHIPS, null, membershipValues)
             }
 
-            for (activity in initialActivities) {
+            val activityIds = mutableMapOf<Int, Long>()
+            initialActivities.forEachIndexed { index, activity ->
                 val activityValues = ContentValues().apply {
                     put(COLUMN_ACTIVITY_NAME, activity.name)
                     put(COLUMN_ACTIVITY_INSTRUCTOR, activity.instructor)
@@ -235,7 +264,20 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     put(COLUMN_ACTIVITY_LEVEL, activity.level)
                     put(COLUMN_ACTIVITY_ROOM, activity.room)
                 }
-                db.insert(TABLE_ACTIVITIES, null, activityValues)
+                val activityId = db.insert(TABLE_ACTIVITIES, null, activityValues)
+                activityIds[index + 1] = activityId
+            }
+
+            for (enrollment in initialEnrollments) {
+                val realActivityId = activityIds[enrollment.activityId]
+                if (realActivityId != null) {
+                    val enrollmentValues = ContentValues().apply {
+                        put(COLUMN_ENROLLMENT_USER_ID, enrollment.userId)
+                        put(COLUMN_ENROLLMENT_ACTIVITY_ID, realActivityId)
+                        put(COLUMN_ENROLLMENT_STATUS, enrollment.status)
+                    }
+                    db.insert(TABLE_ACTIVITY_ENROLLMENTS, null, enrollmentValues)
+                }
             }
 
             db.setTransactionSuccessful()

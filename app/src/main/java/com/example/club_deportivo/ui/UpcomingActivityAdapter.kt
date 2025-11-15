@@ -12,7 +12,7 @@ import com.example.club_deportivo.R
 import com.example.club_deportivo.models.Activity
 import com.google.android.material.card.MaterialCardView
 
-class UpcomingActivityAdapter(private val activities: List<Activity>) :
+class UpcomingActivityAdapter(private val activitiesWithStatus: List<Pair<Activity, String>>) :
     RecyclerView.Adapter<UpcomingActivityAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,26 +22,50 @@ class UpcomingActivityAdapter(private val activities: List<Activity>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val activity = activities[position]
+        val (activity, enrollmentStatus) = activitiesWithStatus[position]
 
-        if (position == 0) {
-            holder.bind(
-                activity,
-                cardColorRes = R.color.primary_light,
-                dotColorRes = R.color.primary_main,
-                textColorRes = R.color.primary_darkest
-            )
-        } else {
-            holder.bind(
-                activity,
-                cardColorRes = R.color.secondary_light,
-                dotColorRes = R.color.secondary_main,
-                textColorRes = R.color.secondary_darkest
-            )
+        when (enrollmentStatus) {
+            "active" -> {
+                if (position == 0) {
+                    holder.bind(
+                        activity,
+                        enrollmentStatus,
+                        cardColorRes = R.color.primary_light,
+                        dotColorRes = R.color.primary_main,
+                        textColorRes = R.color.primary_darkest
+                    )
+                } else {
+                    holder.bind(
+                        activity,
+                        enrollmentStatus,
+                        cardColorRes = R.color.secondary_light,
+                        dotColorRes = R.color.secondary_main,
+                        textColorRes = R.color.secondary_darkest
+                    )
+                }
+            }
+            "inactive" -> {
+                holder.bind(
+                    activity,
+                    enrollmentStatus,
+                    cardColorRes = R.color.neutral_light,
+                    dotColorRes = R.color.neutral_shiny,
+                    textColorRes = R.color.neutral_shiny
+                )
+            }
+            "pending" -> {
+                holder.bind(
+                    activity,
+                    enrollmentStatus,
+                    cardColorRes = R.color.warning_light,
+                    dotColorRes = R.color.warning_main,
+                    textColorRes = R.color.warning_dark
+                )
+            }
         }
     }
 
-    override fun getItemCount(): Int = activities.size
+    override fun getItemCount(): Int = activitiesWithStatus.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val card: MaterialCardView = itemView.findViewById(R.id.card_schedule)
@@ -50,10 +74,16 @@ class UpcomingActivityAdapter(private val activities: List<Activity>) :
         private val details: TextView = itemView.findViewById(R.id.schedule_details)
         private val colorDot: View = itemView.findViewById(R.id.schedule_color_dot)
 
-        fun bind(activity: Activity, cardColorRes: Int, dotColorRes: Int, textColorRes: Int) {
+        fun bind(activity: Activity, enrollmentStatus: String, cardColorRes: Int, dotColorRes: Int, textColorRes: Int) {
             val context = itemView.context
 
-            activityName.text = activity.name
+            val displayName = when (enrollmentStatus) {
+                "inactive" -> "${activity.name} - ${context.getString(R.string.home_enrollment_status_blocked)}"
+                "pending" -> "${activity.name} - ${context.getString(R.string.home_enrollment_status_pending)}"
+                else -> activity.name
+            }
+
+            activityName.text = displayName
             time.text = activity.schedule
             details.text = context.getString(
                 R.string.home_upcoming_activities_details_format,

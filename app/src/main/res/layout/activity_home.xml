@@ -142,6 +142,19 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <!-- Empty state message -->
+        <TextView
+            android:id="@+id/empty_schedules_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/home_no_enrolled_activities"
+            android:textColor="@color/neutral_shiny"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
         <!-- RecyclerView upcoming activities list -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_schedules"
