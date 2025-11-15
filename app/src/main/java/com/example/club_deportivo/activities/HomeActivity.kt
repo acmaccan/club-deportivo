@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.club_deportivo.R
-import com.example.club_deportivo.models.ActivityRepository
+import com.example.club_deportivo.models.ActivityDatabaseRepository
 import com.example.club_deportivo.models.Client
 import com.example.club_deportivo.models.MembershipStatus
 import com.example.club_deportivo.ui.CustomHeader
@@ -18,9 +18,13 @@ import com.example.club_deportivo.ui.CustomHomeMembershipStatusCard
 import com.example.club_deportivo.ui.UpcomingActivityAdapter
 
 class HomeActivity : BaseAuthActivity() {
+    private lateinit var activityRepository: ActivityDatabaseRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        activityRepository = ActivityDatabaseRepository(this)
 
         val clientUser = user as? Client
         if (clientUser == null) {
@@ -125,7 +129,7 @@ class HomeActivity : BaseAuthActivity() {
      */
     private fun setupActivitiesSection() {
         val recyclerViewActivities = findViewById<RecyclerView>(R.id.recycler_view_activities)
-        val activities = ActivityRepository.getActivities()
+        val activities = activityRepository.getActivitiesForUI()
         val activityAdapter = ActivityAdapter(activities)
 
         recyclerViewActivities.layoutManager =
@@ -142,7 +146,7 @@ class HomeActivity : BaseAuthActivity() {
      */
     private fun setupSchedulesSection() {
         val recyclerViewSchedules = findViewById<RecyclerView>(R.id.recycler_view_schedules)
-        val upcomingActivities = ActivityRepository.getActivities().take(2)
+        val upcomingActivities = activityRepository.getActivitiesForUI().take(2)
         val scheduleAdapter = UpcomingActivityAdapter(upcomingActivities)
 
         recyclerViewSchedules.layoutManager =
