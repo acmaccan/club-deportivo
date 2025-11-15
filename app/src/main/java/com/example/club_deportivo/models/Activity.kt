@@ -15,8 +15,8 @@ data class Activity(
     val maxCapacity: Int? = null,
     val isActive: Boolean = true
 ) {
-    @DrawableRes
     val imageResId: Int
+        @DrawableRes
         get() = when (name.lowercase()) {
             "yoga" -> R.drawable.activity_yoga
             "meditación" -> R.drawable.activity_meditation
