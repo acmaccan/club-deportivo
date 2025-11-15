@@ -67,6 +67,15 @@ class PaymentDatabaseRepository(context: Context) {
     ): Long {
         val db = dbHelper.writableDatabase
 
+        if (status == TransactionStatus.SUCCESS && type == PaymentType.MONTHLY_FEE) {
+            val pendingPayment = getPendingMonthlyPaymentForClient(clientId)
+            if (pendingPayment != null) {
+                updatePaymentStatus(pendingPayment.id, TransactionStatus.SUCCESS)
+                db.close()
+                return pendingPayment.id.toLong()
+            }
+        }
+
         val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
 
         val values = ContentValues().apply {
@@ -93,6 +102,42 @@ class PaymentDatabaseRepository(context: Context) {
 
         db.close()
         return id
+    }
+
+    fun updatePaymentStatus(paymentId: Int, status: TransactionStatus): Boolean {
+        val db = dbHelper.writableDatabase
+
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
+
+        val values = ContentValues().apply {
+            put(DatabaseHelper.COLUMN_PAYMENT_STATUS, status.name.lowercase())
+            if (status == TransactionStatus.SUCCESS) {
+                put(DatabaseHelper.COLUMN_PAYMENT_PAYMENT_DATE, currentDate)
+            }
+        }
+
+        val rowsAffected = db.update(
+            DatabaseHelper.TABLE_PAYMENTS,
+            values,
+            "${DatabaseHelper.COLUMN_PAYMENT_ID} = ?",
+            arrayOf(paymentId.toString())
+        )
+
+        if (status == TransactionStatus.SUCCESS && rowsAffected > 0) {
+            val clientIdQuery = db.rawQuery(
+                "SELECT ${DatabaseHelper.COLUMN_PAYMENT_CLIENT_ID} FROM ${DatabaseHelper.TABLE_PAYMENTS} WHERE ${DatabaseHelper.COLUMN_PAYMENT_ID} = ?",
+                arrayOf(paymentId.toString())
+            )
+            clientIdQuery.use {
+                if (it.moveToFirst()) {
+                    val clientId = it.getInt(0)
+                    updateMembershipStatus(db, clientId)
+                }
+            }
+        }
+
+        db.close()
+        return rowsAffected > 0
     }
 
     private fun updateMembershipStatus(db: android.database.sqlite.SQLiteDatabase, clientId: Int) {

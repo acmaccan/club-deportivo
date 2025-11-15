@@ -15,6 +15,9 @@ import com.example.club_deportivo.models.PaymentDatabaseRepository
 import com.example.club_deportivo.ui.CustomButton
 import com.example.club_deportivo.ui.PaymentActivityAdapter
 import com.google.android.material.card.MaterialCardView
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class PaymentsActivity : BaseAuthActivity() {
 
@@ -122,6 +125,10 @@ class PaymentsActivity : BaseAuthActivity() {
                     paymentSubtitle = monthlyPayment.description,
                     paymentSchedule = "",
                     paymentPrice = getString(R.string.payments_amount_format, monthlyPayment.amount),
+                    paymentMonth = monthlyPayment.month,
+                    paymentYear = monthlyPayment.year,
+                    paymentAmount = monthlyPayment.amount,
+                    paymentDueDate = monthlyPayment.dueDate,
                     activityId = null
                 )
             }
@@ -149,11 +156,21 @@ class PaymentsActivity : BaseAuthActivity() {
         paymentButton.setOnClickListener {
             val selectedActivity = activityAdapter?.getSelectedActivity()
             if (selectedActivity != null) {
+                val calendar = Calendar.getInstance()
+                val currentMonth = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale("es", "ES")) ?: ""
+                val currentYear = calendar.get(Calendar.YEAR)
+                calendar.add(Calendar.MONTH, 1)
+                val dueDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+
                 navigateToPaymentResume(
                     paymentTitle = selectedActivity.name,
                     paymentSubtitle = selectedActivity.instructor,
                     paymentSchedule = selectedActivity.schedule,
                     paymentPrice = getString(R.string.payments_amount_format, selectedActivity.monthlyPrice),
+                    paymentMonth = currentMonth,
+                    paymentYear = currentYear,
+                    paymentAmount = selectedActivity.monthlyPrice,
+                    paymentDueDate = dueDate,
                     activityId = selectedActivity.id
                 )
             }
@@ -169,6 +186,10 @@ class PaymentsActivity : BaseAuthActivity() {
         paymentSubtitle: String,
         paymentSchedule: String,
         paymentPrice: String,
+        paymentMonth: String,
+        paymentYear: Int,
+        paymentAmount: Int,
+        paymentDueDate: String,
         activityId: Int? = null
     ) {
         println("PaymentsActivity - Navigating to PaymentResumeActivity with params:")
@@ -185,6 +206,10 @@ class PaymentsActivity : BaseAuthActivity() {
             putExtra(PaymentResumeActivity.PAYMENT_RESUME_ITEM_SCHEDULE, paymentSchedule)
             putExtra(PaymentResumeActivity.PAYMENT_RESUME_ITEM_PRICE, paymentPrice)
             putExtra(PaymentResumeActivity.PAYMENT_RESUME_SUCCESS, true)
+            putExtra(PaymentResumeActivity.PAYMENT_RESUME_MONTH, paymentMonth)
+            putExtra(PaymentResumeActivity.PAYMENT_RESUME_YEAR, paymentYear)
+            putExtra(PaymentResumeActivity.PAYMENT_RESUME_AMOUNT, paymentAmount)
+            putExtra(PaymentResumeActivity.PAYMENT_RESUME_DUE_DATE, paymentDueDate)
             putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, user.id)
             if (activityId != null) {
                 putExtra(PaymentResumeActivity.PAYMENT_RESUME_ACTIVITY_ID, activityId)

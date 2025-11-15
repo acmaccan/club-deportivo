@@ -10,6 +10,9 @@ import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
 import com.example.club_deportivo.models.ActivityDatabaseRepository
 import com.example.club_deportivo.models.Client
+import com.example.club_deportivo.models.PaymentDatabaseRepository
+import com.example.club_deportivo.models.PaymentType
+import com.example.club_deportivo.models.TransactionStatus
 import com.example.club_deportivo.ui.CustomButton
 import com.google.android.material.card.MaterialCardView
 
@@ -21,16 +24,22 @@ class PaymentResumeActivity : BaseAuthActivity() {
         const val PAYMENT_RESUME_ITEM_PRICE = "ITEM_PRICE"
         const val PAYMENT_RESUME_SUCCESS = "PAYMENT_SUCCESS"
         const val PAYMENT_RESUME_ACTIVITY_ID = "ACTIVITY_ID"
+        const val PAYMENT_RESUME_MONTH = "PAYMENT_MONTH"
+        const val PAYMENT_RESUME_YEAR = "PAYMENT_YEAR"
+        const val PAYMENT_RESUME_AMOUNT = "PAYMENT_AMOUNT"
+        const val PAYMENT_RESUME_DUE_DATE = "PAYMENT_DUE_DATE"
         const val LOGGED_USER_ID_KEY = "LOGGED_USER_ID_KEY"
     }
 
     private lateinit var activityRepository: ActivityDatabaseRepository
+    private lateinit var paymentRepository: PaymentDatabaseRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_resume)
 
         activityRepository = ActivityDatabaseRepository(this)
+        paymentRepository = PaymentDatabaseRepository(this)
 
         val clientUser = user as? Client
         if (clientUser == null) {
@@ -44,14 +53,45 @@ class PaymentResumeActivity : BaseAuthActivity() {
         val itemSchedule = intent.getStringExtra(PAYMENT_RESUME_ITEM_SCHEDULE) ?: ""
         val itemPrice = intent.getStringExtra(PAYMENT_RESUME_ITEM_PRICE) ?: "$0"
         val activityId = intent.getIntExtra(PAYMENT_RESUME_ACTIVITY_ID, -1)
+        val paymentMonth = intent.getStringExtra(PAYMENT_RESUME_MONTH) ?: ""
+        val paymentYear = intent.getIntExtra(PAYMENT_RESUME_YEAR, 0)
+        val paymentAmount = intent.getIntExtra(PAYMENT_RESUME_AMOUNT, 0)
+        val paymentDueDate = intent.getStringExtra(PAYMENT_RESUME_DUE_DATE) ?: ""
+
+        println("DEBUG paymentMonth ${paymentMonth}")
+        println("DEBUG paymentYear ${paymentYear}")
 
         if (isSuccess) {
+            processPayment(clientUser.id, paymentMonth, paymentYear, paymentAmount, paymentDueDate, activityId)
             processEnrollments(clientUser.id, activityId)
         }
 
         setupUI(isSuccess)
         setupSummaryCard(isSuccess, itemTitle, itemSubtitle, itemSchedule, itemPrice)
         setupListeners(isSuccess)
+    }
+
+    private fun processPayment(
+        clientId: Int,
+        month: String,
+        year: Int,
+        amount: Int,
+        dueDate: String,
+        activityId: Int
+    ) {
+        val paymentType = if (activityId == -1) PaymentType.MONTHLY_FEE else PaymentType.ACTIVITY_FEE
+        val realActivityId = if (activityId == -1) null else activityId
+
+        paymentRepository.createPayment(
+            clientId = clientId,
+            type = paymentType,
+            amount = amount,
+            periodMonth = month,
+            periodYear = year,
+            dueDate = dueDate,
+            status = TransactionStatus.SUCCESS,
+            activityId = realActivityId
+        )
     }
 
     private fun processEnrollments(userId: Int, activityId: Int) {
