@@ -327,4 +327,37 @@ class ActivityDatabaseRepository(context: Context) {
         db.close()
         return isEnrolled
     }
+
+    /**
+     * Obtiene las actividades en las que el usuario está inscripto con su estado de inscripción.
+     * Incluye todos los estados: active, inactive, pending.
+     */
+    @SuppressLint("Range")
+    fun getUserEnrolledActivitiesWithStatus(userId: Int): List<Pair<Activity, String>> {
+        val activitiesWithStatus = mutableListOf<Pair<Activity, String>>()
+        val db = dbHelper.readableDatabase
+
+        val sql = """
+            SELECT a.*, ae.${DatabaseHelper.COLUMN_ENROLLMENT_STATUS} as enrollment_status
+            FROM ${DatabaseHelper.TABLE_ACTIVITIES} a
+            INNER JOIN ${DatabaseHelper.TABLE_ACTIVITY_ENROLLMENTS} ae
+                ON a.${DatabaseHelper.COLUMN_ACTIVITY_ID} = ae.${DatabaseHelper.COLUMN_ENROLLMENT_ACTIVITY_ID}
+            WHERE ae.${DatabaseHelper.COLUMN_ENROLLMENT_USER_ID} = ?
+            AND a.${DatabaseHelper.COLUMN_ACTIVITY_IS_ACTIVE} = 1
+            ORDER BY a.${DatabaseHelper.COLUMN_ACTIVITY_NAME}
+        """.trimIndent()
+
+        val cursor = db.rawQuery(sql, arrayOf(userId.toString()))
+
+        cursor.use {
+            while (it.moveToNext()) {
+                val activity = mapCursorToActivity(it)
+                val enrollmentStatus = it.getString(it.getColumnIndex("enrollment_status"))
+                activitiesWithStatus.add(Pair(activity, enrollmentStatus))
+            }
+        }
+
+        db.close()
+        return activitiesWithStatus
+    }
 }

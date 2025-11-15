@@ -88,6 +88,9 @@
     <string name="home_upcoming_activities">Próximas actividades</string>
     <string name="home_upcoming_activities_time_format">%1$s %2$s - %3$s</string>
     <string name="home_upcoming_activities_details_format">%1$s - Instructor: %2$s</string>
+    <string name="home_no_enrolled_activities">No estás inscripto en ninguna actividad</string>
+    <string name="home_enrollment_status_blocked">BLOQUEADO</string>
+    <string name="home_enrollment_status_pending">PENDIENTE</string>
 
     <!-- Payments -->
     <string name="payments_monthly_fee_format">Cuota %1$s %2$d</string>

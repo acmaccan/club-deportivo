@@ -146,11 +146,21 @@ class HomeActivity : BaseAuthActivity() {
      */
     private fun setupSchedulesSection() {
         val recyclerViewSchedules = findViewById<RecyclerView>(R.id.recycler_view_schedules)
-        val upcomingActivities = activityRepository.getActivitiesForUI().take(2)
-        val scheduleAdapter = UpcomingActivityAdapter(upcomingActivities)
+        val emptyMessage = findViewById<android.widget.TextView>(R.id.empty_schedules_message)
 
-        recyclerViewSchedules.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewSchedules.adapter = scheduleAdapter
+        val upcomingActivitiesWithStatus = activityRepository.getUserEnrolledActivitiesWithStatus(user.id).take(2)
+
+        if (upcomingActivitiesWithStatus.isEmpty()) {
+            recyclerViewSchedules.visibility = android.view.View.GONE
+            emptyMessage.visibility = android.view.View.VISIBLE
+        } else {
+            recyclerViewSchedules.visibility = android.view.View.VISIBLE
+            emptyMessage.visibility = android.view.View.GONE
+
+            val scheduleAdapter = UpcomingActivityAdapter(upcomingActivitiesWithStatus)
+            recyclerViewSchedules.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            recyclerViewSchedules.adapter = scheduleAdapter
+        }
     }
 }
