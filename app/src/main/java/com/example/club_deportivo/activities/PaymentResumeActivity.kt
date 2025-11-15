@@ -1,5 +1,6 @@
 package com.example.club_deportivo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -7,32 +8,65 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
+import com.example.club_deportivo.models.ActivityDatabaseRepository
+import com.example.club_deportivo.models.Client
 import com.example.club_deportivo.ui.CustomButton
 import com.google.android.material.card.MaterialCardView
 
-class PaymentResumeActivity : AppCompatActivity() {
+class PaymentResumeActivity : BaseAuthActivity() {
     companion object {
         const val PAYMENT_RESUME_ITEM_TITLE = "ITEM_TITLE"
         const val PAYMENT_RESUME_ITEM_SUBTITLE = "ITEM_SUBTITLE"
         const val PAYMENT_RESUME_ITEM_SCHEDULE = "ITEM_SCHEDULE"
         const val PAYMENT_RESUME_ITEM_PRICE = "ITEM_PRICE"
         const val PAYMENT_RESUME_SUCCESS = "PAYMENT_SUCCESS"
+        const val PAYMENT_RESUME_ACTIVITY_ID = "ACTIVITY_ID"
         const val LOGGED_USER_ID_KEY = "LOGGED_USER_ID_KEY"
     }
+
+    private lateinit var activityRepository: ActivityDatabaseRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_resume)
+
+        activityRepository = ActivityDatabaseRepository(this)
+
+        val clientUser = user as? Client
+        if (clientUser == null) {
+            finish()
+            return
+        }
 
         val isSuccess = intent.getBooleanExtra(PAYMENT_RESUME_SUCCESS, false)
         val itemTitle = intent.getStringExtra(PAYMENT_RESUME_ITEM_TITLE) ?: "No disponible"
         val itemSubtitle = intent.getStringExtra(PAYMENT_RESUME_ITEM_SUBTITLE) ?: "No disponible"
         val itemSchedule = intent.getStringExtra(PAYMENT_RESUME_ITEM_SCHEDULE) ?: ""
         val itemPrice = intent.getStringExtra(PAYMENT_RESUME_ITEM_PRICE) ?: "$0"
+        val activityId = intent.getIntExtra(PAYMENT_RESUME_ACTIVITY_ID, -1)
+
+        if (isSuccess) {
+            processEnrollments(clientUser.id, activityId)
+        }
 
         setupUI(isSuccess)
         setupSummaryCard(isSuccess, itemTitle, itemSubtitle, itemSchedule, itemPrice)
         setupListeners(isSuccess)
+    }
+
+    private fun processEnrollments(userId: Int, activityId: Int) {
+        if (activityId == -1) {
+            val allActivities = activityRepository.getActivitiesForUI()
+            for (activity in allActivities) {
+                if (!activityRepository.isUserEnrolled(userId, activity.id)) {
+                    activityRepository.enrollUserToActivity(userId, activity.id, "active")
+                }
+            }
+        } else {
+            if (!activityRepository.isUserEnrolled(userId, activityId)) {
+                activityRepository.enrollUserToActivity(userId, activityId, "active")
+            }
+        }
     }
 
     private fun setupUI(isSuccess: Boolean) {
@@ -98,6 +132,10 @@ class PaymentResumeActivity : AppCompatActivity() {
         val secondaryButton: CustomButton = findViewById(R.id.secondary_button)
 
         primaryButton.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, user.id)
+            }
+            startActivity(intent)
             finish()
         }
 

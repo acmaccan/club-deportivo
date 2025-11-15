@@ -125,7 +125,8 @@ class PaymentsActivity : BaseAuthActivity() {
                     paymentTitle = selectedActivity.name,
                     paymentSubtitle = selectedActivity.instructor,
                     paymentSchedule = selectedActivity.schedule,
-                    paymentPrice = getString(R.string.payments_amount_format, selectedActivity.monthlyPrice)
+                    paymentPrice = getString(R.string.payments_amount_format, selectedActivity.monthlyPrice),
+                    activityId = selectedActivity.id
                 )
             }
         }
@@ -139,7 +140,8 @@ class PaymentsActivity : BaseAuthActivity() {
         paymentTitle: String,
         paymentSubtitle: String,
         paymentSchedule: String,
-        paymentPrice: String
+        paymentPrice: String,
+        activityId: Int? = null
     ) {
         println("PaymentsActivity - Navigating to PaymentResumeActivity with params:")
         println("  PAYMENT_TITLE: $paymentTitle")
@@ -155,7 +157,10 @@ class PaymentsActivity : BaseAuthActivity() {
             putExtra(PaymentResumeActivity.PAYMENT_RESUME_ITEM_SCHEDULE, paymentSchedule)
             putExtra(PaymentResumeActivity.PAYMENT_RESUME_ITEM_PRICE, paymentPrice)
             putExtra(PaymentResumeActivity.PAYMENT_RESUME_SUCCESS, true)
-            putExtra(PaymentResumeActivity.LOGGED_USER_ID_KEY, user.id)
+            putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, user.id)
+            if (activityId != null) {
+                putExtra(PaymentResumeActivity.PAYMENT_RESUME_ACTIVITY_ID, activityId)
+            }
 
             flags = Intent.FLAG_ACTIVITY_NO_HISTORY
         }
