@@ -51,7 +51,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         const val COLUMN_ENROLLMENT_ID = "id"
         const val COLUMN_ENROLLMENT_USER_ID = "user_id"
         const val COLUMN_ENROLLMENT_ACTIVITY_ID = "activity_id"
-        const val COLUMN_ENROLLMENT_STATUS = "status"
 
         const val TABLE_PAYMENTS = "payments"
         const val COLUMN_PAYMENT_ID = "id"
@@ -126,7 +125,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 $COLUMN_ENROLLMENT_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 $COLUMN_ENROLLMENT_USER_ID INTEGER NOT NULL,
                 $COLUMN_ENROLLMENT_ACTIVITY_ID INTEGER NOT NULL,
-                $COLUMN_ENROLLMENT_STATUS TEXT NOT NULL,
                 FOREIGN KEY($COLUMN_ENROLLMENT_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID),
                 FOREIGN KEY($COLUMN_ENROLLMENT_ACTIVITY_ID) REFERENCES $TABLE_ACTIVITIES($COLUMN_ACTIVITY_ID)
             )
@@ -170,7 +168,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         data class InitialClient(val id: Int, val userId: Int, val document: String, val hasValidMedicalAptitude: Boolean)
         data class InitialMembership(val clientId: Int, val type: String, val amount: String, val status: String, val expiration: String)
         data class InitialActivity(val name: String, val instructor: String, val schedule: String, val monthlyPrice: Int, val description: String, val maxCapacity: Int, val isActive: Boolean, val duration: Int, val level: String, val room: String)
-        data class InitialEnrollment(val userId: Int, val activityId: Int, val status: String)
+        data class InitialEnrollment(val userId: Int, val activityId: Int)
         data class InitialPayment(val clientId: Int, val type: String, val amount: Int, val periodMonth: String, val periodYear: Int, val dueDate: String, val paymentDate: String?, val status: String, val activityId: Int?)
 
         val initialUsers = listOf(
@@ -220,30 +218,30 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         )
 
         val initialEnrollments = listOf(
-            InitialEnrollment(2, 1, "inactive"),
-            InitialEnrollment(2, 2, "inactive"),
-            InitialEnrollment(2, 3, "inactive"),
-            InitialEnrollment(2, 4, "inactive"),
-            InitialEnrollment(2, 5, "inactive"),
-            InitialEnrollment(2, 6, "inactive"),
-            InitialEnrollment(4, 1, "active"),
-            InitialEnrollment(4, 2, "active"),
-            InitialEnrollment(4, 3, "active"),
-            InitialEnrollment(4, 4, "active"),
-            InitialEnrollment(4, 5, "active"),
-            InitialEnrollment(4, 6, "active"),
-            InitialEnrollment(6, 1, "active"),
-            InitialEnrollment(6, 2, "active"),
-            InitialEnrollment(6, 3, "active"),
-            InitialEnrollment(6, 4, "active"),
-            InitialEnrollment(6, 5, "active"),
-            InitialEnrollment(6, 6, "active"),
-            InitialEnrollment(8, 1, "pending"),
-            InitialEnrollment(8, 2, "pending"),
-            InitialEnrollment(8, 3, "pending"),
-            InitialEnrollment(8, 4, "pending"),
-            InitialEnrollment(8, 5, "pending"),
-            InitialEnrollment(8, 6, "pending")
+            InitialEnrollment(2, 1),
+            InitialEnrollment(2, 2),
+            InitialEnrollment(2, 3),
+            InitialEnrollment(2, 4),
+            InitialEnrollment(2, 5),
+            InitialEnrollment(2, 6),
+            InitialEnrollment(4, 1),
+            InitialEnrollment(4, 2),
+            InitialEnrollment(4, 3),
+            InitialEnrollment(4, 4),
+            InitialEnrollment(4, 5),
+            InitialEnrollment(4, 6),
+            InitialEnrollment(6, 1),
+            InitialEnrollment(6, 2),
+            InitialEnrollment(6, 3),
+            InitialEnrollment(6, 4),
+            InitialEnrollment(6, 5),
+            InitialEnrollment(6, 6),
+            InitialEnrollment(8, 1),
+            InitialEnrollment(8, 2),
+            InitialEnrollment(8, 3),
+            InitialEnrollment(8, 4),
+            InitialEnrollment(8, 5),
+            InitialEnrollment(8, 6)
         )
 
         val initialPayments = listOf(
@@ -313,7 +311,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     val enrollmentValues = ContentValues().apply {
                         put(COLUMN_ENROLLMENT_USER_ID, enrollment.userId)
                         put(COLUMN_ENROLLMENT_ACTIVITY_ID, realActivityId)
-                        put(COLUMN_ENROLLMENT_STATUS, enrollment.status)
                     }
                     db.insert(TABLE_ACTIVITY_ENROLLMENTS, null, enrollmentValues)
                 }

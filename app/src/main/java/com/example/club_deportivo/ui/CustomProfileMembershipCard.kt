@@ -45,9 +45,9 @@ class CustomProfileMembershipCard @JvmOverloads constructor(
     }
 
     fun setup(client: Client) {
-        val status = when (client.status) {
-            PaymentStatus.PAID, PaymentStatus.DUE_SOON -> MembershipStatus.ENABLED
-            PaymentStatus.OVERDUE -> MembershipStatus.DISABLED
+        val status = when {
+            client.status == PaymentStatus.OVERDUE || !client.hasValidMedicalAptitude -> MembershipStatus.DISABLED
+            else -> MembershipStatus.ENABLED
         }
 
         val type = client.membershipType

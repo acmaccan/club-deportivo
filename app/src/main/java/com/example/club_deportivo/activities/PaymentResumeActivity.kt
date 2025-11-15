@@ -99,12 +99,12 @@ class PaymentResumeActivity : BaseAuthActivity() {
             val allActivities = activityRepository.getActivitiesForUI()
             for (activity in allActivities) {
                 if (!activityRepository.isUserEnrolled(userId, activity.id)) {
-                    activityRepository.enrollUserToActivity(userId, activity.id, "active")
+                    activityRepository.enrollUserToActivity(userId, activity.id)
                 }
             }
         } else {
             if (!activityRepository.isUserEnrolled(userId, activityId)) {
-                activityRepository.enrollUserToActivity(userId, activityId, "active")
+                activityRepository.enrollUserToActivity(userId, activityId)
             }
         }
     }

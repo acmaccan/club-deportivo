@@ -221,13 +221,12 @@ class ActivityDatabaseRepository(context: Context) {
      * Inscribe a un usuario en una actividad.
      * @return ID de la inscripción creada, o -1 si hay error
      */
-    fun enrollUserToActivity(userId: Int, activityId: Int, status: String = "active"): Long {
+    fun enrollUserToActivity(userId: Int, activityId: Int): Long {
         val db = dbHelper.writableDatabase
 
         val values = ContentValues().apply {
             put(DatabaseHelper.COLUMN_ENROLLMENT_USER_ID, userId)
             put(DatabaseHelper.COLUMN_ENROLLMENT_ACTIVITY_ID, activityId)
-            put(DatabaseHelper.COLUMN_ENROLLMENT_STATUS, status)
         }
 
         val id = db.insert(DatabaseHelper.TABLE_ACTIVITY_ENROLLMENTS, null, values)
@@ -248,7 +247,6 @@ class ActivityDatabaseRepository(context: Context) {
                 ae.${DatabaseHelper.COLUMN_ENROLLMENT_ID},
                 ae.${DatabaseHelper.COLUMN_ENROLLMENT_USER_ID},
                 ae.${DatabaseHelper.COLUMN_ENROLLMENT_ACTIVITY_ID},
-                ae.${DatabaseHelper.COLUMN_ENROLLMENT_STATUS},
                 a.${DatabaseHelper.COLUMN_ACTIVITY_NAME},
                 a.${DatabaseHelper.COLUMN_ACTIVITY_INSTRUCTOR},
                 a.${DatabaseHelper.COLUMN_ACTIVITY_SCHEDULE}
@@ -267,7 +265,6 @@ class ActivityDatabaseRepository(context: Context) {
                         id = it.getInt(it.getColumnIndex(DatabaseHelper.COLUMN_ENROLLMENT_ID)),
                         userId = it.getInt(it.getColumnIndex(DatabaseHelper.COLUMN_ENROLLMENT_USER_ID)),
                         activityId = it.getInt(it.getColumnIndex(DatabaseHelper.COLUMN_ENROLLMENT_ACTIVITY_ID)),
-                        status = it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_ENROLLMENT_STATUS)),
                         activityName = it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_ACTIVITY_NAME)),
                         activityInstructor = it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_ACTIVITY_INSTRUCTOR)),
                         activitySchedule = it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_ACTIVITY_SCHEDULE))
@@ -280,27 +277,6 @@ class ActivityDatabaseRepository(context: Context) {
         return enrollments
     }
 
-    /**
-     * Actualiza el estado de una inscripción.
-     * @return true si se actualizó correctamente, false en caso contrario
-     */
-    fun updateEnrollmentStatus(enrollmentId: Int, status: String): Boolean {
-        val db = dbHelper.writableDatabase
-
-        val values = ContentValues().apply {
-            put(DatabaseHelper.COLUMN_ENROLLMENT_STATUS, status)
-        }
-
-        val rowsAffected = db.update(
-            DatabaseHelper.TABLE_ACTIVITY_ENROLLMENTS,
-            values,
-            "${DatabaseHelper.COLUMN_ENROLLMENT_ID} = ?",
-            arrayOf(enrollmentId.toString())
-        )
-
-        db.close()
-        return rowsAffected > 0
-    }
 
     /**
      * Verifica si un usuario está inscrito en una actividad.
@@ -312,7 +288,6 @@ class ActivityDatabaseRepository(context: Context) {
             SELECT COUNT(*) FROM ${DatabaseHelper.TABLE_ACTIVITY_ENROLLMENTS}
             WHERE ${DatabaseHelper.COLUMN_ENROLLMENT_USER_ID} = ?
             AND ${DatabaseHelper.COLUMN_ENROLLMENT_ACTIVITY_ID} = ?
-            AND ${DatabaseHelper.COLUMN_ENROLLMENT_STATUS} = 'active'
         """.trimIndent()
 
         val cursor = db.rawQuery(sql, arrayOf(userId.toString(), activityId.toString()))
@@ -330,7 +305,10 @@ class ActivityDatabaseRepository(context: Context) {
 
     /**
      * Obtiene las actividades en las que el usuario está inscripto con su estado de inscripción.
-     * Incluye todos los estados: active, inactive, pending.
+     * El estado se calcula dinámicamente:
+     * - "inactive" si hasValidMedicalAptitude = false
+     * - "pending" si PaymentStatus = OVERDUE
+     * - "active" en caso contrario
      */
     @SuppressLint("Range")
     fun getUserEnrolledActivitiesWithStatus(userId: Int): List<Pair<Activity, String>> {
@@ -338,10 +316,17 @@ class ActivityDatabaseRepository(context: Context) {
         val db = dbHelper.readableDatabase
 
         val sql = """
-            SELECT a.*, ae.${DatabaseHelper.COLUMN_ENROLLMENT_STATUS} as enrollment_status
+            SELECT
+                a.*,
+                c.${DatabaseHelper.COLUMN_CLIENT_HAS_VALID_MEDICAL_APTITUDE} as has_medical_aptitude,
+                m.${DatabaseHelper.COLUMN_MEMBERSHIP_PAYMENT_STATUS} as payment_status
             FROM ${DatabaseHelper.TABLE_ACTIVITIES} a
             INNER JOIN ${DatabaseHelper.TABLE_ACTIVITY_ENROLLMENTS} ae
                 ON a.${DatabaseHelper.COLUMN_ACTIVITY_ID} = ae.${DatabaseHelper.COLUMN_ENROLLMENT_ACTIVITY_ID}
+            INNER JOIN ${DatabaseHelper.TABLE_CLIENTS} c
+                ON ae.${DatabaseHelper.COLUMN_ENROLLMENT_USER_ID} = c.${DatabaseHelper.COLUMN_CLIENT_USER_ID}
+            INNER JOIN ${DatabaseHelper.TABLE_MEMBERSHIPS} m
+                ON c.${DatabaseHelper.COLUMN_CLIENT_ID} = m.${DatabaseHelper.COLUMN_MEMBERSHIP_CLIENT_ID}
             WHERE ae.${DatabaseHelper.COLUMN_ENROLLMENT_USER_ID} = ?
             AND a.${DatabaseHelper.COLUMN_ACTIVITY_IS_ACTIVE} = 1
             ORDER BY a.${DatabaseHelper.COLUMN_ACTIVITY_NAME}
@@ -352,7 +337,15 @@ class ActivityDatabaseRepository(context: Context) {
         cursor.use {
             while (it.moveToNext()) {
                 val activity = mapCursorToActivity(it)
-                val enrollmentStatus = it.getString(it.getColumnIndex("enrollment_status"))
+                val hasValidMedicalAptitude = it.getInt(it.getColumnIndex("has_medical_aptitude")) == 1
+                val paymentStatus = it.getString(it.getColumnIndex("payment_status"))
+
+                val enrollmentStatus = when {
+                    !hasValidMedicalAptitude -> "inactive"
+                    paymentStatus == PaymentStatus.OVERDUE.name -> "pending"
+                    else -> "active"
+                }
+
                 activitiesWithStatus.add(Pair(activity, enrollmentStatus))
             }
         }
