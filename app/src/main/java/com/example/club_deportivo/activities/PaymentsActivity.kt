@@ -11,7 +11,7 @@ import com.example.club_deportivo.R
 import com.example.club_deportivo.models.ActivityDatabaseRepository
 import com.example.club_deportivo.models.Client
 import com.example.club_deportivo.models.MembershipType
-import com.example.club_deportivo.models.PaymentRepository
+import com.example.club_deportivo.models.PaymentDatabaseRepository
 import com.example.club_deportivo.ui.CustomButton
 import com.example.club_deportivo.ui.PaymentActivityAdapter
 import com.google.android.material.card.MaterialCardView
@@ -20,18 +20,21 @@ class PaymentsActivity : BaseAuthActivity() {
 
     private lateinit var monthlyPaymentCard: MaterialCardView
     private lateinit var activitySelectionSection: View
+    private lateinit var totalAmountTextTitle: TextView
     private lateinit var totalAmountText: TextView
     private lateinit var paymentTypeLabel: TextView
     private lateinit var paymentButton: CustomButton
     private lateinit var activitiesRecyclerView: RecyclerView
     private var activityAdapter: PaymentActivityAdapter? = null
     private lateinit var activityRepository: ActivityDatabaseRepository
+    private lateinit var paymentRepository: PaymentDatabaseRepository
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payments)
 
         activityRepository = ActivityDatabaseRepository(this)
+        paymentRepository = PaymentDatabaseRepository(this)
 
         val clientUser = user as? Client
         if (clientUser == null) {
@@ -47,6 +50,7 @@ class PaymentsActivity : BaseAuthActivity() {
     private fun initViews() {
         monthlyPaymentCard = findViewById(R.id.monthlyPaymentCard)
         activitySelectionSection = findViewById(R.id.activitySelectionSection)
+        totalAmountTextTitle = findViewById(R.id.totalAmountTextTitle)
         totalAmountText = findViewById(R.id.totalAmountText)
         paymentTypeLabel = findViewById(R.id.paymentTypeLabel)
         paymentButton = findViewById(R.id.paymentButton)
@@ -74,29 +78,53 @@ class PaymentsActivity : BaseAuthActivity() {
     private fun setupMonthlyPayment() {
         monthlyPaymentCard.visibility = View.VISIBLE
         activitySelectionSection.visibility = View.GONE
-        
-        val monthlyPayment = PaymentRepository.getMonthlyPayment()
-        
-        findViewById<TextView>(R.id.monthlyPaymentTitle).text = 
+
+        val clientUser = user as Client
+        var monthlyPayment = paymentRepository.getMonthlyPaymentForUI(clientUser.id, isPending = true)
+        var isPaid = false
+
+        if (monthlyPayment == null) {
+            monthlyPayment = paymentRepository.getMonthlyPaymentForUI(clientUser.id, isPending = false)
+            isPaid = true
+        }
+
+        if (monthlyPayment == null) {
+            finish()
+            return
+        }
+
+        findViewById<TextView>(R.id.monthlyPaymentTitle).text =
             getString(R.string.payments_monthly_fee_format, monthlyPayment.month, monthlyPayment.year)
-        findViewById<TextView>(R.id.monthlyPaymentDue).text = 
+        findViewById<TextView>(R.id.monthlyPaymentDue).text =
             getString(R.string.payments_expires_in_format, monthlyPayment.daysUntilDue)
-        findViewById<TextView>(R.id.monthlyPaymentAmount).text = 
+        findViewById<TextView>(R.id.monthlyPaymentAmount).text =
             getString(R.string.payments_amount_format, monthlyPayment.amount)
-        findViewById<TextView>(R.id.monthlyPaymentDescription).text = 
+        findViewById<TextView>(R.id.monthlyPaymentDescription).text =
             monthlyPayment.description
-        
+
         totalAmountText.text = getString(R.string.payments_amount_format, monthlyPayment.amount)
         paymentTypeLabel.text = getString(R.string.payments_monthly_fee_label)
         paymentButton.text = getString(R.string.payments_pay_monthly_fee)
-        
-        paymentButton.setOnClickListener {
-            navigateToPaymentResume(
-                paymentTitle = getString(R.string.payments_monthly_fee_format, monthlyPayment.month, monthlyPayment.year),
-                paymentSubtitle = monthlyPayment.description,
-                paymentSchedule = "",
-                paymentPrice = getString(R.string.payments_amount_format, monthlyPayment.amount)
-            )
+
+        if (isPaid) {
+            paymentButton.isEnabled = false
+            totalAmountTextTitle.visibility = View.GONE
+            totalAmountText.visibility = View.GONE
+            paymentTypeLabel.visibility = View.GONE
+        } else {
+            paymentButton.isEnabled = true
+            totalAmountTextTitle.visibility = View.VISIBLE
+            totalAmountText.visibility = View.VISIBLE
+            paymentTypeLabel.visibility = View.VISIBLE
+            paymentButton.setOnClickListener {
+                navigateToPaymentResume(
+                    paymentTitle = getString(R.string.payments_monthly_fee_format, monthlyPayment.month, monthlyPayment.year),
+                    paymentSubtitle = monthlyPayment.description,
+                    paymentSchedule = "",
+                    paymentPrice = getString(R.string.payments_amount_format, monthlyPayment.amount),
+                    activityId = null
+                )
+            }
         }
     }
     
