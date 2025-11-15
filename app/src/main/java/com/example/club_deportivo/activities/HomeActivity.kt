@@ -148,7 +148,7 @@ class HomeActivity : BaseAuthActivity() {
         val recyclerViewSchedules = findViewById<RecyclerView>(R.id.recycler_view_schedules)
         val emptyMessage = findViewById<android.widget.TextView>(R.id.empty_schedules_message)
 
-        val upcomingActivitiesWithStatus = activityRepository.getUserEnrolledActivitiesWithStatus(user.id).take(2)
+        val upcomingActivitiesWithStatus = activityRepository.getUserEnrolledActivitiesWithStatus(user.id)
 
         if (upcomingActivitiesWithStatus.isEmpty()) {
             recyclerViewSchedules.visibility = android.view.View.GONE
