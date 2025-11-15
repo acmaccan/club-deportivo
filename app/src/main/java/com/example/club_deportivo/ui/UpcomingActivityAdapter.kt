@@ -26,7 +26,7 @@ class UpcomingActivityAdapter(private val activitiesWithStatus: List<Pair<Activi
 
         when (enrollmentStatus) {
             "active" -> {
-                if (position == 0) {
+                if (position % 2 == 0) {
                     holder.bind(
                         activity,
                         enrollmentStatus,

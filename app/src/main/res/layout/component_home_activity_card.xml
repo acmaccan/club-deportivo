@@ -41,11 +41,13 @@
                 android:layout_marginTop="8dp">
 
                 <FrameLayout
+                    android:id="@+id/activity_level_circle_outer"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:background="@drawable/circle_background_primary_light">
 
                     <View
+                        android:id="@+id/activity_level_circle_inner"
                         android:layout_width="8dp"
                         android:layout_height="8dp"
                         android:layout_gravity="center"
