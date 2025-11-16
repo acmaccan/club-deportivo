@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.club_deportivo.R
@@ -153,37 +154,63 @@ class PaymentsActivity : BaseAuthActivity() {
         val currentYear = calendar.get(Calendar.YEAR)
 
         val activities = activityRepository.getUnpaidActivitiesForClient(clientUser.id, currentMonth, currentYear)
-        activityAdapter = PaymentActivityAdapter(activities) { selectedActivity ->
-            updateTotalAmount(selectedActivity?.monthlyPrice ?: 0)
-            paymentButton.isEnabled = selectedActivity != null
-        }
 
-        activitiesRecyclerView.layoutManager = LinearLayoutManager(this)
-        activitiesRecyclerView.adapter = activityAdapter
+        if (activities.isEmpty()) {
+            activitiesRecyclerView.visibility = View.GONE
+            totalAmountTextTitle.visibility = View.GONE
+            totalAmountText.visibility = View.GONE
+            paymentTypeLabel.visibility = View.GONE
+            paymentButton.isEnabled = false
 
-        paymentTypeLabel.text = getString(R.string.payments_activity_fee_label)
-        paymentButton.text = getString(R.string.payments_pay_selected_activity)
-        paymentButton.isEnabled = false
-        updateTotalAmount(0)
+            val emptyMessageTextView = TextView(this).apply {
+                text = getString(R.string.payments_all_activities_paid)
+                textSize = 16f
+                gravity = android.view.Gravity.CENTER
+                setPadding(32, 32, 32, 32)
+                setTextColor(ContextCompat.getColor(this@PaymentsActivity, R.color.neutral_main))
+            }
 
-        paymentButton.setOnClickListener {
-            val selectedActivity = activityAdapter?.getSelectedActivity()
-            if (selectedActivity != null) {
-                val calendarForDueDate = Calendar.getInstance()
-                calendarForDueDate.add(Calendar.MONTH, 1)
-                val dueDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendarForDueDate.time)
+            val parent = activitiesRecyclerView.parent as? android.view.ViewGroup
+            parent?.addView(emptyMessageTextView)
+        } else {
+            activitiesRecyclerView.visibility = View.VISIBLE
+            totalAmountTextTitle.visibility = View.VISIBLE
+            totalAmountText.visibility = View.VISIBLE
+            paymentTypeLabel.visibility = View.VISIBLE
+            paymentButton.visibility = View.VISIBLE
 
-                navigateToPaymentResume(
-                    paymentTitle = selectedActivity.name,
-                    paymentSubtitle = selectedActivity.instructor,
-                    paymentSchedule = selectedActivity.schedule,
-                    paymentPrice = getString(R.string.payments_amount_format, selectedActivity.monthlyPrice),
-                    paymentMonth = currentMonth,
-                    paymentYear = currentYear,
-                    paymentAmount = selectedActivity.monthlyPrice,
-                    paymentDueDate = dueDate,
-                    activityId = selectedActivity.id
-                )
+            activityAdapter = PaymentActivityAdapter(activities) { selectedActivity ->
+                updateTotalAmount(selectedActivity?.monthlyPrice ?: 0)
+                paymentButton.isEnabled = selectedActivity != null
+            }
+
+            activitiesRecyclerView.layoutManager = LinearLayoutManager(this)
+            activitiesRecyclerView.adapter = activityAdapter
+
+            paymentTypeLabel.text = getString(R.string.payments_activity_fee_label)
+            paymentButton.text = getString(R.string.payments_pay_selected_activity)
+            paymentButton.isEnabled = false
+            updateTotalAmount(0)
+
+            paymentButton.setOnClickListener {
+                val selectedActivity = activityAdapter?.getSelectedActivity()
+                if (selectedActivity != null) {
+                    val calendarForDueDate = Calendar.getInstance()
+                    calendarForDueDate.add(Calendar.MONTH, 1)
+                    val dueDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendarForDueDate.time)
+
+                    navigateToPaymentResume(
+                        paymentTitle = selectedActivity.name,
+                        paymentSubtitle = selectedActivity.instructor,
+                        paymentSchedule = selectedActivity.schedule,
+                        paymentPrice = getString(R.string.payments_amount_format, selectedActivity.monthlyPrice),
+                        paymentMonth = currentMonth,
+                        paymentYear = currentYear,
+                        paymentAmount = selectedActivity.monthlyPrice,
+                        paymentDueDate = dueDate,
+                        activityId = selectedActivity.id
+                    )
+                }
             }
         }
     }
