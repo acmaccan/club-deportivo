@@ -219,7 +219,8 @@ class ActivityDatabaseRepository(context: Context) {
 
     /**
      * Inscribe a un usuario en una actividad.
-     * @return ID de la inscripción creada, o -1 si hay error
+     * Si ya existe la inscripción, la ignora (no genera error).
+     * @return ID de la inscripción creada, o -1 si ya existía
      */
     fun enrollUserToActivity(userId: Int, activityId: Int): Long {
         val db = dbHelper.writableDatabase
@@ -229,7 +230,12 @@ class ActivityDatabaseRepository(context: Context) {
             put(DatabaseHelper.COLUMN_ENROLLMENT_ACTIVITY_ID, activityId)
         }
 
-        val id = db.insert(DatabaseHelper.TABLE_ACTIVITY_ENROLLMENTS, null, values)
+        val id = db.insertWithOnConflict(
+            DatabaseHelper.TABLE_ACTIVITY_ENROLLMENTS,
+            null,
+            values,
+            android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
+        )
         db.close()
         return id
     }
