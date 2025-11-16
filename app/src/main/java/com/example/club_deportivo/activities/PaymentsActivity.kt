@@ -147,7 +147,12 @@ class PaymentsActivity : BaseAuthActivity() {
         monthlyPaymentCard.visibility = View.GONE
         activitySelectionSection.visibility = View.VISIBLE
 
-        val activities = activityRepository.getActivities()
+        val clientUser = user as Client
+        val calendar = Calendar.getInstance()
+        val currentMonth = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale("es", "ES")) ?: ""
+        val currentYear = calendar.get(Calendar.YEAR)
+
+        val activities = activityRepository.getUnpaidActivitiesForClient(clientUser.id, currentMonth, currentYear)
         activityAdapter = PaymentActivityAdapter(activities) { selectedActivity ->
             updateTotalAmount(selectedActivity?.monthlyPrice ?: 0)
             paymentButton.isEnabled = selectedActivity != null
@@ -164,11 +169,9 @@ class PaymentsActivity : BaseAuthActivity() {
         paymentButton.setOnClickListener {
             val selectedActivity = activityAdapter?.getSelectedActivity()
             if (selectedActivity != null) {
-                val calendar = Calendar.getInstance()
-                val currentMonth = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale("es", "ES")) ?: ""
-                val currentYear = calendar.get(Calendar.YEAR)
-                calendar.add(Calendar.MONTH, 1)
-                val dueDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+                val calendarForDueDate = Calendar.getInstance()
+                calendarForDueDate.add(Calendar.MONTH, 1)
+                val dueDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendarForDueDate.time)
 
                 navigateToPaymentResume(
                     paymentTitle = selectedActivity.name,
@@ -200,14 +203,6 @@ class PaymentsActivity : BaseAuthActivity() {
         paymentDueDate: String,
         activityId: Int? = null
     ) {
-        println("PaymentsActivity - Navigating to PaymentResumeActivity with params:")
-        println("  PAYMENT_TITLE: $paymentTitle")
-        println("  PAYMENT_SUBTITLE: $paymentSubtitle")
-        println("  PAYMENT_SCHEDULE: $paymentSchedule")
-        println("  PAYMENT_PRICE: $paymentPrice")
-        println("  PAYMENT_SUCCESS: true")
-        println("  LOGGED_USER_ID_KEY: ${user.id}")
-
         val intent = Intent(this, PaymentResumeActivity::class.java).apply {
             putExtra(PaymentResumeActivity.PAYMENT_RESUME_ITEM_TITLE, paymentTitle)
             putExtra(PaymentResumeActivity.PAYMENT_RESUME_ITEM_SUBTITLE, paymentSubtitle)
