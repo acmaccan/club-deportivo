@@ -109,6 +109,7 @@
     <string name="payments_benefit_gym_access">• Uso libre del gimnasio</string>
     <string name="payments_benefit_locker_rooms">• Acceso a vestuarios y duchas</string>
     <string name="payments_benefit_group_classes">• Clases grupales sin límite</string>
+    <string name="payments_all_activities_paid">Te encuentras inscripto en todas nuestras actividades</string>
 
     <!-- Payments Resume -->
     <string name="payment_resume_title">Resumen del pago</string>

@@ -95,6 +95,41 @@ class ActivityDatabaseRepository(context: Context) {
     }
 
     /**
+     * Obtiene las actividades activas que el cliente NO ha pagado en el mes/año actual.
+     * Excluye actividades con pagos exitosos en el periodo actual.
+     */
+    fun getUnpaidActivitiesForClient(clientId: Int, currentMonth: String, currentYear: Int): List<PaymentActivity> {
+        val activities = mutableListOf<PaymentActivity>()
+        val db = dbHelper.readableDatabase
+
+        val sql = """
+            SELECT DISTINCT a.*
+            FROM ${DatabaseHelper.TABLE_ACTIVITIES} a
+            LEFT JOIN ${DatabaseHelper.TABLE_PAYMENTS} p
+                ON a.${DatabaseHelper.COLUMN_ACTIVITY_ID} = p.${DatabaseHelper.COLUMN_PAYMENT_ACTIVITY_ID}
+                AND p.${DatabaseHelper.COLUMN_PAYMENT_CLIENT_ID} = ?
+                AND p.${DatabaseHelper.COLUMN_PAYMENT_PERIOD_MONTH} = ?
+                AND p.${DatabaseHelper.COLUMN_PAYMENT_PERIOD_YEAR} = ?
+                AND p.${DatabaseHelper.COLUMN_PAYMENT_STATUS} = 'success'
+                AND p.${DatabaseHelper.COLUMN_PAYMENT_TYPE} = 'activity_fee'
+            WHERE a.${DatabaseHelper.COLUMN_ACTIVITY_IS_ACTIVE} = 1
+            AND p.${DatabaseHelper.COLUMN_PAYMENT_ID} IS NULL
+            ORDER BY a.${DatabaseHelper.COLUMN_ACTIVITY_NAME}
+        """.trimIndent()
+
+        val cursor = db.rawQuery(sql, arrayOf(clientId.toString(), currentMonth, currentYear.toString()))
+
+        cursor.use {
+            while (it.moveToNext()) {
+                activities.add(mapCursorToPaymentActivity(it))
+            }
+        }
+
+        db.close()
+        return activities
+    }
+
+    /**
      * Busca una actividad por su ID.
      */
     fun getActivityById(activityId: Int): PaymentActivity? {
