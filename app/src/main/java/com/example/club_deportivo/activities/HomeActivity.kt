@@ -103,6 +103,13 @@ class HomeActivity : BaseAuthActivity() {
             )
         }
 
+        cardMedical.setOnClickListener {
+            val intent = Intent(this, UploadMedicalDocumentActivity::class.java).apply {
+                putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, user.id)
+            }
+            startActivity(intent)
+        }
+
         val cardActivities = findViewById<MaterialCardView>(R.id.card_action_activities)
         CustomActionCard.setup(
             card = cardActivities,
