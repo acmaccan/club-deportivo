@@ -79,6 +79,7 @@
     <string name="home_actions_invalid_medical_aptitude">Requerido</string>
     <string name="home_actions_see_more">Ver e Inscribirse</string>
     <string name="home_actions_monthly_payment">Cuota Mensual</string>
+    <string name="home_actions_activities_payment">Actividades</string>
     <string name="home_activities">Actividades</string>
     <string name="home_activity_level_beginner">Principiante</string>
     <string name="home_activity_level_intermediate">Intermedio</string>
