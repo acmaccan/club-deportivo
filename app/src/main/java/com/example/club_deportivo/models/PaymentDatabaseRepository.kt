@@ -96,7 +96,7 @@ class PaymentDatabaseRepository(context: Context) {
 
         val id = db.insert(DatabaseHelper.TABLE_PAYMENTS, null, values)
 
-        if (status == TransactionStatus.SUCCESS && type == PaymentType.MONTHLY_FEE) {
+        if (status == TransactionStatus.SUCCESS) {
             updateMembershipStatus(db, clientId)
         }
 
@@ -141,13 +141,29 @@ class PaymentDatabaseRepository(context: Context) {
     }
 
     private fun updateMembershipStatus(db: android.database.sqlite.SQLiteDatabase, clientId: Int) {
-        val calendar = Calendar.getInstance()
-        calendar.add(Calendar.MONTH, 1)
-        val newExpirationDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+        // Verificar el tipo de membresía
+        val membershipTypeCursor = db.rawQuery(
+            "SELECT ${DatabaseHelper.COLUMN_MEMBERSHIP_TYPE} FROM ${DatabaseHelper.TABLE_MEMBERSHIPS} WHERE ${DatabaseHelper.COLUMN_MEMBERSHIP_CLIENT_ID} = ?",
+            arrayOf(clientId.toString())
+        )
+
+        var isMember = false
+        membershipTypeCursor.use {
+            if (it.moveToFirst()) {
+                val membershipType = it.getString(0)
+                isMember = membershipType == MembershipType.MEMBER.name
+            }
+        }
 
         val values = ContentValues().apply {
             put(DatabaseHelper.COLUMN_MEMBERSHIP_PAYMENT_STATUS, PaymentStatus.PAID.name)
-            put(DatabaseHelper.COLUMN_MEMBERSHIP_EXPIRATION_DATE, newExpirationDate)
+            // Solo actualizar fecha de expiración para MEMBER
+            if (isMember) {
+                val calendar = Calendar.getInstance()
+                calendar.add(Calendar.MONTH, 1)
+                val newExpirationDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+                put(DatabaseHelper.COLUMN_MEMBERSHIP_EXPIRATION_DATE, newExpirationDate)
+            }
         }
 
         db.update(
