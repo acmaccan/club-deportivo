@@ -114,6 +114,7 @@
     <string name="payment_resume_title">Resumen del pago</string>
     <string name="payment_resume_success_title">¡Pago exitoso!</string>
     <string name="payment_resume_success_subtitle">Tu pago de actividad ha sido procesado correctamente</string>
+    <string name="payment_resume_success_subtitle_monthly">Tu pago mensual ha sido procesado correctamente</string>
     <string name="payment_resume_error_title">Pago rechazado</string>
     <string name="payment_resume_error_subtitle">No pudimos procesar tu pago en este momento. Por favor, intenta nuevamente.</string>
     <string name="payment_resume_back_to_home">Volver al inicio</string>

@@ -58,15 +58,12 @@ class PaymentResumeActivity : BaseAuthActivity() {
         val paymentAmount = intent.getIntExtra(PAYMENT_RESUME_AMOUNT, 0)
         val paymentDueDate = intent.getStringExtra(PAYMENT_RESUME_DUE_DATE) ?: ""
 
-        println("DEBUG paymentMonth ${paymentMonth}")
-        println("DEBUG paymentYear ${paymentYear}")
-
         if (isSuccess) {
             processPayment(clientUser.id, paymentMonth, paymentYear, paymentAmount, paymentDueDate, activityId)
             processEnrollments(clientUser.id, activityId)
         }
 
-        setupUI(isSuccess)
+        setupUI(isSuccess, activityId)
         setupSummaryCard(isSuccess, itemTitle, itemSubtitle, itemSchedule, itemPrice)
         setupListeners(isSuccess)
     }
@@ -109,7 +106,7 @@ class PaymentResumeActivity : BaseAuthActivity() {
         }
     }
 
-    private fun setupUI(isSuccess: Boolean) {
+    private fun setupUI(isSuccess: Boolean, activityId: Int) {
         val resumeIcon: ImageView = findViewById(R.id.resume_icon)
         val resumeTitle: TextView = findViewById(R.id.payment_resume_title)
         val resumeSubtitle: TextView = findViewById(R.id.payment_resume_subtitle)
@@ -120,7 +117,13 @@ class PaymentResumeActivity : BaseAuthActivity() {
             resumeIcon.setImageResource(R.drawable.icon_check)
             resumeIcon.background.setTint(ContextCompat.getColor(this, R.color.success_main))
             resumeTitle.text = getString(R.string.payment_resume_success_title)
-            resumeSubtitle.text = getString(R.string.payment_resume_success_subtitle)
+
+            resumeSubtitle.text = if (activityId == -1) {
+                getString(R.string.payment_resume_success_subtitle_monthly)
+            } else {
+                getString(R.string.payment_resume_success_subtitle)
+            }
+
             primaryButton.setText(getString(R.string.payment_resume_back_to_home))
             secondaryButton.visibility = View.GONE
         } else {
