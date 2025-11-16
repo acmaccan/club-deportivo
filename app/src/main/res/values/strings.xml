@@ -133,8 +133,8 @@
     <string name="profile_benefit_member_4">Clases grupales sin límite</string>
     <string name="profile_benefit_no_member_1">Acceso mensual a la actividad registrada</string>
     <string name="profile_benefit_no_member_2">Acceso a vestuarios y duchas</string>
-    <string name="profile_enabled_membership">Tu carnet no se encuentra activo</string>
-    <string name="profile_disabled_membership">Tu carnet está activo hasta:</string>
+    <string name="profile_enabled_membership">Tu carnet está activo hasta:</string>
+    <string name="profile_disabled_membership">Tu carnet no se encuentra activo</string>
     <string name="profile_personal_info">Información personal</string>
     <string name="profile_name">Nombre y apellido</string>
     <string name="profile_document">DNI</string>
