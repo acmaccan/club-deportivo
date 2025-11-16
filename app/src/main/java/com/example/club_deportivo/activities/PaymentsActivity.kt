@@ -28,6 +28,10 @@ class PaymentsActivity : BaseAuthActivity() {
     private lateinit var paymentTypeLabel: TextView
     private lateinit var paymentButton: CustomButton
     private lateinit var activitiesRecyclerView: RecyclerView
+    private lateinit var monthlyPaymentTitle: TextView
+    private lateinit var monthlyPaymentDue: TextView
+    private lateinit var monthlyPaymentAmount: TextView
+    private lateinit var monthlyPaymentDescription: TextView
     private var activityAdapter: PaymentActivityAdapter? = null
     private lateinit var activityRepository: ActivityDatabaseRepository
     private lateinit var paymentRepository: PaymentDatabaseRepository
@@ -58,6 +62,10 @@ class PaymentsActivity : BaseAuthActivity() {
         paymentTypeLabel = findViewById(R.id.paymentTypeLabel)
         paymentButton = findViewById(R.id.paymentButton)
         activitiesRecyclerView = findViewById(R.id.activitiesRecyclerView)
+        monthlyPaymentTitle = findViewById(R.id.monthlyPaymentTitle)
+        monthlyPaymentDue = findViewById(R.id.monthlyPaymentDue)
+        monthlyPaymentAmount = findViewById(R.id.monthlyPaymentAmount)
+        monthlyPaymentDescription = findViewById(R.id.monthlyPaymentDescription)
     }
     
     private fun setupToolbar() {
@@ -96,25 +104,25 @@ class PaymentsActivity : BaseAuthActivity() {
             return
         }
 
-        findViewById<TextView>(R.id.monthlyPaymentTitle).text =
+        monthlyPaymentTitle.text =
             getString(R.string.payments_monthly_fee_format, monthlyPayment.month, monthlyPayment.year)
-        findViewById<TextView>(R.id.monthlyPaymentDue).text =
-            getString(R.string.payments_expires_in_format, monthlyPayment.daysUntilDue)
-        findViewById<TextView>(R.id.monthlyPaymentAmount).text =
+        monthlyPaymentAmount.text =
             getString(R.string.payments_amount_format, monthlyPayment.amount)
-        findViewById<TextView>(R.id.monthlyPaymentDescription).text =
-            monthlyPayment.description
+        monthlyPaymentDescription.text = monthlyPayment.description
 
         totalAmountText.text = getString(R.string.payments_amount_format, monthlyPayment.amount)
         paymentTypeLabel.text = getString(R.string.payments_monthly_fee_label)
         paymentButton.text = getString(R.string.payments_pay_monthly_fee)
 
         if (isPaid) {
+            monthlyPaymentDue.text = getString(R.string.payments_paid)
             paymentButton.isEnabled = false
             totalAmountTextTitle.visibility = View.GONE
             totalAmountText.visibility = View.GONE
             paymentTypeLabel.visibility = View.GONE
         } else {
+            monthlyPaymentDue.text =
+                getString(R.string.payments_expires_in_format, monthlyPayment.daysUntilDue)
             paymentButton.isEnabled = true
             totalAmountTextTitle.visibility = View.VISIBLE
             totalAmountText.visibility = View.VISIBLE
