@@ -8,6 +8,7 @@ import com.example.club_deportivo.R
 import com.example.club_deportivo.models.ActivityDatabaseRepository
 import com.example.club_deportivo.models.Client
 import com.example.club_deportivo.models.MembershipStatus
+import com.example.club_deportivo.models.MembershipType
 import com.example.club_deportivo.ui.CustomHeader
 import com.google.android.material.card.MaterialCardView
 import com.example.club_deportivo.models.PaymentStatus
@@ -112,11 +113,16 @@ class HomeActivity : BaseAuthActivity() {
         )
 
         val cardPayment = findViewById<MaterialCardView>(R.id.card_action_payment)
+        val paymentSubtitle = if (user.membershipType == MembershipType.NO_MEMBER) {
+            getString(R.string.home_actions_activities_payment)
+        } else {
+            getString(R.string.home_actions_monthly_payment)
+        }
         CustomActionCard.setup(
             card = cardPayment,
             iconResId = R.drawable.icon_payment_white,
             title = getString(R.string.payments),
-            subtitle = getString(R.string.home_actions_monthly_payment),
+            subtitle = paymentSubtitle,
             style = ActionCardStyle.PRIMARY
         )
         cardPayment.setOnClickListener {

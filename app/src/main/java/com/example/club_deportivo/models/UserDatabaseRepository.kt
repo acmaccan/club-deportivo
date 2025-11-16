@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import com.example.club_deportivo.helpers.DatabaseHelper
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
@@ -267,6 +268,54 @@ class UserDatabaseRepository (context: Context) {
             if (newMembershipId == -1L) {
                 Log.e("UserDbRepository", "Falló la inserción en la tabla memberships.")
                 return -1L
+            }
+
+            // Si es MEMBER, inscribir automáticamente en todas las actividades y crear pago pendiente
+            if (membershipType == MembershipType.MEMBER) {
+                val activitiesSql = """
+                    SELECT ${DatabaseHelper.COLUMN_ACTIVITY_ID}
+                    FROM ${DatabaseHelper.TABLE_ACTIVITIES}
+                    WHERE ${DatabaseHelper.COLUMN_ACTIVITY_IS_ACTIVE} = 1
+                """.trimIndent()
+
+                val activitiesCursor = db.rawQuery(activitiesSql, null)
+                activitiesCursor.use { cursor ->
+                    while (cursor.moveToNext()) {
+                        val activityId = cursor.getLong(0)
+                        val enrollmentValues = ContentValues().apply {
+                            put(DatabaseHelper.COLUMN_ENROLLMENT_USER_ID, newUserId)
+                            put(DatabaseHelper.COLUMN_ENROLLMENT_ACTIVITY_ID, activityId)
+                        }
+                        val enrollmentId = db.insert(DatabaseHelper.TABLE_ACTIVITY_ENROLLMENTS, null, enrollmentValues)
+                        if (enrollmentId == -1L) {
+                            Log.w("UserDbRepository", "No se pudo crear enrollment para userId=$newUserId, activityId=$activityId")
+                        }
+                    }
+                }
+                Log.d("UserDbRepository", "Enrollments creados automáticamente para MEMBER userId=$newUserId")
+
+                // Crear pago pendiente para el mes actual
+                val calendar = Calendar.getInstance()
+                val currentMonth = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale("es", "ES")) ?: ""
+                val currentYear = calendar.get(Calendar.YEAR)
+                calendar.add(Calendar.MONTH, 1)
+                val dueDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+
+                val paymentValues = ContentValues().apply {
+                    put(DatabaseHelper.COLUMN_PAYMENT_CLIENT_ID, newClientId)
+                    put(DatabaseHelper.COLUMN_PAYMENT_TYPE, "monthly_fee")
+                    put(DatabaseHelper.COLUMN_PAYMENT_AMOUNT, 15000) // Monto por defecto para MEMBER
+                    put(DatabaseHelper.COLUMN_PAYMENT_PERIOD_MONTH, currentMonth)
+                    put(DatabaseHelper.COLUMN_PAYMENT_PERIOD_YEAR, currentYear)
+                    put(DatabaseHelper.COLUMN_PAYMENT_DUE_DATE, dueDate)
+                    put(DatabaseHelper.COLUMN_PAYMENT_STATUS, "pending")
+                }
+                val paymentId = db.insert(DatabaseHelper.TABLE_PAYMENTS, null, paymentValues)
+                if (paymentId == -1L) {
+                    Log.w("UserDbRepository", "No se pudo crear pago inicial para MEMBER userId=$newUserId")
+                } else {
+                    Log.d("UserDbRepository", "Pago pendiente creado para MEMBER userId=$newUserId, mes=$currentMonth $currentYear")
+                }
             }
 
             db.setTransactionSuccessful()

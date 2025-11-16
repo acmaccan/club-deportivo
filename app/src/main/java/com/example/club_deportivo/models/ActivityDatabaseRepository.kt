@@ -348,8 +348,8 @@ class ActivityDatabaseRepository(context: Context) {
      * Obtiene las actividades en las que el usuario está inscripto con su estado de inscripción.
      * El estado se calcula dinámicamente:
      * - "inactive" si hasValidMedicalAptitude = false
-     * - "pending" si PaymentStatus = OVERDUE
-     * - "active" en caso contrario
+     * - Para MEMBER: "pending" si PaymentStatus de membresía = OVERDUE, "active" si PAID o DUE_SOON
+     * - Para NO_MEMBER: "active" si tiene pago exitoso de la actividad, "pending" si no
      */
     @SuppressLint("Range")
     fun getUserEnrolledActivitiesWithStatus(userId: Int): List<Pair<Activity, String>> {
@@ -360,7 +360,9 @@ class ActivityDatabaseRepository(context: Context) {
             SELECT
                 a.*,
                 c.${DatabaseHelper.COLUMN_CLIENT_HAS_VALID_MEDICAL_APTITUDE} as has_medical_aptitude,
-                m.${DatabaseHelper.COLUMN_MEMBERSHIP_PAYMENT_STATUS} as payment_status
+                m.${DatabaseHelper.COLUMN_MEMBERSHIP_PAYMENT_STATUS} as payment_status,
+                m.${DatabaseHelper.COLUMN_MEMBERSHIP_TYPE} as membership_type,
+                p.${DatabaseHelper.COLUMN_PAYMENT_STATUS} as activity_payment_status
             FROM ${DatabaseHelper.TABLE_ACTIVITIES} a
             INNER JOIN ${DatabaseHelper.TABLE_ACTIVITY_ENROLLMENTS} ae
                 ON a.${DatabaseHelper.COLUMN_ACTIVITY_ID} = ae.${DatabaseHelper.COLUMN_ENROLLMENT_ACTIVITY_ID}
@@ -368,6 +370,11 @@ class ActivityDatabaseRepository(context: Context) {
                 ON ae.${DatabaseHelper.COLUMN_ENROLLMENT_USER_ID} = c.${DatabaseHelper.COLUMN_CLIENT_USER_ID}
             INNER JOIN ${DatabaseHelper.TABLE_MEMBERSHIPS} m
                 ON c.${DatabaseHelper.COLUMN_CLIENT_ID} = m.${DatabaseHelper.COLUMN_MEMBERSHIP_CLIENT_ID}
+            LEFT JOIN ${DatabaseHelper.TABLE_PAYMENTS} p
+                ON c.${DatabaseHelper.COLUMN_CLIENT_ID} = p.${DatabaseHelper.COLUMN_PAYMENT_CLIENT_ID}
+                AND a.${DatabaseHelper.COLUMN_ACTIVITY_ID} = p.${DatabaseHelper.COLUMN_PAYMENT_ACTIVITY_ID}
+                AND p.${DatabaseHelper.COLUMN_PAYMENT_STATUS} = 'success'
+                AND p.${DatabaseHelper.COLUMN_PAYMENT_TYPE} = 'activity_fee'
             WHERE ae.${DatabaseHelper.COLUMN_ENROLLMENT_USER_ID} = ?
             AND a.${DatabaseHelper.COLUMN_ACTIVITY_IS_ACTIVE} = 1
             ORDER BY a.${DatabaseHelper.COLUMN_ACTIVITY_NAME}
@@ -379,11 +386,16 @@ class ActivityDatabaseRepository(context: Context) {
             while (it.moveToNext()) {
                 val activity = mapCursorToActivity(it)
                 val hasValidMedicalAptitude = it.getInt(it.getColumnIndex("has_medical_aptitude")) == 1
-                val paymentStatus = it.getString(it.getColumnIndex("payment_status"))
+                val membershipPaymentStatus = it.getString(it.getColumnIndex("payment_status"))
+                val membershipType = it.getString(it.getColumnIndex("membership_type"))
+                val activityPaymentStatus = it.getString(it.getColumnIndex("activity_payment_status"))
 
                 val enrollmentStatus = when {
                     !hasValidMedicalAptitude -> "inactive"
-                    paymentStatus == PaymentStatus.OVERDUE.name -> "pending"
+                    membershipType == "NO_MEMBER" -> {
+                        if (activityPaymentStatus == "success") "active" else "pending"
+                    }
+                    membershipPaymentStatus == PaymentStatus.OVERDUE.name -> "pending"
                     else -> "active"
                 }
 
