@@ -269,6 +269,31 @@ class UserDatabaseRepository (context: Context) {
                 return -1L
             }
 
+            // Si es MEMBER, inscribir automáticamente en todas las actividades
+            if (membershipType == MembershipType.MEMBER) {
+                val activitiesSql = """
+                    SELECT ${DatabaseHelper.COLUMN_ACTIVITY_ID}
+                    FROM ${DatabaseHelper.TABLE_ACTIVITIES}
+                    WHERE ${DatabaseHelper.COLUMN_ACTIVITY_IS_ACTIVE} = 1
+                """.trimIndent()
+
+                val activitiesCursor = db.rawQuery(activitiesSql, null)
+                activitiesCursor.use { cursor ->
+                    while (cursor.moveToNext()) {
+                        val activityId = cursor.getLong(0)
+                        val enrollmentValues = ContentValues().apply {
+                            put(DatabaseHelper.COLUMN_ENROLLMENT_USER_ID, newUserId)
+                            put(DatabaseHelper.COLUMN_ENROLLMENT_ACTIVITY_ID, activityId)
+                        }
+                        val enrollmentId = db.insert(DatabaseHelper.TABLE_ACTIVITY_ENROLLMENTS, null, enrollmentValues)
+                        if (enrollmentId == -1L) {
+                            Log.w("UserDbRepository", "No se pudo crear enrollment para userId=$newUserId, activityId=$activityId")
+                        }
+                    }
+                }
+                Log.d("UserDbRepository", "Enrollments creados automáticamente para MEMBER userId=$newUserId")
+            }
+
             db.setTransactionSuccessful()
         } catch (e: Exception) {
             Log.e("UserDbRepository", "Error creando nuevo cliente en transacción", e)
