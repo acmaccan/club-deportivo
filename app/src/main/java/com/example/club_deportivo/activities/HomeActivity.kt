@@ -45,7 +45,7 @@ class HomeActivity : BaseAuthActivity() {
      * Configura la tarjeta de estado de la membresía (activa o vencida).
      */
     private fun setupMembershipCard(user: Client) {
-        val membershipStatus = if (user.status == PaymentStatus.OVERDUE) {
+        val membershipStatus = if (user.status == PaymentStatus.OVERDUE || !user.hasValidMedicalAptitude) {
             MembershipStatus.DISABLED
         } else {
             MembershipStatus.ENABLED

@@ -1,5 +1,6 @@
 package com.example.club_deportivo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -7,35 +8,105 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.club_deportivo.R
+import com.example.club_deportivo.models.ActivityDatabaseRepository
+import com.example.club_deportivo.models.Client
+import com.example.club_deportivo.models.PaymentDatabaseRepository
+import com.example.club_deportivo.models.PaymentType
+import com.example.club_deportivo.models.TransactionStatus
 import com.example.club_deportivo.ui.CustomButton
 import com.google.android.material.card.MaterialCardView
 
-class PaymentResumeActivity : AppCompatActivity() {
+class PaymentResumeActivity : BaseAuthActivity() {
     companion object {
         const val PAYMENT_RESUME_ITEM_TITLE = "ITEM_TITLE"
         const val PAYMENT_RESUME_ITEM_SUBTITLE = "ITEM_SUBTITLE"
         const val PAYMENT_RESUME_ITEM_SCHEDULE = "ITEM_SCHEDULE"
         const val PAYMENT_RESUME_ITEM_PRICE = "ITEM_PRICE"
         const val PAYMENT_RESUME_SUCCESS = "PAYMENT_SUCCESS"
+        const val PAYMENT_RESUME_ACTIVITY_ID = "ACTIVITY_ID"
+        const val PAYMENT_RESUME_MONTH = "PAYMENT_MONTH"
+        const val PAYMENT_RESUME_YEAR = "PAYMENT_YEAR"
+        const val PAYMENT_RESUME_AMOUNT = "PAYMENT_AMOUNT"
+        const val PAYMENT_RESUME_DUE_DATE = "PAYMENT_DUE_DATE"
         const val LOGGED_USER_ID_KEY = "LOGGED_USER_ID_KEY"
     }
+
+    private lateinit var activityRepository: ActivityDatabaseRepository
+    private lateinit var paymentRepository: PaymentDatabaseRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_resume)
+
+        activityRepository = ActivityDatabaseRepository(this)
+        paymentRepository = PaymentDatabaseRepository(this)
+
+        val clientUser = user as? Client
+        if (clientUser == null) {
+            finish()
+            return
+        }
 
         val isSuccess = intent.getBooleanExtra(PAYMENT_RESUME_SUCCESS, false)
         val itemTitle = intent.getStringExtra(PAYMENT_RESUME_ITEM_TITLE) ?: "No disponible"
         val itemSubtitle = intent.getStringExtra(PAYMENT_RESUME_ITEM_SUBTITLE) ?: "No disponible"
         val itemSchedule = intent.getStringExtra(PAYMENT_RESUME_ITEM_SCHEDULE) ?: ""
         val itemPrice = intent.getStringExtra(PAYMENT_RESUME_ITEM_PRICE) ?: "$0"
+        val activityId = intent.getIntExtra(PAYMENT_RESUME_ACTIVITY_ID, -1)
+        val paymentMonth = intent.getStringExtra(PAYMENT_RESUME_MONTH) ?: ""
+        val paymentYear = intent.getIntExtra(PAYMENT_RESUME_YEAR, 0)
+        val paymentAmount = intent.getIntExtra(PAYMENT_RESUME_AMOUNT, 0)
+        val paymentDueDate = intent.getStringExtra(PAYMENT_RESUME_DUE_DATE) ?: ""
 
-        setupUI(isSuccess)
+        if (isSuccess) {
+            processPayment(clientUser.id, paymentMonth, paymentYear, paymentAmount, paymentDueDate, activityId)
+            processEnrollments(clientUser.id, activityId)
+        }
+
+        setupUI(isSuccess, activityId)
         setupSummaryCard(isSuccess, itemTitle, itemSubtitle, itemSchedule, itemPrice)
         setupListeners(isSuccess)
     }
 
-    private fun setupUI(isSuccess: Boolean) {
+    private fun processPayment(
+        clientId: Int,
+        month: String,
+        year: Int,
+        amount: Int,
+        dueDate: String,
+        activityId: Int
+    ) {
+        val paymentType = if (activityId == -1) PaymentType.MONTHLY_FEE else PaymentType.ACTIVITY_FEE
+        val realActivityId = if (activityId == -1) null else activityId
+
+        paymentRepository.createPayment(
+            clientId = clientId,
+            type = paymentType,
+            amount = amount,
+            periodMonth = month,
+            periodYear = year,
+            dueDate = dueDate,
+            status = TransactionStatus.SUCCESS,
+            activityId = realActivityId
+        )
+    }
+
+    private fun processEnrollments(userId: Int, activityId: Int) {
+        if (activityId == -1) {
+            val allActivities = activityRepository.getActivitiesForUI()
+            for (activity in allActivities) {
+                if (!activityRepository.isUserEnrolled(userId, activity.id)) {
+                    activityRepository.enrollUserToActivity(userId, activity.id)
+                }
+            }
+        } else {
+            if (!activityRepository.isUserEnrolled(userId, activityId)) {
+                activityRepository.enrollUserToActivity(userId, activityId)
+            }
+        }
+    }
+
+    private fun setupUI(isSuccess: Boolean, activityId: Int) {
         val resumeIcon: ImageView = findViewById(R.id.resume_icon)
         val resumeTitle: TextView = findViewById(R.id.payment_resume_title)
         val resumeSubtitle: TextView = findViewById(R.id.payment_resume_subtitle)
@@ -46,7 +117,13 @@ class PaymentResumeActivity : AppCompatActivity() {
             resumeIcon.setImageResource(R.drawable.icon_check)
             resumeIcon.background.setTint(ContextCompat.getColor(this, R.color.success_main))
             resumeTitle.text = getString(R.string.payment_resume_success_title)
-            resumeSubtitle.text = getString(R.string.payment_resume_success_subtitle)
+
+            resumeSubtitle.text = if (activityId == -1) {
+                getString(R.string.payment_resume_success_subtitle_monthly)
+            } else {
+                getString(R.string.payment_resume_success_subtitle)
+            }
+
             primaryButton.setText(getString(R.string.payment_resume_back_to_home))
             secondaryButton.visibility = View.GONE
         } else {
@@ -98,6 +175,10 @@ class PaymentResumeActivity : AppCompatActivity() {
         val secondaryButton: CustomButton = findViewById(R.id.secondary_button)
 
         primaryButton.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                putExtra(BaseAuthActivity.LOGGED_USER_ID_KEY, user.id)
+            }
+            startActivity(intent)
             finish()
         }
 

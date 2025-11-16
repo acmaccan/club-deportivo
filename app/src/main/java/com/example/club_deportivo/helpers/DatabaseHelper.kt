@@ -51,7 +51,18 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         const val COLUMN_ENROLLMENT_ID = "id"
         const val COLUMN_ENROLLMENT_USER_ID = "user_id"
         const val COLUMN_ENROLLMENT_ACTIVITY_ID = "activity_id"
-        const val COLUMN_ENROLLMENT_STATUS = "status"
+
+        const val TABLE_PAYMENTS = "payments"
+        const val COLUMN_PAYMENT_ID = "id"
+        const val COLUMN_PAYMENT_CLIENT_ID = "client_id"
+        const val COLUMN_PAYMENT_TYPE = "payment_type"
+        const val COLUMN_PAYMENT_AMOUNT = "amount"
+        const val COLUMN_PAYMENT_PERIOD_MONTH = "period_month"
+        const val COLUMN_PAYMENT_PERIOD_YEAR = "period_year"
+        const val COLUMN_PAYMENT_DUE_DATE = "due_date"
+        const val COLUMN_PAYMENT_PAYMENT_DATE = "payment_date"
+        const val COLUMN_PAYMENT_STATUS = "status"
+        const val COLUMN_PAYMENT_ACTIVITY_ID = "activity_id"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -114,18 +125,37 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 $COLUMN_ENROLLMENT_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 $COLUMN_ENROLLMENT_USER_ID INTEGER NOT NULL,
                 $COLUMN_ENROLLMENT_ACTIVITY_ID INTEGER NOT NULL,
-                $COLUMN_ENROLLMENT_STATUS TEXT NOT NULL,
                 FOREIGN KEY($COLUMN_ENROLLMENT_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID),
-                FOREIGN KEY($COLUMN_ENROLLMENT_ACTIVITY_ID) REFERENCES $TABLE_ACTIVITIES($COLUMN_ACTIVITY_ID)
+                FOREIGN KEY($COLUMN_ENROLLMENT_ACTIVITY_ID) REFERENCES $TABLE_ACTIVITIES($COLUMN_ACTIVITY_ID),
+                UNIQUE($COLUMN_ENROLLMENT_USER_ID, $COLUMN_ENROLLMENT_ACTIVITY_ID)
             )
         """.trimIndent()
         db.execSQL(createActivityEnrollmentsTableSQL)
+
+        val createPaymentsTableSQL = """
+            CREATE TABLE $TABLE_PAYMENTS (
+                $COLUMN_PAYMENT_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                $COLUMN_PAYMENT_CLIENT_ID INTEGER NOT NULL,
+                $COLUMN_PAYMENT_TYPE TEXT NOT NULL,
+                $COLUMN_PAYMENT_AMOUNT INTEGER NOT NULL,
+                $COLUMN_PAYMENT_PERIOD_MONTH TEXT NOT NULL,
+                $COLUMN_PAYMENT_PERIOD_YEAR INTEGER NOT NULL,
+                $COLUMN_PAYMENT_DUE_DATE TEXT NOT NULL,
+                $COLUMN_PAYMENT_PAYMENT_DATE TEXT,
+                $COLUMN_PAYMENT_STATUS TEXT NOT NULL,
+                $COLUMN_PAYMENT_ACTIVITY_ID INTEGER,
+                FOREIGN KEY($COLUMN_PAYMENT_CLIENT_ID) REFERENCES $TABLE_CLIENTS($COLUMN_CLIENT_ID),
+                FOREIGN KEY($COLUMN_PAYMENT_ACTIVITY_ID) REFERENCES $TABLE_ACTIVITIES($COLUMN_ACTIVITY_ID)
+            )
+        """.trimIndent()
+        db.execSQL(createPaymentsTableSQL)
 
         insertInitialData(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Drop tables in reverse order to respect foreign keys
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_PAYMENTS")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_ACTIVITY_ENROLLMENTS")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_ACTIVITIES")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_MEMBERSHIPS")
@@ -139,7 +169,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         data class InitialClient(val id: Int, val userId: Int, val document: String, val hasValidMedicalAptitude: Boolean)
         data class InitialMembership(val clientId: Int, val type: String, val amount: String, val status: String, val expiration: String)
         data class InitialActivity(val name: String, val instructor: String, val schedule: String, val monthlyPrice: Int, val description: String, val maxCapacity: Int, val isActive: Boolean, val duration: Int, val level: String, val room: String)
-        data class InitialEnrollment(val userId: Int, val activityId: Int, val status: String)
+        data class InitialEnrollment(val userId: Int, val activityId: Int)
+        data class InitialPayment(val clientId: Int, val type: String, val amount: Int, val periodMonth: String, val periodYear: Int, val dueDate: String, val paymentDate: String?, val status: String, val activityId: Int?)
 
         val initialUsers = listOf(
             InitialUser(0, "Admin", "admin@sportclub.com", "admin123456", "ADMIN"),
@@ -188,30 +219,37 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         )
 
         val initialEnrollments = listOf(
-            InitialEnrollment(2, 1, "inactive"),
-            InitialEnrollment(2, 2, "inactive"),
-            InitialEnrollment(2, 3, "inactive"),
-            InitialEnrollment(2, 4, "inactive"),
-            InitialEnrollment(2, 5, "inactive"),
-            InitialEnrollment(2, 6, "inactive"),
-            InitialEnrollment(4, 1, "active"),
-            InitialEnrollment(4, 2, "active"),
-            InitialEnrollment(4, 3, "active"),
-            InitialEnrollment(4, 4, "active"),
-            InitialEnrollment(4, 5, "active"),
-            InitialEnrollment(4, 6, "active"),
-            InitialEnrollment(6, 1, "active"),
-            InitialEnrollment(6, 2, "active"),
-            InitialEnrollment(6, 3, "active"),
-            InitialEnrollment(6, 4, "active"),
-            InitialEnrollment(6, 5, "active"),
-            InitialEnrollment(6, 6, "active"),
-            InitialEnrollment(8, 1, "pending"),
-            InitialEnrollment(8, 2, "pending"),
-            InitialEnrollment(8, 3, "pending"),
-            InitialEnrollment(8, 4, "pending"),
-            InitialEnrollment(8, 5, "pending"),
-            InitialEnrollment(8, 6, "pending")
+            InitialEnrollment(2, 1),
+            InitialEnrollment(2, 2),
+            InitialEnrollment(2, 3),
+            InitialEnrollment(2, 4),
+            InitialEnrollment(2, 5),
+            InitialEnrollment(2, 6),
+            InitialEnrollment(4, 1),
+            InitialEnrollment(4, 2),
+            InitialEnrollment(4, 3),
+            InitialEnrollment(4, 4),
+            InitialEnrollment(4, 5),
+            InitialEnrollment(4, 6),
+            InitialEnrollment(6, 1),
+            InitialEnrollment(6, 2),
+            InitialEnrollment(6, 3),
+            InitialEnrollment(6, 4),
+            InitialEnrollment(6, 5),
+            InitialEnrollment(6, 6),
+            InitialEnrollment(8, 1),
+            InitialEnrollment(8, 2),
+            InitialEnrollment(8, 3),
+            InitialEnrollment(8, 4),
+            InitialEnrollment(8, 5),
+            InitialEnrollment(8, 6)
+        )
+
+        val initialPayments = listOf(
+            InitialPayment(2, "monthly_fee", 35000, "Septiembre", 2025, "2025-09-30", null, "pending", null),
+            InitialPayment(4, "monthly_fee", 15000, "Octubre", 2025, "2025-10-31", null, "pending", null),
+            InitialPayment(6, "monthly_fee", 15000, "Noviembre", 2025, "2025-11-30", "2025-11-01", "success", null),
+            InitialPayment(8, "monthly_fee", 50000, "Septiembre", 2025, "2025-09-30", null, "pending", null)
         )
 
         db.execSQL("PRAGMA foreign_keys=OFF;")
@@ -274,10 +312,27 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     val enrollmentValues = ContentValues().apply {
                         put(COLUMN_ENROLLMENT_USER_ID, enrollment.userId)
                         put(COLUMN_ENROLLMENT_ACTIVITY_ID, realActivityId)
-                        put(COLUMN_ENROLLMENT_STATUS, enrollment.status)
                     }
                     db.insert(TABLE_ACTIVITY_ENROLLMENTS, null, enrollmentValues)
                 }
+            }
+
+            for (payment in initialPayments) {
+                val paymentValues = ContentValues().apply {
+                    put(COLUMN_PAYMENT_CLIENT_ID, payment.clientId)
+                    put(COLUMN_PAYMENT_TYPE, payment.type)
+                    put(COLUMN_PAYMENT_AMOUNT, payment.amount)
+                    put(COLUMN_PAYMENT_PERIOD_MONTH, payment.periodMonth)
+                    put(COLUMN_PAYMENT_PERIOD_YEAR, payment.periodYear)
+                    put(COLUMN_PAYMENT_DUE_DATE, payment.dueDate)
+                    put(COLUMN_PAYMENT_PAYMENT_DATE, payment.paymentDate)
+                    put(COLUMN_PAYMENT_STATUS, payment.status)
+                    if (payment.activityId != null) {
+                        val realActivityId = activityIds[payment.activityId]
+                        put(COLUMN_PAYMENT_ACTIVITY_ID, realActivityId)
+                    }
+                }
+                db.insert(TABLE_PAYMENTS, null, paymentValues)
             }
 
             db.setTransactionSuccessful()
