@@ -33,6 +33,7 @@ class PaymentsActivity : BaseAuthActivity() {
     private lateinit var monthlyPaymentDue: TextView
     private lateinit var monthlyPaymentAmount: TextView
     private lateinit var monthlyPaymentDescription: TextView
+    private lateinit var emptyActivitiesMessage: TextView
     private var activityAdapter: PaymentActivityAdapter? = null
     private lateinit var activityRepository: ActivityDatabaseRepository
     private lateinit var paymentRepository: PaymentDatabaseRepository
@@ -67,6 +68,7 @@ class PaymentsActivity : BaseAuthActivity() {
         monthlyPaymentDue = findViewById(R.id.monthlyPaymentDue)
         monthlyPaymentAmount = findViewById(R.id.monthlyPaymentAmount)
         monthlyPaymentDescription = findViewById(R.id.monthlyPaymentDescription)
+        emptyActivitiesMessage = findViewById(R.id.emptyActivitiesMessage)
     }
     
     private fun setupToolbar() {
@@ -157,23 +159,14 @@ class PaymentsActivity : BaseAuthActivity() {
 
         if (activities.isEmpty()) {
             activitiesRecyclerView.visibility = View.GONE
+            emptyActivitiesMessage.visibility = View.VISIBLE
             totalAmountTextTitle.visibility = View.GONE
             totalAmountText.visibility = View.GONE
             paymentTypeLabel.visibility = View.GONE
             paymentButton.isEnabled = false
-
-            val emptyMessageTextView = TextView(this).apply {
-                text = getString(R.string.payments_all_activities_paid)
-                textSize = 16f
-                gravity = android.view.Gravity.CENTER
-                setPadding(32, 32, 32, 32)
-                setTextColor(ContextCompat.getColor(this@PaymentsActivity, R.color.neutral_main))
-            }
-
-            val parent = activitiesRecyclerView.parent as? android.view.ViewGroup
-            parent?.addView(emptyMessageTextView)
         } else {
             activitiesRecyclerView.visibility = View.VISIBLE
+            emptyActivitiesMessage.visibility = View.GONE
             totalAmountTextTitle.visibility = View.VISIBLE
             totalAmountText.visibility = View.VISIBLE
             paymentTypeLabel.visibility = View.VISIBLE
